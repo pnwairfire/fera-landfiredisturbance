@@ -1,0 +1,6 @@
+using gcc : c++11 : "g++" : <cxxflags>-std=c++11 ;
+
+### - creates a library for unit testing
+use-project /libs/fuelbed_rw : fuelbed_rw ;    
+ 
+build-project fuelbed_rw ;

@@ -1,0 +1,40 @@
+
+project fbrw
+  : requirements
+    <threading>multi
+    <link>shared
+    <runtime-link>shared
+    <warnings>on
+    <warnings-as-errors>off
+    <include>../common/pybind11
+    <include>/home/kjells/opt/mypy/include/python3.5m
+  : default-build debug
+  : build-dir build
+;
+
+lib fbrw
+	: [ glob *.cpp ]
+        ../common/pybind11/pybind11.h
+	: <conditional>@fbrw_build_config
+	;
+
+rule fbrw_build_config ( properties * )
+{
+    local result ;
+    if <toolset>gcc in $(properties)
+    {
+    }
+    if <toolset>msvc in $(properties)
+    {
+        result += <define>_CRT_SECURE_NO_WARNINGS ;
+        result += <define>_SCL_SECURE_NO_WARNINGS ;
+        if <variant>debug in $(properties)
+        {
+            result += <cxxflags>/RTC1 ;
+        }
+    }
+    return $(result) ;
+}
+
+
+install dist : fbrw : <location>../dist ;
