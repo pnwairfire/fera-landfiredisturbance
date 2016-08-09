@@ -165,7 +165,8 @@ def emit_for_step(pd_series):
 
 def process_disturbance_spec(filename):
     df = pd.read_excel(filename, sheetname='Specs', header=[0,1])
-    for s in SEVERITY:
+    severity_columns = [i for i in df.columns.levels[0] if 'Low' in i or 'Moderate' in i or 'High' in i]
+    for s in severity_columns:
         for t in TIMESTEPS:
             print('\n{} : {}'.format(s, t))
             emit_for_step(df[s][t])
