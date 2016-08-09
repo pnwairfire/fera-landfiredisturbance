@@ -146,7 +146,7 @@ def make_id(candidate):
 def emit_for_step(pd_series):
     noteworthy = []
     for item in pd_series.iteritems():
-        id = make_id(item[0])
+        id = item[0]
         if id in valid:
             if str(item[1]).startswith('*'):
                 multiplier = item[1].split('=')[1].strip()
