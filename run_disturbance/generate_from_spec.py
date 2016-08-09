@@ -7,7 +7,6 @@
 import sys
 import pandas as pd
 import sympy
-import re
 
 valid = {
     'eFUELBED_NUMBER',
@@ -133,16 +132,6 @@ valid = {
     'eWOODY_FUEL_STUMPS_SOUND_STEM_DENSITY'
 }
 
-
-SEVERITY = ['Low Severity Fire ', 'Moderate Severity Fire', 'High Severity Fire']
-TIMESTEPS = ['Time Step 1', 'Time Step 2', 'Time Step 3']
-
-add_underscore = re.compile('([a-z0-9])([A-Z])')
-def make_id(candidate):
-    id1 = add_underscore.sub('\g<1>_\g<2>', candidate)
-    return 'e{}'.format(id1.upper())
-    
-
 def emit_for_step(pd_series):
     noteworthy = []
     for item in pd_series.iteritems():
@@ -150,8 +139,11 @@ def emit_for_step(pd_series):
         if id in valid:
             if str(item[1]).startswith('*'):
                 multiplier = item[1].split('=')[1].strip()
+                
+                # use sympy to parse/simplify arithmetic expressions eg. - (1/0.05) * 0.5
                 multiplier = sympy.sympify(multiplier).round(3)
-                print('(libfbrw.FBTypes.e{}, {}),'.format(item[0], multiplier))
+                
+                print('(libfbrw.FBTypes.{}, {}),'.format(item[0], multiplier))
             else:
                 if 'nan' in str(item[1]): continue
                 noteworthy.append('{} : {}'.format(item[1], item[0]))
@@ -163,9 +155,24 @@ def emit_for_step(pd_series):
         for i in noteworthy:
             print('\t{}'.format(i))
 
+TIMESTEPS = ['Time Step 1', 'Time Step 2', 'Time Step 3']
 def process_disturbance_spec(filename):
+    def make_sorted_severity_list(unsorted_list):
+        tmp = {}
+        for i in unsorted_list:
+            tmp[i[:2]] = i
+        retval = []
+        retval.append(tmp['Lo'])
+        retval.append(tmp['Mo'])
+        retval.append(tmp['Hi'])
+        return retval
+        
     df = pd.read_excel(filename, sheetname='Specs', header=[0,1])
-    severity_columns = [i for i in df.columns.levels[0] if 'Low' in i or 'Moderate' in i or 'High' in i]
+    
+    #  columns will vary by disturbance, but should always have the severity specifier
+    severity_columns = make_sorted_severity_list(
+        [i for i in df.columns.levels[0] if 'Low' in i or 'Moderate' in i or 'High' in i])
+    
     for s in severity_columns:
         for t in TIMESTEPS:
             print('\n{} : {}'.format(s, t))
@@ -175,4 +182,6 @@ def process_disturbance_spec(filename):
 #  Start
 # ++++++++++++++++++++++++++++++++++++++++++
 if len(sys.argv) > 1:
-    process_disturbance_spec(sys.argv[1])
+    for f in sys.argv[1:]:
+        process_disturbance_spec(f)
+    
