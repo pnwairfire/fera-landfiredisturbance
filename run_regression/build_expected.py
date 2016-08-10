@@ -14,9 +14,8 @@ def build():
     for f in files[1:]:
         df = pd.read_excel(f, sheetname='Expected')
         df.drop([i for i in df.columns if i.endswith('FCCS')], axis=1, inplace=True)
-        for c in df.columns:
-            df_result[c] = df.get(c)
-    df_result.to_csv('kjells.csv', index=False)
+        df_result = pd.merge(df_result, df, on='Variable')
+    df_result.to_csv('expected.csv', index=False)
     
     
 build()
