@@ -32,14 +32,9 @@ OUT_DIR = 'out'
 def create_output_dirs():
     if os.path.exists(OUT_DIR): shutil.rmtree(OUT_DIR)
     os.mkdir(OUT_DIR)
-
-
-#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#   Start
-#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-if len(sys.argv) > 1:
-    create_output_dirs()
-    for f in sys.argv[1:]:
+    
+def process_independently(files):
+    for f in files:
         for d in fbrw.DISTURBANCE:
             for s in fbrw.SEVERITY:
                 for t in fbrw.TIMESTEP:
@@ -61,9 +56,18 @@ if len(sys.argv) > 1:
                     fbrw.do_simple_scaling(fb, DMM[d].get_scaling_params(s, t))
                     
                     fb.Write(outname)
-                    
+    
+
+
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#   Start
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+if len(sys.argv) > 1:
+    files = sys.argv[1:]
+    create_output_dirs()
+    process_independently(files)
     exit(0)
-else:
-    print('\nError: missing files to process')
-    print('\tpython main.py ../fuelbeds/*.xml\n')
-    exit(1)
+
+print('\nError: missing files to process')
+print('\tpython main.py ../fuelbeds/*.xml\n')
+exit(1)
