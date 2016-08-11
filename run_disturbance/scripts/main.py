@@ -49,14 +49,36 @@ def process_independently(files):
                     # get the reader/writer object, pass in the aggregated code. The code will be appended
                     #  to the fuelbed_number. The required fb.Read() method will have been called before
                     #  the object is returned.
-                    fb = fbrw.get_reader_writer(f, dist_sev_time)
+                    fb = fbrw.get_reader_writer_set_fbnum(f, dist_sev_time)
                     
                     # invocation of the disturbance-module-specific code happens via DMM
                     DMM[d].do_special(fb, s, t)
                     fbrw.do_simple_scaling(fb, DMM[d].get_scaling_params(s, t))
                     
                     fb.Write(outname)
-    
+                    
+def process_dependently(files):
+    for f in files:
+        for d in fbrw.DISTURBANCE:
+            for s in fbrw.SEVERITY:
+                # name the output file the basename plus the code for disturbance, severity, and timestep
+                #  For instance, FB_0165_FCCS.xml -> FB_0165_FCCS_511.xml
+                basename = os.path.splitext(os.path.split(f)[1])[0]
+                
+                # get the reader/writer object, pass in the aggregated code. 
+                #  The required fb.Read() method will have been called before
+                #  the object is returned.
+                fb = fbrw.get_reader_writer(f)
+                
+                for t in fbrw.TIMESTEP:
+                    dist_sev_time = '{}{}{}'.format(DCM[d], s, t)
+                    outname = './out/{}_{}.xml'.format(basename, dist_sev_time)
+                    
+                    # invocation of the disturbance-module-specific code happens via DMM
+                    DMM[d].do_special(fb, s, t)
+                    fbrw.do_simple_scaling(fb, DMM[d].get_scaling_params(s, t))
+                    fbrw.set_fb_number(fb, dist_sev_time)
+                    fb.Write(outname)
 
 
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -65,7 +87,8 @@ def process_independently(files):
 if len(sys.argv) > 1:
     files = sys.argv[1:]
     create_output_dirs()
-    process_independently(files)
+    #process_independently(files)
+    process_dependently(files)
     exit(0)
 
 print('\nError: missing files to process')

@@ -67,8 +67,17 @@ def assign_and_return_current(fb, assign_to, assign_from):
 def do_simple_scaling(fb, scale_these):
     for item in scale_these:
         scale(fb, item[0], item[1])
+        
+def set_fb_number(fb, set_number_to):
+    fb_num = fb.GetValue(libfbrw.FBTypes.eFUELBED_NUMBER)
+    fb_num = fb.SetValue(libfbrw.FBTypes.eFUELBED_NUMBER, '{}_{}'.format(fb_num, set_number_to))
 
-def get_reader_writer(filename, disturbance_severity_timestep_code):
+def get_reader_writer(filename):
+    fb = libfbrw.FuelbedValues(filename)
+    fb.Read()
+    return fb
+    
+def get_reader_writer_set_fbnum(filename, disturbance_severity_timestep_code):
     fb = libfbrw.FuelbedValues(filename)
     fb.Read()
     fb_num = fb.GetValue(libfbrw.FBTypes.eFUELBED_NUMBER)
