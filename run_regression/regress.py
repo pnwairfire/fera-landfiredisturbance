@@ -26,11 +26,11 @@ OPTIONAL_LOADING = {
 
 
 def calculate_values():
-    cmd = 'cd ../run_disturbance && python ./scripts/main.py ./regression_fuelbeds/*.xml && cd ../run_regression'
+    cmd = 'cd ../run_disturbance && python ./scripts/main.py ./regression_fuelbeds/*.xml > /dev/null && cd ../run_regression'
     os.system(cmd)
 
 def collect_calculated_values():
-    cmd = 'cd ../run_disturbance/scripts && python ./collect_values.py'
+    cmd = 'cd ../run_disturbance/scripts && python ./collect_values.py > /dev/null'
     os.system(cmd)
     cmd = 'mv ../run_disturbance/scripts/{} .'.format(CALCULATED_VALUES)
     os.system(cmd)

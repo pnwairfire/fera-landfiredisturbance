@@ -1,0 +1,6 @@
+syntax glob:
+
+out/*
+build/*
+__pycache__/*
+.idea/*
