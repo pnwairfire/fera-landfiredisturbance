@@ -1,10 +1,11 @@
 import pandas as pd
-import subprocess
+import glob
 import io
 import os
 import libfbrw
 
 SCRATCH_FILENAME = 'zorK123.csv'
+OUTDIR = '../out'
 
 def get_values_from_file(filename):
     cmd = 'python print_values_from_xml.py {}> {}'.format(filename, SCRATCH_FILENAME)
@@ -13,34 +14,15 @@ def get_values_from_file(filename):
     df.fillna(0, inplace=True)
     os.unlink(SCRATCH_FILENAME)
     return df
-    
-def build_column_name(dist, severity, filename):
-    replace_me = ''
-    replace_with = ''
-    if '_one' in filename:
-        replace_me = '_one'
-        replace_with = '_111'
-    elif '_two' in filename:
-        replace_me = '_two'
-        replace_with = '_112'
-    elif '_three' in filename:
-        replace_me = '_three'
-        replace_with = '_113'
-    else:
-        assert False
-        
-    return filename.replace(replace_me, replace_with.format(dist, severity))[:-4]
 
 def process():
     first_time = True
     df_out = None
-    c = subprocess.run(['find', '../out', '-name', '*.xml'], stdout=subprocess.PIPE, universal_newlines=True)
-    for line in io.StringIO(c.stdout):
-        line = line.strip()
-        dist, severity, filename = line[7:].split('/')
-        df = get_values_from_file(line)
-        colname = build_column_name(dist, severity, filename)
-        print(colname)
+    files = glob.glob('{}/*.xml'.format(OUTDIR))
+    for f in files:
+        print(f)
+        df = get_values_from_file(f)
+        colname = f[len(OUTDIR)+1:].split('.')[0]
         if not first_time:
             df_out[colname] = df.Value
         else:
