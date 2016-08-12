@@ -132,23 +132,27 @@ valid = {
     'eWOODY_FUEL_STUMPS_SOUND_STEM_DENSITY'
 }
 
-def emit_for_step(pd_series):
+def emit_for_step(pd_series, severity, timestep):
+    # severity and timestep are only for error reporting
     noteworthy = []
     for item in pd_series.iteritems():
         id = item[0]
-        if id in valid:
-            if str(item[1]).startswith('*'):
-                multiplier = item[1].split('=')[1].strip()
-                
-                # use sympy to parse/simplify arithmetic expressions eg. - (1/0.05) * 0.5
-                multiplier = sympy.sympify(multiplier).round(3)
-                
-                print('(libfbrw.FBTypes.{}, {}),'.format(item[0], multiplier))
+        try:
+            if id in valid:
+                if str(item[1]).startswith('*'):
+                    multiplier = item[1].split('=')[1].strip()
+                    
+                    # use sympy to parse/simplify arithmetic expressions eg. - (1/0.05) * 0.5
+                    multiplier = sympy.sympify(multiplier).round(3)
+                    
+                    print('(libfbrw.FBTypes.{}, {}),'.format(item[0], multiplier))
+                else:
+                    if 'nan' in str(item[1]): continue
+                    noteworthy.append('{} : {}'.format(item[1], item[0]))
             else:
-                if 'nan' in str(item[1]): continue
-                noteworthy.append('{} : {}'.format(item[1], item[0]))
-        else:
-            print('Invalid id - {}'.format(id))
+                print('Invalid id - {}'.format(id))
+        except:
+            print('\nException {} : {} {}'.format(id, severity, timestep))
             
     if len(noteworthy):
         print('\n --------  Check these ----------')
@@ -176,12 +180,13 @@ def process_disturbance_spec(filename):
     for s in severity_columns:
         for t in TIMESTEPS:
             print('\n{} : {}'.format(s, t))
-            emit_for_step(df[s][t])
-            
+            emit_for_step(df[s][t], s, t)
+                
 # ++++++++++++++++++++++++++++++++++++++++++
 #  Start
 # ++++++++++++++++++++++++++++++++++++++++++
 if len(sys.argv) > 1:
     for f in sys.argv[1:]:
         process_disturbance_spec(f)
-    
+else:
+    print('\nPlease supply a spreadsheet file from which to derive the python code.\n')
