@@ -8,6 +8,36 @@
 # Shared library (C++ implementation exposed via pybind)
 import libfbrw
 
+# Use to cap percentage values at 100
+PERCENT_IDS = [
+    libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_1_CONIFERS_WITH_FOLIAGE_PERCENT_COVER,
+    libfbrw.FBTypes.eCANOPY_TREES_MIDSTORY_PERCENT_COVER,
+    libfbrw.FBTypes.eCANOPY_TREES_OVERSTORY_PERCENT_COVER,
+    libfbrw.FBTypes.eCANOPY_TREES_TOTAL_PERCENT_COVER,
+    libfbrw.FBTypes.eCANOPY_TREES_UNDERSTORY_PERCENT_COVER,
+    libfbrw.FBTypes.eGROUND_FUEL_DUFF_LOWER_PERCENT_COVER,
+    libfbrw.FBTypes.eGROUND_FUEL_DUFF_UPPER_PERCENT_COVER,
+    libfbrw.FBTypes.eHERBACEOUS_PRIMARY_LAYER_PERCENT_COVER,
+    libfbrw.FBTypes.eHERBACEOUS_PRIMARY_LAYER_PERCENT_LIVE,
+    libfbrw.FBTypes.eHERBACEOUS_SECONDARY_LAYER_PERCENT_COVER,
+    libfbrw.FBTypes.eHERBACEOUS_SECONDARY_LAYER_PERCENT_LIVE,
+    libfbrw.FBTypes.eMOSS_LICHEN_LITTER_GROUND_LICHEN_PERCENT_COVER,
+    libfbrw.FBTypes.eMOSS_LICHEN_LITTER_LITTER_PERCENT_COVER,
+    libfbrw.FBTypes.eMOSS_LICHEN_LITTER_MOSS_PERCENT_COVER,
+    libfbrw.FBTypes.eSHRUBS_PRIMARY_LAYER_PERCENT_COVER,
+    libfbrw.FBTypes.eSHRUBS_PRIMARY_LAYER_PERCENT_LIVE,
+    libfbrw.FBTypes.eSHRUBS_SECONDARY_LAYER_PERCENT_COVER,
+    libfbrw.FBTypes.eSHRUBS_SECONDARY_LAYER_PERCENT_LIVE,
+    libfbrw.FBTypes.eWOODY_FUEL_ALL_DOWNED_WOODY_FUEL_TOTAL_PERCENT_COVER,
+    libfbrw.FBTypes.eLITTER_LITTER_TYPE_SHORT_NEEDLE_PINE_RELATIVE_COVER,
+    libfbrw.FBTypes.eLITTER_LITTER_TYPE_LONG_NEEDLE_PINE_RELATIVE_COVER,
+    libfbrw.FBTypes.eLITTER_LITTER_TYPE_OTHER_CONIFER_RELATIVE_COVER,
+    libfbrw.FBTypes.eLITTER_LITTER_TYPE_BROADLEAF_DECIDUOUS_RELATIVE_COVER,
+    libfbrw.FBTypes.eLITTER_LITTER_TYPE_BROADLEAF_EVERGREEN_RELATIVE_COVER,
+    libfbrw.FBTypes.eLITTER_LITTER_TYPE_PALM_FROND_RELATIVE_COVER,
+    libfbrw.FBTypes.eLITTER_LITTER_TYPE_GRASS_RELATIVE_COVER
+]
+
 # Project-wide constants
 DISTURBANCE = ['fire', 'insects']
 SEVERITY = [1,2,3]  # low, medium, high
@@ -34,7 +64,10 @@ def mul(s1, s2):
         
 def scale(fb, id, scale_factor):
     v = fb.GetValue(id)
-    fb.SetValue(id, mul(v, scale_factor))
+    scaled_value = mul(v, scale_factor)
+    if id in PERCENT_IDS and float(scaled_value) > 100:
+        scaled_value = '100'
+    fb.SetValue(id, scaled_value)
 
 def exists(fb, id):
     check = fb.GetValue(id)
@@ -62,6 +95,8 @@ def assign_and_return_current(fb, assign_to, assign_from):
     # fb.SetValue(assign_to, val)
     if val:
         fb.SetValue(assign_to, val)
+    else:
+        fb.SetValue(assign_to, '')
     return current
     
 def do_simple_scaling(fb, scale_these):

@@ -205,7 +205,8 @@ FuelbedValues::SetValue(FBTypes type, const string& value)
     }
     else
     {
-        DbgPrint(string("Warning: empty value, not adding - ") + fbValues_[type].Xpath());
+        // decided that an empty value means 'delete anything that is there'
+        fbValues_[type].Value(value);
     }
 }
 
