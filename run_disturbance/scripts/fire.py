@@ -450,6 +450,31 @@ def process_canopy_low_three(fb):
     fb.SetValue(libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_3_HEIGHT, two_height)
     fb.SetValue(libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_3_STEM_DENSITY, two_sd)
     
+    
+def process_canopy_moderate_two(fb):
+    # assign 'with_foliage' to 'others', save 'others'
+    other_diameter = fbrw.assign_and_return_current(fb,
+        libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_1_ALL_OTHERS_DIAMETER,
+        libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_1_CONIFERS_WITH_FOLIAGE_DIAMETER)
+    other_height = fbrw.assign_and_return_current(fb,
+        libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_1_ALL_OTHERS_HEIGHT,
+        libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_1_CONIFERS_WITH_FOLIAGE_HEIGHT)
+    other_sd = fbrw.assign_and_return_current(fb,
+        libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_1_ALL_OTHERS_STEM_DENSITY,
+        libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_1_CONIFERS_WITH_FOLIAGE_STEM_DENSITY)
+    
+    # move 'other' values into 'class_2', save class_2
+    two_diameter = fbrw.assign_and_return_current(fb, libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_2_DIAMETER, other_diameter)
+    two_height = fbrw.assign_and_return_current(fb, libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_2_HEIGHT, other_height)
+    two_sd = fbrw.assign_and_return_current(fb, libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_2_STEM_DENSITY, other_sd)
+    
+    # move 'class_2' to 'class_3'
+    fb.SetValue(libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_3_DIAMETER, two_diameter)
+    fb.SetValue(libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_3_HEIGHT, two_height)
+    fb.SetValue(libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_3_STEM_DENSITY, two_sd)
+    
+    process_canopy_one(fb, 0.1, 0.1, 0.1)
+
             
 def placeholder(fb):
     pass
@@ -462,14 +487,14 @@ special_funcs = {
         fbrw.TIMESTEP[2]: [ (process_canopy_low_three,) ],
     },
     fbrw.SEVERITY[1]: {
-        fbrw.TIMESTEP[0]: [ (placeholder,) ],
-        fbrw.TIMESTEP[1]: [ (placeholder,) ],
-        fbrw.TIMESTEP[2]: [ (placeholder,) ],
+        fbrw.TIMESTEP[0]: [ (process_canopy_one, 0.4, 0.4, 0.4) ],
+        fbrw.TIMESTEP[1]: [ (process_canopy_moderate_two,) ],
+        fbrw.TIMESTEP[2]: [ (process_canopy_low_two,) ],
     },
     fbrw.SEVERITY[2]: {
-        fbrw.TIMESTEP[0]: [ (placeholder,) ],
-        fbrw.TIMESTEP[1]: [ (placeholder,) ],
-        fbrw.TIMESTEP[2]: [ (placeholder,) ],
+        fbrw.TIMESTEP[0]: [ (process_canopy_one, 0.375, 0.375, 0.375) ],
+        fbrw.TIMESTEP[1]: [ (process_canopy_moderate_two,) ],
+        fbrw.TIMESTEP[2]: [ (process_canopy_low_two,) ],
     }
 }
 
