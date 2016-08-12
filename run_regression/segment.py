@@ -17,7 +17,7 @@ def process(filename, segment_id):
         for line in infile:
             line = line.rstrip()
             if matcher.match(line):
-                if line.endswith(segment_id):
+                if line.endswith(str(segment_id)):
                     print_flag = True
                 else:
                     print_flag = False
@@ -34,5 +34,6 @@ def process(filename, segment_id):
 # ++++++++++++++++++++++++++++++++++++++++++
 #   Start
 # ++++++++++++++++++++++++++++++++++++++++++
-if len(sys.argv) > 2:
-    process(sys.argv[1], sys.argv[2].strip())
+if len(sys.argv) > 1:
+    for i in [111, 112, 113, 121, 122, 123, 131, 132, 133, 511, 512, 513, 521, 522, 523, 531, 532, 533]:
+        process(sys.argv[1], i)
