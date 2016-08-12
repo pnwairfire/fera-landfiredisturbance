@@ -24,7 +24,7 @@ scale_these = {
             (libfbrw.FBTypes.eCANOPY_TREES_UNDERSTORY_HEIGHT_TO_LIVE_CROWN, 1.100),
             (libfbrw.FBTypes.eCANOPY_TREES_UNDERSTORY_PERCENT_COVER, 0.900),
             (libfbrw.FBTypes.eCANOPY_TREES_UNDERSTORY_STEM_DENSITY, 0.900),
-            ],
+        ],
         fbrw.TIMESTEP[1]: [
             (libfbrw.FBTypes.eCANOPY_TREES_TOTAL_PERCENT_COVER, 0.950),
             (libfbrw.FBTypes.eCANOPY_TREES_OVERSTORY_HEIGHT_TO_LIVE_CROWN, 1.050),
@@ -35,8 +35,17 @@ scale_these = {
             (libfbrw.FBTypes.eCANOPY_TREES_UNDERSTORY_HEIGHT_TO_LIVE_CROWN, 1.050),
             (libfbrw.FBTypes.eCANOPY_TREES_UNDERSTORY_PERCENT_COVER, 0.950),
             (libfbrw.FBTypes.eCANOPY_TREES_UNDERSTORY_STEM_DENSITY, 0.950),
-            ],
-        fbrw.TIMESTEP[2]: []
+            (libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_1_CONIFERS_WITH_FOLIAGE_HEIGHT_TO_CROWN_BASE, 0),
+            (libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_1_CONIFERS_WITH_FOLIAGE_DIAMETER, 0),
+            (libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_1_CONIFERS_WITH_FOLIAGE_HEIGHT, 0),
+            (libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_1_CONIFERS_WITH_FOLIAGE_PERCENT_COVER, 0),
+            (libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_1_CONIFERS_WITH_FOLIAGE_STEM_DENSITY, 0),
+        ],
+        fbrw.TIMESTEP[2]: [
+            (libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_1_ALL_OTHERS_DIAMETER, 0),
+            (libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_1_ALL_OTHERS_HEIGHT, 0),
+            (libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_1_ALL_OTHERS_STEM_DENSITY, 0),
+        ],
     },
     fbrw.SEVERITY[1]: {
         fbrw.TIMESTEP[0]: [
@@ -50,7 +59,7 @@ scale_these = {
             (libfbrw.FBTypes.eCANOPY_TREES_UNDERSTORY_HEIGHT_TO_LIVE_CROWN, 1.100),
             (libfbrw.FBTypes.eCANOPY_TREES_UNDERSTORY_PERCENT_COVER, 0.800),
             (libfbrw.FBTypes.eCANOPY_TREES_UNDERSTORY_STEM_DENSITY, 0.800),
-            ],
+        ],
         fbrw.TIMESTEP[1]: [
             (libfbrw.FBTypes.eCANOPY_TREES_TOTAL_PERCENT_COVER, 0.900),
             (libfbrw.FBTypes.eCANOPY_TREES_OVERSTORY_PERCENT_COVER, 0.900),
@@ -69,17 +78,22 @@ scale_these = {
             (libfbrw.FBTypes.eHERBACEOUS_SECONDARY_LAYER_HEIGHT, 1.250),
             (libfbrw.FBTypes.eHERBACEOUS_SECONDARY_LAYER_LOADING, 1.250),
             (libfbrw.FBTypes.eHERBACEOUS_SECONDARY_LAYER_PERCENT_COVER, 1.250),
-            (libfbrw.FBTypes.eWOODY_FUEL_ALL_DOWNED_WOODY_FUEL_DEPTH, 1.200),
-            (libfbrw.FBTypes.eWOODY_FUEL_ALL_DOWNED_WOODY_FUEL_TOTAL_PERCENT_COVER, 1.200),
-            (libfbrw.FBTypes.eWOODY_FUEL_SOUND_WOOD_LOADINGS_ZERO_TO_THREE_INCHES_ONE_TO_THREE_INCHES, 1.200),
-            (libfbrw.FBTypes.eWOODY_FUEL_SOUND_WOOD_LOADINGS_ZERO_TO_THREE_INCHES_QUARTER_INCH_TO_ONE_INCH, 1.200),
-            (libfbrw.FBTypes.eWOODY_FUEL_SOUND_WOOD_LOADINGS_ZERO_TO_THREE_INCHES_ZERO_TO_QUARTER_INCH, 1.200),
+            (libfbrw.FBTypes.eWOODY_FUEL_ALL_DOWNED_WOODY_FUEL_DEPTH, 1.250),
+            (libfbrw.FBTypes.eWOODY_FUEL_ALL_DOWNED_WOODY_FUEL_TOTAL_PERCENT_COVER, 1.250),
+            (libfbrw.FBTypes.eWOODY_FUEL_SOUND_WOOD_LOADINGS_ZERO_TO_THREE_INCHES_ONE_TO_THREE_INCHES, 1.250),
+            (libfbrw.FBTypes.eWOODY_FUEL_SOUND_WOOD_LOADINGS_ZERO_TO_THREE_INCHES_QUARTER_INCH_TO_ONE_INCH, 1.250),
+            (libfbrw.FBTypes.eWOODY_FUEL_SOUND_WOOD_LOADINGS_ZERO_TO_THREE_INCHES_ZERO_TO_QUARTER_INCH, 1.250),
             (libfbrw.FBTypes.eMOSS_LICHEN_LITTER_LITTER_DEPTH, 1.300),
             (libfbrw.FBTypes.eMOSS_LICHEN_LITTER_LITTER_PERCENT_COVER, 1.300),
             (libfbrw.FBTypes.eGROUND_FUEL_DUFF_UPPER_DEPTH, 1.200),
             (libfbrw.FBTypes.eGROUND_FUEL_DUFF_UPPER_PERCENT_COVER, 1.200),
-            ],
+        ],
         fbrw.TIMESTEP[2]: [
+            (libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_1_CONIFERS_WITH_FOLIAGE_HEIGHT_TO_CROWN_BASE, 0),
+            (libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_1_CONIFERS_WITH_FOLIAGE_DIAMETER, 0),
+            (libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_1_CONIFERS_WITH_FOLIAGE_HEIGHT, 0),
+            (libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_1_CONIFERS_WITH_FOLIAGE_PERCENT_COVER, 0),
+            (libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_1_CONIFERS_WITH_FOLIAGE_STEM_DENSITY, 0),
             (libfbrw.FBTypes.eWOODY_FUEL_ALL_DOWNED_WOODY_FUEL_DEPTH, 1.250),
             (libfbrw.FBTypes.eWOODY_FUEL_ALL_DOWNED_WOODY_FUEL_TOTAL_PERCENT_COVER, 1.250),
             (libfbrw.FBTypes.eWOODY_FUEL_SOUND_WOOD_LOADINGS_ZERO_TO_THREE_INCHES_ONE_TO_THREE_INCHES, 1.250),
@@ -88,7 +102,7 @@ scale_these = {
             (libfbrw.FBTypes.eWOODY_FUEL_SOUND_WOOD_LOADINGS_GREATER_THAN_THREE_INCHES_THREE_TO_NINE_INCHES, 1.250),
             (libfbrw.FBTypes.eWOODY_FUEL_SOUND_WOOD_LOADINGS_GREATER_THAN_THREE_INCHES_NINE_TO_TWENTY_INCHES, 1.250),
             (libfbrw.FBTypes.eWOODY_FUEL_SOUND_WOOD_LOADINGS_GREATER_THAN_THREE_INCHES_GREATER_THAN_TWENTY_INCHES, 1.250),
-            ]
+        ],
     },
     fbrw.SEVERITY[2]: {
         fbrw.TIMESTEP[0]: [
@@ -102,7 +116,7 @@ scale_these = {
             (libfbrw.FBTypes.eCANOPY_TREES_UNDERSTORY_HEIGHT_TO_LIVE_CROWN, 1.500),
             (libfbrw.FBTypes.eCANOPY_TREES_UNDERSTORY_PERCENT_COVER, 0.300),
             (libfbrw.FBTypes.eCANOPY_TREES_UNDERSTORY_STEM_DENSITY, 0.300),
-            ],
+        ],
         fbrw.TIMESTEP[1]: [
             (libfbrw.FBTypes.eCANOPY_TREES_TOTAL_PERCENT_COVER, 0.900),
             (libfbrw.FBTypes.eCANOPY_TREES_OVERSTORY_PERCENT_COVER, 0.900),
@@ -124,8 +138,13 @@ scale_these = {
             (libfbrw.FBTypes.eWOODY_FUEL_SOUND_WOOD_LOADINGS_ZERO_TO_THREE_INCHES_ZERO_TO_QUARTER_INCH, 1.300),
             (libfbrw.FBTypes.eMOSS_LICHEN_LITTER_LITTER_DEPTH, 0.300),
             (libfbrw.FBTypes.eMOSS_LICHEN_LITTER_LITTER_PERCENT_COVER, 0.300),
-            ],
+        ],
         fbrw.TIMESTEP[2]: [
+            (libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_1_CONIFERS_WITH_FOLIAGE_HEIGHT_TO_CROWN_BASE, 0),
+            (libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_1_CONIFERS_WITH_FOLIAGE_DIAMETER, 0),
+            (libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_1_CONIFERS_WITH_FOLIAGE_HEIGHT, 0),
+            (libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_1_CONIFERS_WITH_FOLIAGE_PERCENT_COVER, 0),
+            (libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_1_CONIFERS_WITH_FOLIAGE_STEM_DENSITY, 0),
             (libfbrw.FBTypes.eWOODY_FUEL_ALL_DOWNED_WOODY_FUEL_DEPTH, 1.400),
             (libfbrw.FBTypes.eWOODY_FUEL_ALL_DOWNED_WOODY_FUEL_TOTAL_PERCENT_COVER, 1.400),
             (libfbrw.FBTypes.eWOODY_FUEL_SOUND_WOOD_LOADINGS_ZERO_TO_THREE_INCHES_ONE_TO_THREE_INCHES, 1.400),
@@ -135,7 +154,7 @@ scale_these = {
             (libfbrw.FBTypes.eMOSS_LICHEN_LITTER_LITTER_PERCENT_COVER, 0.500),
             (libfbrw.FBTypes.eGROUND_FUEL_DUFF_UPPER_DEPTH, 0.400),
             (libfbrw.FBTypes.eGROUND_FUEL_DUFF_UPPER_PERCENT_COVER, 0.400),
-            ]
+        ],
     },
 }
 

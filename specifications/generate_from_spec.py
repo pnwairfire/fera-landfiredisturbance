@@ -132,6 +132,8 @@ valid = {
     'eWOODY_FUEL_STUMPS_SOUND_STEM_DENSITY'
 }
 
+SPACING = '    '    # 4 spaces
+
 def emit_for_step(pd_series, severity, timestep):
     # severity and timestep are only for error reporting
     noteworthy = []
@@ -145,7 +147,7 @@ def emit_for_step(pd_series, severity, timestep):
                     # use sympy to parse/simplify arithmetic expressions eg. - (1/0.05) * 0.5
                     multiplier = sympy.sympify(multiplier).round(3)
                     
-                    print('(libfbrw.FBTypes.{}, {}),'.format(item[0], multiplier))
+                    print('{}(libfbrw.FBTypes.{}, {}),'.format(3*SPACING, item[0], multiplier))
                 else:
                     if 'nan' in str(item[1]): continue
                     noteworthy.append('{} : {}'.format(item[1], item[0]))
@@ -153,12 +155,13 @@ def emit_for_step(pd_series, severity, timestep):
                 print('Invalid id - {}'.format(id))
         except:
             print('\nException {} : {} {}'.format(id, severity, timestep))
-            
+    '''        
     if len(noteworthy):
         print('\n --------  Check these ----------')
         for i in noteworthy:
             print('\t{}'.format(i))
-
+    '''
+            
 TIMESTEPS = ['Time Step 1', 'Time Step 2', 'Time Step 3']
 def process_disturbance_spec(filename):
     def make_sorted_severity_list(unsorted_list):
@@ -176,17 +179,34 @@ def process_disturbance_spec(filename):
     #  columns will vary by disturbance, but should always have the severity specifier
     severity_columns = make_sorted_severity_list(
         [i for i in df.columns.levels[0] if 'Low' in i or 'Moderate' in i or 'High' in i])
+     
     
-    for s in severity_columns:
-        for t in TIMESTEPS:
-            print('\n{} : {}'.format(s, t))
+    print('scale_these = {')
+    
+    for i, s in enumerate(severity_columns):
+        print('{}fbrw.SEVERITY[{}]: {{'.format(SPACING, i))
+        for j, t in enumerate(TIMESTEPS):
+            print('{}fbrw.TIMESTEP[{}]: ['.format(2*SPACING, j))
             emit_for_step(df[s][t], s, t)
+            print('{}],'.format(2*SPACING))
+        print('{}}},'.format(SPACING))
+    print('}')
                 
 # ++++++++++++++++++++++++++++++++++++++++++
 #  Start
 # ++++++++++++++++++++++++++++++++++++++++++
+dist_map = {
+    'fire': 'fire_template.py',
+    'i&d': 'insects_template.py'
+}
+
 if len(sys.argv) > 1:
     for f in sys.argv[1:]:
         process_disturbance_spec(f)
 else:
     print('\nPlease supply a spreadsheet file from which to derive the python code.\n')
+    
+    
+    
+    
+    
