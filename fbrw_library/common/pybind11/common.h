@@ -32,6 +32,7 @@
 
 #define PYBIND11_VERSION_MAJOR 1
 #define PYBIND11_VERSION_MINOR 9
+#define PYBIND11_VERSION_PATCH dev0
 
 /// Include Python header, disable linking to pythonX_d.lib on Windows in debug mode
 #if defined(_MSC_VER)
@@ -48,7 +49,11 @@
 #include <frameobject.h>
 #include <pythread.h>
 
-#ifdef isalnum
+#if defined(_WIN32) && (defined(min) || defined(max))
+#  error Macro clash with min and max -- define NOMINMAX when compiling your program on Windows
+#endif
+
+#if defined(isalnum)
 #  undef isalnum
 #  undef isalpha
 #  undef islower
@@ -66,6 +71,7 @@
 #  pragma warning(pop)
 #endif
 
+#include <forward_list>
 #include <vector>
 #include <string>
 #include <stdexcept>
@@ -89,6 +95,7 @@
 #define PYBIND11_STRING_NAME "str"
 #define PYBIND11_SLICE_OBJECT PyObject
 #define PYBIND11_FROM_STRING PyUnicode_FromString
+#define PYBIND11_STR_TYPE ::pybind11::str
 #define PYBIND11_OB_TYPE(ht_type) (ht_type).ob_base.ob_base.ob_type
 #define PYBIND11_PLUGIN_IMPL(name) \
     extern "C" PYBIND11_EXPORT PyObject *PyInit_##name()
@@ -107,6 +114,7 @@
 #define PYBIND11_STRING_NAME "unicode"
 #define PYBIND11_SLICE_OBJECT PySliceObject
 #define PYBIND11_FROM_STRING PyString_FromString
+#define PYBIND11_STR_TYPE ::pybind11::bytes
 #define PYBIND11_OB_TYPE(ht_type) (ht_type).ob_type
 #define PYBIND11_PLUGIN_IMPL(name) \
     extern "C" PYBIND11_EXPORT PyObject *init##name()
@@ -198,12 +206,13 @@ struct buffer_info {
     void *ptr;                   // Pointer to the underlying storage
     size_t itemsize;             // Size of individual items in bytes
     size_t size;                 // Total number of entries
-    std::string format;          // For homogeneous buffers, this should be set to format_descriptor<T>::value
+    std::string format;          // For homogeneous buffers, this should be set to format_descriptor<T>::format()
     size_t ndim;                 // Number of dimensions
     std::vector<size_t> shape;   // Shape of the tensor (1 entry per dimension)
     std::vector<size_t> strides; // Number of entries between adjacent entries (for each per dimension)
 
     buffer_info() : ptr(nullptr), view(nullptr) {}
+
     buffer_info(void *ptr, size_t itemsize, const std::string &format, size_t ndim,
                 const std::vector<size_t> &shape, const std::vector<size_t> &strides)
         : ptr(ptr), itemsize(itemsize), size(1), format(format),
@@ -211,6 +220,10 @@ struct buffer_info {
         for (size_t i = 0; i < ndim; ++i)
             size *= shape[i];
     }
+
+    buffer_info(void *ptr, size_t itemsize, const std::string &format, size_t size)
+    : buffer_info(ptr, itemsize, format, 1, std::vector<size_t> { size },
+                  std::vector<size_t> { itemsize }) { }
 
     buffer_info(Py_buffer *view)
         : ptr(view->buf), itemsize((size_t) view->itemsize), size(1), format(view->format),
@@ -225,6 +238,7 @@ struct buffer_info {
     ~buffer_info() {
         if (view) { PyBuffer_Release(view); delete view; }
     }
+
 private:
     Py_buffer *view = nullptr;
 };
@@ -239,7 +253,6 @@ inline std::string error_string();
 template <typename type> struct instance_essentials {
     PyObject_HEAD
     type *value;
-    PyObject *parent;
     PyObject *weakrefs;
     bool owned : 1;
     bool constructed : 1;
@@ -260,10 +273,11 @@ struct overload_hash {
 
 /// Internal data struture used to track registered instances and types
 struct internals {
-    std::unordered_map<std::type_index, void*> registered_types_cpp; // std::type_index -> type_info
-    std::unordered_map<const void *, void*> registered_types_py;     // PyTypeObject* -> type_info
-    std::unordered_map<const void *, void*> registered_instances;    // void * -> PyObject*
+    std::unordered_map<std::type_index, void*> registered_types_cpp;   // std::type_index -> type_info
+    std::unordered_map<const void *, void*> registered_types_py;       // PyTypeObject* -> type_info
+    std::unordered_multimap<const void *, void*> registered_instances; // void * -> PyObject*
     std::unordered_set<std::pair<const PyObject *, const char *>, overload_hash> inactive_overload_cache;
+    std::forward_list<void (*) (std::exception_ptr)> registered_exception_translators;
 #if defined(WITH_THREAD)
     decltype(PyThread_create_key()) tstate = 0; // Usually an int but a long on Cygwin64 with Python 3.x
     PyInterpreterState *istate = nullptr;
@@ -308,21 +322,32 @@ NAMESPACE_END(detail)
 class error_already_set : public std::runtime_error { public: error_already_set() : std::runtime_error(detail::error_string())  {} };
 PYBIND11_RUNTIME_EXCEPTION(stop_iteration)
 PYBIND11_RUNTIME_EXCEPTION(index_error)
+PYBIND11_RUNTIME_EXCEPTION(key_error)
 PYBIND11_RUNTIME_EXCEPTION(value_error)
 PYBIND11_RUNTIME_EXCEPTION(cast_error) /// Thrown when pybind11::cast or handle::call fail due to a type casting error
+PYBIND11_RUNTIME_EXCEPTION(reference_cast_error) /// Used internally
 
 [[noreturn]] PYBIND11_NOINLINE inline void pybind11_fail(const char *reason) { throw std::runtime_error(reason); }
 [[noreturn]] PYBIND11_NOINLINE inline void pybind11_fail(const std::string &reason) { throw std::runtime_error(reason); }
 
 /// Format strings for basic number types
-#define PYBIND11_DECL_FMT(t, v) template<> struct format_descriptor<t> { static constexpr const char *value = v; }
+#define PYBIND11_DECL_FMT(t, v) template<> struct format_descriptor<t> \
+    { static constexpr const char* value = v; /* for backwards compatibility */ \
+      static std::string format() { return value; } }
+
 template <typename T, typename SFINAE = void> struct format_descriptor { };
+
 template <typename T> struct format_descriptor<T, typename std::enable_if<std::is_integral<T>::value>::type> {
     static constexpr const char value[2] =
         { "bBhHiIqQ"[detail::log2(sizeof(T))*2 + (std::is_unsigned<T>::value ? 1 : 0)], '\0' };
+    static std::string format() { return value; }
 };
+
 template <typename T> constexpr const char format_descriptor<
     T, typename std::enable_if<std::is_integral<T>::value>::type>::value[2];
-PYBIND11_DECL_FMT(float, "f"); PYBIND11_DECL_FMT(double, "d"); PYBIND11_DECL_FMT(bool, "?");
+
+PYBIND11_DECL_FMT(float, "f");
+PYBIND11_DECL_FMT(double, "d");
+PYBIND11_DECL_FMT(bool, "?");
 
 NAMESPACE_END(pybind11)
