@@ -1,4 +1,4 @@
-/* -----------------------------------------------------------------Ĺ-----------
+/* ----------------------------------------------------------------------------
  *
  * Author:      Kjell Swedin
  * Description: Interface code for python bindings to FuelbedValues objects.
@@ -110,6 +110,8 @@ PYBIND11_PLUGIN(libfbrw) {
         .value("eSHRUBS_NEEDLE_DRAPE_AFFECTS_FIRE_BEHAVIOR", FBTypes::eSHRUBS_NEEDLE_DRAPE_AFFECTS_FIRE_BEHAVIOR)
         .value("eCANOPY_LADDER_FUELS_MAXIMUM_HEIGHT", FBTypes::eCANOPY_LADDER_FUELS_MAXIMUM_HEIGHT)
         .value("eCANOPY_LADDER_FUELS_MINIMUM_HEIGHT", FBTypes::eCANOPY_LADDER_FUELS_MINIMUM_HEIGHT)
+        .value("eCANOPY_LADDER_FUELS_TYPE", FBTypes::eCANOPY_LADDER_FUELS_TYPE)
+        .value("eCANOPY_LADDER_FUELS_IS_VERTICALLY_CONTIGUOUS", FBTypes::eCANOPY_LADDER_FUELS_IS_VERTICALLY_CONTIGUOUS)
         .value("eCANOPY_SNAGS_CLASS_1_ALL_OTHERS_DIAMETER", FBTypes::eCANOPY_SNAGS_CLASS_1_ALL_OTHERS_DIAMETER)
         .value("eCANOPY_SNAGS_CLASS_1_ALL_OTHERS_HEIGHT", FBTypes::eCANOPY_SNAGS_CLASS_1_ALL_OTHERS_HEIGHT)
         .value("eCANOPY_SNAGS_CLASS_1_ALL_OTHERS_STEM_DENSITY", FBTypes::eCANOPY_SNAGS_CLASS_1_ALL_OTHERS_STEM_DENSITY)
