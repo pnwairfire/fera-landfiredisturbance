@@ -1,0 +1,46 @@
+#
+# Rename to jamfile.jam on Windows
+#
+project libfbrw
+  : requirements
+    <threading>multi
+    <link>shared
+    <runtime-link>shared
+    <warnings>on
+    <warnings-as-errors>off
+    <include>../common/pybind11
+  : default-build debug
+  : build-dir build
+;
+
+lib libfbrw
+	: [ glob *.cpp ]
+        ../common/pybind11/pybind11.h
+	: <conditional>@libfbrw_build_config
+	;
+
+rule libfbrw_build_config ( properties * )
+{
+    local result ;
+    if <toolset>gcc in $(properties)
+    {
+        result += <include>/home/kjells/opt/mypy/include/python3.5m ;
+    }
+    if <toolset>msvc in $(properties)
+    {
+        result += <include>/python3/include ;
+        result += <library-path>/python3/libs ;
+        result += <address-model>64 ;
+    
+        result += <define>_CRT_SECURE_NO_WARNINGS ;
+        result += <define>_SCL_SECURE_NO_WARNINGS ;
+        if <variant>debug in $(properties)
+        {
+            result += <cxxflags>/RTC1 ;
+        }
+    }
+    return $(result) ;
+}
+
+
+install dist : libfbrw : <location>../dist ;

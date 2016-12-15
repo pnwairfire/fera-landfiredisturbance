@@ -1,3 +1,4 @@
+# Comment this line out on Windows
 using gcc : c++11 : "g++" : <cxxflags>-std=c++11 ;
 
 ### - creates a library for unit testing
