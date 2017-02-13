@@ -1,5 +1,7 @@
-#
-# Rename to jamfile.jam on Windows
+# Windows-specific jamfile
+# Run on Windows - assumes python is installed in c:\python3.
+# Rename to jamfile.jam.
+# Produces a .dll file. This needs to be renamed libfbrw.pyd
 #
 project libfbrw
   : requirements
@@ -9,6 +11,9 @@ project libfbrw
     <warnings>on
     <warnings-as-errors>off
     <include>../common/pybind11
+    <include>/python3/include
+    <library-path>/python3/libs
+    <address-model>64
   : default-build debug
   : build-dir build
 ;
@@ -24,14 +29,9 @@ rule libfbrw_build_config ( properties * )
     local result ;
     if <toolset>gcc in $(properties)
     {
-        result += <include>/home/kjells/opt/mypy/include/python3.5m ;
     }
     if <toolset>msvc in $(properties)
     {
-        result += <include>/python3/include ;
-        result += <library-path>/python3/libs ;
-        result += <address-model>64 ;
-    
         result += <define>_CRT_SECURE_NO_WARNINGS ;
         result += <define>_SCL_SECURE_NO_WARNINGS ;
         if <variant>debug in $(properties)
