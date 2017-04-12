@@ -12,7 +12,37 @@ import sys
 import glob
 import os
 import shutil
-import fbrw
+import requests
+
+FBWRITER_LIB = 'libfbrw.so'
+def retrive_fbwrite_library():
+    def latest(r):
+        builds = []
+        # line looks like - '<a href="504/">504/</a>   29-Dec-2016 16:33    -'
+        for i in r.iter_lines():
+            i = i.decode('latin_1')
+            try:
+                builds.append(int(i.split('>')[1].split('/')[0]))
+            except:
+                pass
+        return max(builds)
+        
+    def remove_lib():
+        try:
+            os.remove(FBWRITER_LIB)
+        except OSError:
+            pass        
+    
+    remove_lib()
+    query = 'http://172.16.0.120:8081/artifactory/simple/generic-local/fbwriter_lib'
+    r = requests.get(query)
+    latest_build = latest(r)
+    cmd = 'wget http://172.16.0.120:8081/artifactory/generic-local/fbwriter_lib/{}/libfbrw.so '.format(latest_build)
+    os.system(cmd)
+    return True if os.path.exists(FBWRITER_LIB) else False
+
+if retrive_fbwrite_library():
+    import fbrw
 import fire
 import insects
 

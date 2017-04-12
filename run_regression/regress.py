@@ -98,6 +98,7 @@ def compare_outputs():
             compare_count += 1
             
     print('\n{} Comparisons\n\t{} Successful\n\t{} Unsuccessful'.format(compare_count, compare_successful, compare_failed))
+    return compare_failed
     
     
 # ++++++++++++++++++++++++++++++++++++++++++
@@ -106,4 +107,5 @@ def compare_outputs():
 calculate_values()
 collect_calculated_values()
 build_expected_value_csv()
-compare_outputs()
+result = compare_outputs()
+exit(result)
