@@ -1,5 +1,6 @@
-import libfbrw
 import sys
+sys.path.insert(0, '../run_disturbance/scripts')
+import libfbrw
 
 def process(filename):
     fb = libfbrw.FuelbedValues(filename)
