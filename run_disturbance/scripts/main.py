@@ -13,6 +13,16 @@ import glob
 import os
 import shutil
 import requests
+from inspect import getsourcefile
+from os.path import abspath
+
+
+def get_dir_for_this_file():
+    path = abspath(getsourcefile(lambda:0))
+    return os.path.dirname(path)
+    
+thisfile_dir = get_dir_for_this_file()
+invoking_dir = os.getcwd()
 
 FBWRITER_LIB = 'libfbrw.so'
 def retrive_fbwrite_library():
@@ -33,13 +43,19 @@ def retrive_fbwrite_library():
         except OSError:
             pass        
     
+    os.chdir(thisfile_dir)
     remove_lib()
     query = 'http://172.16.0.120:8081/artifactory/simple/generic-local/fbwriter_lib'
     r = requests.get(query)
     latest_build = latest(r)
+    
+    print('\n Before wget...\n')
     cmd = 'wget http://172.16.0.120:8081/artifactory/generic-local/fbwriter_lib/{}/libfbrw.so '.format(latest_build)
     os.system(cmd)
-    return True if os.path.exists(FBWRITER_LIB) else False
+  
+    retval = True if os.path.exists(FBWRITER_LIB) else False
+    print('\n retval is {}\n'.format(retval))
+    return retval
 
 if retrive_fbwrite_library():
     import fbrw
@@ -59,10 +75,14 @@ DCM = {
 }
 
 OUT_DIR = 'out'
-def create_output_dirs():
-    if os.path.exists(OUT_DIR): shutil.rmtree(OUT_DIR)
-    os.mkdir(OUT_DIR)
-    
+def create_output_dirs(invocation_dir):
+    out = os.path.join(invocation_dir, OUT_DIR)
+    if os.path.exists(out): shutil.rmtree(out)
+    print('\n 000 Current dir is {} 000\n'.format(os.getcwd()))
+    os.mkdir(out)
+    return out
+
+'''    
 def process_independently(files):
     for f in files:
         for d in fbrw.DISTURBANCE:
@@ -86,9 +106,11 @@ def process_independently(files):
                     fbrw.do_simple_scaling(fb, DMM[d].get_scaling_params(s, t))
                     
                     fb.Write(outname)
+'''
                     
-def process_dependently(files):
+def process_dependently(files, outdir):
     for f in files:
+        f = os.path.join(invoking_dir, f)
         for d in fbrw.DISTURBANCE:
             for s in fbrw.SEVERITY:
                 # name the output file the basename plus the code for disturbance, severity, and timestep
@@ -102,7 +124,7 @@ def process_dependently(files):
                 
                 for t in fbrw.TIMESTEP:
                     dist_sev_time = '{}{}{}'.format(DCM[d], s, t)
-                    outname = './out/{}_{}.xml'.format(basename, dist_sev_time)
+                    outname = '{}/{}_{}.xml'.format(outdir, basename, dist_sev_time)
                     
                     # invocation of the disturbance-module-specific code happens via DMM
                     DMM[d].do_special(fb, s, t)
@@ -116,9 +138,9 @@ def process_dependently(files):
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 if len(sys.argv) > 1:
     files = sys.argv[1:]
-    create_output_dirs()
-    #process_independently(files)
-    process_dependently(files)
+    outdir = create_output_dirs(invoking_dir)
+    process_dependently(files, outdir)
+    os.chdir(invoking_dir)
     exit(0)
 
 print('\nError: missing files to process')
