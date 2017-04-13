@@ -13,7 +13,7 @@ import numpy as np
 CALCULATED_VALUES = 'calculated_values.csv'
 EXPECTED_VALUES = 'expected.csv'
 SCRATCH_FILENAME = 'zorK123.csv'
-OUTDIR = 'out'
+OUTDIR = './out'
 
 OPTIONAL_LOADING = {
     'eGROUND_FUEL_BASAL_ACCUMULATION_LOADING',
@@ -32,13 +32,17 @@ OPTIONAL_LOADING = {
 # =============================================================================
 CLEAN = 'clean'
 def clean():
+    def on_error():
+        print('some sort of error...')
+    
     for i in [CALCULATED_VALUES, EXPECTED_VALUES, SCRATCH_FILENAME]:
         try:
             os.remove(i)
         except: pass
     for i in [OUTDIR]:
         try:
-            shutil.rmtree(i)
+            cmd = 'rm -fr {}'.format(OUTDIR)
+            os.system(cmd)
         except: pass
         
 def is_clean(argv):
