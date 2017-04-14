@@ -6,6 +6,7 @@
 # =============================================================================
 import pandas as pd
 import os
+import numpy as np
 
 FCCS_SUMMARY = 'fccs_summary.csv'
 CONSUME_LOADINGS = 'consume_loadings.csv'
@@ -32,9 +33,11 @@ Duff         Ground_upperduff_load + Ground_lowerduff_load
 Duff Depth   duff_upper_depth + duff_lower_depth
 '''
 
-def calc_woody_distribution(df):
-    # todo
-    return 'left'
+MAGIC_DIVIDER = 5
+def calc_woody_distribution(smaller, larger):
+    return np.where(
+        (smaller - larger) > MAGIC_DIVIDER, 'Left',
+        (np.where(-MAGIC_DIVIDER > (smaller - larger), 'Right', 'Even')))
     
 
 def process():
@@ -42,6 +45,8 @@ def process():
     try:
         df_fccs = pd.read_csv(FCCS_SUMMARY)
         df_consume = pd.read_csv(CONSUME_LOADINGS, header=1)
+        df_fccs.fillna(0, inplace=True)
+        df_consume.fillna(0, inplace=True)
         df_result = pd.DataFrame()
         
         df_result['FCCSID'] = df_fccs.Fuelbed_number
@@ -62,7 +67,9 @@ def process():
                           + df_fccs.Woody_rotten_10k_load
                           + df_fccs.Woody_rotten_GT10k_load) / df_result['3+']).round(RND)
 
-        df_result['Distribution'] = calc_woody_distribution(df_fccs)
+        df_result['Distribution'] = calc_woody_distribution(
+                (df_fccs.Woody_sound_1hr_load+df_fccs.Woody_sound_10hr_load+df_fccs.Woody_sound_100hr_load),
+                df_result['3+'])
         df_result['Litter'] = df_fccs.LLM_litter_load.round(RND)
         df_result['Duff'] = (df_fccs.Ground_upperduff_load + df_fccs.Ground_lowerduff_load).round(RND)
         df_result['Duff Depth'] = (df_consume.duff_upper_depth + df_consume.duff_lower_depth).round(RND)
