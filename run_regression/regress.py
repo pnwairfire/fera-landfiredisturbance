@@ -59,7 +59,7 @@ def calculate_values():
 
 def collect_calculated_values():
     def get_values(filename):
-        cmd = 'python print_values_from_xml.py {}> {}'.format(filename, SCRATCH_FILENAME)
+        cmd = 'python3 print_values_from_xml.py {}> {}'.format(filename, SCRATCH_FILENAME)
         os.system(cmd)
         df = pd.read_csv(SCRATCH_FILENAME, header=None, names=['Variable', 'Value'])
         df.fillna(0, inplace=True)
