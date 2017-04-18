@@ -7,6 +7,7 @@
 import sys
 import pandas as pd
 import sympy
+import glob
 
 valid = {
     'eFUELBED_NUMBER',
@@ -134,27 +135,48 @@ valid = {
 
 SPACING = '    '    # 4 spaces
 
-def emit_for_step(pd_series, severity, timestep):
+def parse_multiplier(in_string):
+    mult_string = ''
+    conditional_modifier = ''
+    if len(in_string) and in_string.startswith('*'):
+        mult_string = in_string
+        if ',' in in_string:
+            chunks = in_string.split(',')
+            mult_string = chunks[0].strip()
+            conditional_modifier = chunks[1].strip()
+        mult_string = mult_string.split('=')[1].strip()
+    return len(mult_string)>0, mult_string, conditional_modifier
+            
+
+def emit_for_step(pd_series, severity, timestep, outfile):
     # severity and timestep are only for error reporting
     noteworthy = []
+    error_msg = []
     for item in pd_series.iteritems():
         id = item[0]
         try:
             if id in valid:
-                if str(item[1]).startswith('*'):
-                    multiplier = item[1].split('=')[1].strip()
-                    
+                parse_successful, multiplier, modifier = parse_multiplier(str(item[1]))
+                if parse_successful:
                     # use sympy to parse/simplify arithmetic expressions eg. - (1/0.05) * 0.5
                     multiplier = sympy.sympify(multiplier).round(3)
-                    
-                    print('{}(libfbrw.FBTypes.{}, {}),'.format(3*SPACING, item[0], multiplier))
+
+                    aaa = '{}(libfbrw.FBTypes.{},{},{}),\n'.format(3*SPACING, item[0], multiplier, modifier)
+                    outfile.write('{}(libfbrw.FBTypes.{},{},{}),\n'.format(3*SPACING, item[0], multiplier, modifier))
                 else:
                     if 'nan' in str(item[1]): continue
                     noteworthy.append('{} : {}'.format(item[1], item[0]))
             else:
-                print('Invalid id - {}'.format(id))
-        except:
-            print('\nException {} : {} {}'.format(id, severity, timestep))
+                error_msg.append('Invalid id - {}'.format(id))
+                break
+        except Exception as e:
+            error_msg.append('Exception {} : {} {}\n\tMessage: {}\n\tOriginal string: {}'.format(id, severity, timestep, e, str(item[1])))
+            break
+    if len(error_msg):
+        print('\nErrors: exiting')
+        for msg in error_msg:
+            print('\t{}'.format(msg))
+        exit(1)
     '''        
     if len(noteworthy):
         print('\n --------  Check these ----------')
@@ -175,33 +197,34 @@ def process_disturbance_spec(filename):
         return retval
         
     df = pd.read_excel(filename, sheetname='Specs', header=[0,1])
+    df.fillna('', inplace=True)
     
     #  columns will vary by disturbance, but should always have the severity specifier
     severity_columns = make_sorted_severity_list(
         [i for i in df.columns.levels[0] if 'Low' in i or 'Moderate' in i or 'High' in i])
-     
     
-    print('scale_these = {')
+    # start with 'ScriptRules_Fire.xlsx' generate 'fire_spec.txt'
+    outfile_name = '{}_spec.txt'.format(filename.split('.')[0].split('_')[1].lower())
     
-    for i, s in enumerate(severity_columns):
-        print('{}fbrw.SEVERITY[{}]: {{'.format(SPACING, i))
-        for j, t in enumerate(TIMESTEPS):
-            print('{}fbrw.TIMESTEP[{}]: ['.format(2*SPACING, j))
-            emit_for_step(df[s][t], s, t)
-            print('{}],'.format(2*SPACING))
-        print('{}}},'.format(SPACING))
-    print('}')
+    # write the output file
+    with open(outfile_name, 'w+') as outfile:
+        outfile.write('scale_these = {\n')
+        
+        for i, s in enumerate(severity_columns):
+            outfile.write('{}fbrw.SEVERITY[{}]: {{\n'.format(SPACING, i))
+            for j, t in enumerate(TIMESTEPS):
+                outfile.write('{}fbrw.TIMESTEP[{}]: [\n'.format(2*SPACING, j))
+                emit_for_step(df[s][t], s, t, outfile)
+                outfile.write('{}],\n'.format(2*SPACING))
+            outfile.write('{}}},\n'.format(SPACING))
+        outfile.write('}\n')
                 
 # ++++++++++++++++++++++++++++++++++++++++++
 #  Start
 # ++++++++++++++++++++++++++++++++++++++++++
-dist_map = {
-    'fire': 'fire_template.py',
-    'i&d': 'insects_template.py'
-}
-
-if len(sys.argv) > 1:
-    for f in sys.argv[1:]:
+spec_files = glob.glob('ScriptRules*.xlsx')
+if len(spec_files):
+    for f in spec_files:
         process_disturbance_spec(f)
 else:
     print('\nPlease supply a spreadsheet file from which to derive the python code.\n')

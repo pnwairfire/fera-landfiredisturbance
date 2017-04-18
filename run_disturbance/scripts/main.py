@@ -49,7 +49,6 @@ def retrive_fbwrite_library():
     r = requests.get(query)
     latest_build = latest(r)
     
-    print('\n Before wget...\n')
     cmd = 'wget http://172.16.0.120:8081/artifactory/generic-local/fbwriter_lib/{}/libfbrw.so '.format(latest_build)
     os.system(cmd)
   
