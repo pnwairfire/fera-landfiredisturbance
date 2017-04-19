@@ -143,7 +143,8 @@ def parse_multiplier(in_string):
         if ',' in in_string:
             chunks = in_string.split(',')
             mult_string = chunks[0].strip()
-            conditional_modifier = chunks[1].strip()
+            # remove spaces around and within the string
+            conditional_modifier = chunks[1].strip().replace(' ', '')
         mult_string = mult_string.split('=')[1].strip()
     return len(mult_string)>0, mult_string, conditional_modifier
             
@@ -227,7 +228,7 @@ if len(spec_files):
     for f in spec_files:
         process_disturbance_spec(f)
 else:
-    print('\nPlease supply a spreadsheet file from which to derive the python code.\n')
+    print('\nError: no spreadsheet file from which to derive the python code.\n')
     
     
     
