@@ -146,7 +146,8 @@ def parse_multiplier(in_string):
             # remove spaces around and within the string
             conditional_modifier = chunks[1].strip().replace(' ', '')
         mult_string = mult_string.split('=')[1].strip()
-    return len(mult_string)>0, mult_string, conditional_modifier
+    # need to 'stringify' the conditional_modifier
+    return len(mult_string)>0, mult_string, '"{}"'.format(conditional_modifier)
             
 
 def emit_for_step(pd_series, severity, timestep, outfile):
@@ -162,7 +163,6 @@ def emit_for_step(pd_series, severity, timestep, outfile):
                     # use sympy to parse/simplify arithmetic expressions eg. - (1/0.05) * 0.5
                     multiplier = sympy.sympify(multiplier).round(3)
 
-                    aaa = '{}(libfbrw.FBTypes.{},{},{}),\n'.format(3*SPACING, item[0], multiplier, modifier)
                     outfile.write('{}(libfbrw.FBTypes.{},{},{}),\n'.format(3*SPACING, item[0], multiplier, modifier))
                 else:
                     if 'nan' in str(item[1]): continue

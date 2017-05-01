@@ -61,12 +61,33 @@ def mul(s1, s2):
     except:
         assert False, "Error in mul()"
         pass
+
+# ++++++++++++++++++++++++++++++++++++++++++
+#   Take the proposed_value and an expression like "min=3" and
+#   apply the expression if it applies.
+#   Return the modified value if the expression applies or the 
+#   original value if not
+# ++++++++++++++++++++++++++++++++++++++++++
+def apply_conditional_modifier(proposed_value, conditional_modifier):
+    retval = proposed_value
+    if conditional_modifier:
+        cm_lower = conditional_modifier.lower()
+        if 'min' in cm_lower:
+            chunks = cm_lower.split('=')
+            compare_to = int(chunks[1].strip())
+            if compare_to > float(proposed_value):
+                retval = '{}'.format(compare_to)
+        else:
+            print('\nError: unknown conditional modifier - "{}"\n'.format(cm_lower))
+            exit(1)
+    return retval
         
-def scale(fb, id, scale_factor):
+def scale(fb, id, scale_factor, conditional_modifier=''):
     v = fb.GetValue(id)
     scaled_value = mul(v, scale_factor)
     if id in PERCENT_IDS and float(scaled_value) > 100:
         scaled_value = '100'
+    scaled_value = apply_conditional_modifier(scaled_value, conditional_modifier)
     fb.SetValue(id, scaled_value)
 
 def exists(fb, id):
@@ -101,7 +122,8 @@ def assign_and_return_current(fb, assign_to, assign_from):
     
 def do_simple_scaling(fb, scale_these):
     for item in scale_these:
-        scale(fb, item[0], item[1])
+        xpath_variable, scaling_factor, conditional_modifier = item
+        scale(fb, xpath_variable, scaling_factor, conditional_modifier)
         
 def set_fb_number(fb, set_number_to):
     fb_num = fb.GetValue(libfbrw.FBTypes.eFUELBED_NUMBER)

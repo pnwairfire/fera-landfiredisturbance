@@ -53,7 +53,6 @@ def retrive_fbwrite_library():
     os.system(cmd)
   
     retval = True if os.path.exists(FBWRITER_LIB) else False
-    print('\n retval is {}\n'.format(retval))
     return retval
 
 if retrive_fbwrite_library():
@@ -77,7 +76,6 @@ OUT_DIR = 'out'
 def create_output_dirs(invocation_dir):
     out = os.path.join(invocation_dir, OUT_DIR)
     if os.path.exists(out): shutil.rmtree(out)
-    print('\n 000 Current dir is {} 000\n'.format(os.getcwd()))
     os.mkdir(out)
     return out
 
