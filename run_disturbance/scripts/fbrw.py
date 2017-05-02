@@ -132,30 +132,37 @@ def get_fb_number(fb):
 def get_reader_writer(filename):
     fb = libfbrw.FuelbedValues(filename)
     fb.Read()
+    # Default is False, uncomment next line to see debug messages
+    #fb.EnableDebugPrint(True)
     return fb
-    
-def get_reader_writer_set_fbnum(filename, disturbance_severity_timestep_code):
-    fb = libfbrw.FuelbedValues(filename)
-    fb.Read()
-    fb_num = fb.GetValue(libfbrw.FBTypes.eFUELBED_NUMBER)
-    fb_num = fb.SetValue(libfbrw.FBTypes.eFUELBED_NUMBER, '{}_{}'.format(fb_num, disturbance_severity_timestep_code))
-    return fb    
     
 # ++++++++++++++++++++++++++++++++++++++++++
 #   Only apply disturbance rules to fuelbeds that 'qualify'. Use
 #   the following prerequisite functions to check
 # ++++++++++++++++++++++++++++++++++++++++++
 def prereq_canopy_cover(fb, minimum_value):
-    cc = fb.GetValue(libfbrw.FBTypes.eCANOPY_TREES_TOTAL_PERCENT_COVER)
-    if len(cc):
-        return (float(cc) >= minimum_value, None)
-    return (False, 'Invalid canopy cover. Minimun = {}, this fuelbed = {}'.format(minimum_value, cc))
+    retval = (False, 'Invalid/empty canopy cover')
+    try:
+        cc = fb.GetValue(libfbrw.FBTypes.eCANOPY_TREES_TOTAL_PERCENT_COVER)
+        if len(cc) and (float(cc) >= minimum_value):
+            retval = (True, None)
+        else: 
+            retval = (False, 'Invalid canopy cover. Minimum = {}, this fuelbed = {}'.format(minimum_value, cc))
+    except:
+        pass    # initial error is the best we can do.
+    return retval
     
 def prereq_vegform(fb, valid_vegforms):
-    vf = fb.GetValue(libfbrw.FBTypes.eVEGETATION_FORM)
-    if len(vf):
-        return (int(vf) in valid_vegforms, None)
-    return (False, 'Invalid vegetation form. Allowed = {}, this fuelbed = {}'.format(valid_vegforms, vf))
+    retval = (False, 'Invalid/empty vegetation form.')
+    try:
+        vf = fb.GetValue(libfbrw.FBTypes.eVEGETATION_FORM)
+        if len(vf):
+            retval = (int(vf) in valid_vegforms, None)
+            if not retval[0]:
+                retval = (False, 'Invalid vegetation form. Allowed = {}, this fuelbed = {}'.format(valid_vegforms, vf))
+    except:
+        pass    # initial error is the best we can do.
+    return retval
     
 def prereq_covertype(fb, valid_covertypes):
     def get_covertype(possible_ct):
@@ -166,10 +173,20 @@ def prereq_covertype(fb, valid_covertypes):
             pass
         return False, 0
         
-    cover_types = fb.GetValue(libfbrw.FBTypes.eCOVER_TYPE)
-    if len(cover_types):
-        for ct in cover_types:
-            good, ct_val = get_covertype(ct)
-            if good and ct_val in valid_covertypes:
-                return (True, None)
-    return (False, 'Invalid cover type. This fuelbed = {}, allowed = {}'.format(cover_types, valid_covertypes))
+    retval = (False, 'Invalid/empty cover type.')
+    try:
+        cover_types = fb.GetValue(libfbrw.FBTypes.eCOVER_TYPE)
+        if len(cover_types):
+            for ct in cover_types:
+                good, ct_val = get_covertype(ct)
+                if good and ct_val in valid_covertypes:
+                    retval = (True, None)
+            if not retval[0]:
+                retval = (False, 'Invalid cover type. This fuelbed = {}\n\tallowed = {}'.format(cover_types, valid_covertypes))
+    except:
+        retval = (False, 'Invalid cover type. This fuelbed = {}\n\tallowed = {}'.format(cover_types, valid_covertypes))
+    return retval
+    
+    
+    
+    

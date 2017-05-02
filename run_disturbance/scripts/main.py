@@ -131,6 +131,7 @@ def satisfies_prereqs(fb, disturbance_type):
         check, reason = func(fb, value)
         if not check:
             retval = (False, reason)
+            assert reason, 'Error: missing reason - {}'.format(func)
             break
     return retval
     
@@ -196,7 +197,7 @@ def process_dependently(files, outdir):
                         fbrw.set_fb_number(fb, fb_number)
                         fb.Write(outname)
             else:
-                print('Skipping "{}" bad prereqs for disturbance {} -- Reason: {}'.format(f, d, reason))
+                print('Skipping "{}" bad prereqs for disturbance {}\n\tReason: {}'.format(f, d, reason))
 
 
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
