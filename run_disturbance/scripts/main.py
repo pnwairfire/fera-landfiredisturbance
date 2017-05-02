@@ -69,8 +69,71 @@ DMM = {
 # Maps a string to a LANDFIRE disturbance code. DISTURBANCE_CODE_MAP = DCM
 DCM = {
     'fire': 1,
+    #'mechanical_add': 2,
+    #'mechanical_remove': 3,
+    #'wind': 4,
     'insects': 5,
 }
+
+'''
+{ 1,"Broadleaf Forest" },
+{ 2,"Conifer Forest" },
+{ 3,"Grassland" },
+{ 4,"Mixed Forest" },
+{ 5,"Savanna" },
+{ 6,"Shrubland" },
+{ 7,"Slash" },
+
+{ 7,"SRM 107: Western Juniper-Big Sagebrush-Bluebunch Wheatgrass" },
+{ 165,"SRM 210: Bitterbrush" },
+{ 186,"SRM 314: Big Sagebrush-Bluebunch Wheatgrass" },
+{ 187,"SRM 315: Big Sagebrush-Idaho Fescue" },
+{ 188,"SRM 316: Big Sagebrush-Rough Fescue" },
+{ 189,"SRM 317: Bitterbrush-Bluebunch Wheatgrass" },
+{ 190,"SRM 318: Bitterbrush-Idaho Fescue" },
+{ 191,"SRM 319: Bitterbrush-Rough Fescue" },
+{ 192,"SRM 320: Black Sagebrush-Bluebunch Wheatgrass" },
+{ 193,"SRM 321: Black Sagebrush-Idaho Fescue" },
+{ 196,"SRM 324: Threetip Sagebrush-Idaho Fescue" },
+{ 197,"SRM 401: Basin Big Sagebrush" },
+{ 198,"SRM 402: Mountain Big Sagebrush" },
+{ 199,"SRM 403: Wyoming Big Sagebrush" },
+{ 200,"SRM 404: Treetip Sagebrush" },
+{ 201,"SRM 405: Black Sagebrush" },
+{ 202,"SRM 406: Low Sagebrush" },
+{ 203,"SRM 407: Stiff Sagebrush" },
+{ 204,"SRM 408: Other Sagebrush Types" },
+{ 205,"SRM 409: Tall Forb (Great Basin)" },
+'''
+MINIMUM_CANOPY_COVER = 'minimum_canopy_cover'
+VALID_VEG_FORMS = 'valid_vegetation_forms'
+VALID_COVER_TYPES = 'valid_cover_types'
+
+FUELBED_PREREQUISITES = {
+    'fire': {},
+    #'mechanical_add': {},
+    #'mechanical_remove': {},
+    #'wind': 4,
+    'insects': {
+        MINIMUM_CANOPY_COVER: (30, fbrw.prereq_canopy_cover),
+        VALID_VEG_FORMS: ([1,2,4,5], fbrw.prereq_vegform),
+        VALID_COVER_TYPES:
+            ([7,165,186,187,188,189,190,191,192,193,196,197,198,199,200,201,202,203,204,205],
+            fbrw.prereq_covertype)
+    }
+}
+
+def satisfies_prereqs(fb, disturbance_type):
+    retval = (True, None)
+    prereqs = FUELBED_PREREQUISITES[disturbance_type]
+    for pr in prereqs.keys():
+        value, func = prereqs[pr]
+        check, reason = func(fb, value)
+        if not check:
+            retval = (False, reason)
+            break
+    return retval
+    
 
 OUT_DIR = 'out'
 def create_output_dirs(invocation_dir):
@@ -108,26 +171,32 @@ def process_independently(files):
 def process_dependently(files, outdir):
     for f in files:
         f = os.path.join(invoking_dir, f)
+        
+        # get the reader/writer object, pass in the aggregated code. 
+        #  The required fb.Read() method will have been called before
+        #  the object is returned.
+        fb = fbrw.get_reader_writer(f)
+        original_fb_number = fbrw.get_fb_number(fb)
+        
         for d in fbrw.DISTURBANCE:
-            for s in fbrw.SEVERITY:
-                # name the output file the basename plus the code for disturbance, severity, and timestep
-                #  For instance, FB_0165_FCCS.xml -> FB_0165_FCCS_511.xml
-                basename = os.path.splitext(os.path.split(f)[1])[0]
-                
-                # get the reader/writer object, pass in the aggregated code. 
-                #  The required fb.Read() method will have been called before
-                #  the object is returned.
-                fb = fbrw.get_reader_writer(f)
-                
-                for t in fbrw.TIMESTEP:
-                    dist_sev_time = '{}{}{}'.format(DCM[d], s, t)
-                    outname = '{}/{}_{}.xml'.format(outdir, basename, dist_sev_time)
-                    
-                    # invocation of the disturbance-module-specific code happens via DMM
-                    DMM[d].do_special(fb, s, t)
-                    fbrw.do_simple_scaling(fb, DMM[d].get_scaling_params(s, t))
-                    fbrw.set_fb_number(fb, dist_sev_time)
-                    fb.Write(outname)
+            check_prereqs, reason = satisfies_prereqs(fb, d)
+            if check_prereqs:
+                for s in fbrw.SEVERITY:
+                    # name the output file the basename plus the code for disturbance, severity, and timestep
+                    #  For instance, FB_0165_FCCS.xml -> FB_0165_FCCS_511.xml
+                    basename = os.path.splitext(os.path.split(f)[1])[0]
+                    for t in fbrw.TIMESTEP:
+                        dist_sev_time = '{}{}{}'.format(DCM[d], s, t)
+                        outname = '{}/{}_{}.xml'.format(outdir, basename, dist_sev_time)
+                        
+                        # invocation of the disturbance-module-specific code happens via DMM
+                        DMM[d].do_special(fb, s, t)
+                        fbrw.do_simple_scaling(fb, DMM[d].get_scaling_params(s, t))
+                        fb_number = '{}_{}'.format(original_fb_number, dist_sev_time)
+                        fbrw.set_fb_number(fb, fb_number)
+                        fb.Write(outname)
+            else:
+                print('Skipping "{}" bad prereqs for disturbance {} -- Reason: {}'.format(f, d, reason))
 
 
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

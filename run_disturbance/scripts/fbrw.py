@@ -39,7 +39,8 @@ PERCENT_IDS = [
 ]
 
 # Project-wide constants
-DISTURBANCE = ['fire', 'insects']
+#DISTURBANCE = ['fire', 'insects']
+DISTURBANCE = ['insects']
 SEVERITY = [1,2,3]  # low, medium, high
 TIMESTEP = [1,2,3]  # first, second, third
 
@@ -111,9 +112,6 @@ def assign_and_return_current(fb, assign_to, assign_from):
     if isinstance(assign_from, libfbrw.FBTypes):
         val = fb.GetValue(assign_from)
         
-    # KS - should this be:
-    # val = 0
-    # fb.SetValue(assign_to, val)
     if val:
         fb.SetValue(assign_to, val)
     else:
@@ -126,8 +124,10 @@ def do_simple_scaling(fb, scale_these):
         scale(fb, xpath_variable, scaling_factor, conditional_modifier)
         
 def set_fb_number(fb, set_number_to):
-    fb_num = fb.GetValue(libfbrw.FBTypes.eFUELBED_NUMBER)
-    fb_num = fb.SetValue(libfbrw.FBTypes.eFUELBED_NUMBER, '{}_{}'.format(fb_num, set_number_to))
+    fb_num = fb.SetValue(libfbrw.FBTypes.eFUELBED_NUMBER, set_number_to)
+        
+def get_fb_number(fb):
+    return fb.GetValue(libfbrw.FBTypes.eFUELBED_NUMBER)
 
 def get_reader_writer(filename):
     fb = libfbrw.FuelbedValues(filename)
@@ -139,4 +139,37 @@ def get_reader_writer_set_fbnum(filename, disturbance_severity_timestep_code):
     fb.Read()
     fb_num = fb.GetValue(libfbrw.FBTypes.eFUELBED_NUMBER)
     fb_num = fb.SetValue(libfbrw.FBTypes.eFUELBED_NUMBER, '{}_{}'.format(fb_num, disturbance_severity_timestep_code))
-    return fb
+    return fb    
+    
+# ++++++++++++++++++++++++++++++++++++++++++
+#   Only apply disturbance rules to fuelbeds that 'qualify'. Use
+#   the following prerequisite functions to check
+# ++++++++++++++++++++++++++++++++++++++++++
+def prereq_canopy_cover(fb, minimum_value):
+    cc = fb.GetValue(libfbrw.FBTypes.eCANOPY_TREES_TOTAL_PERCENT_COVER)
+    if len(cc):
+        return (float(cc) >= minimum_value, None)
+    return (False, 'Invalid canopy cover. Minimun = {}, this fuelbed = {}'.format(minimum_value, cc))
+    
+def prereq_vegform(fb, valid_vegforms):
+    vf = fb.GetValue(libfbrw.FBTypes.eVEGETATION_FORM)
+    if len(vf):
+        return (int(vf) in valid_vegforms, None)
+    return (False, 'Invalid vegetation form. Allowed = {}, this fuelbed = {}'.format(valid_vegforms, vf))
+    
+def prereq_covertype(fb, valid_covertypes):
+    def get_covertype(possible_ct):
+        try:
+            tmp = int(possible_ct)
+            return True, tmp
+        except:
+            pass
+        return False, 0
+        
+    cover_types = fb.GetValue(libfbrw.FBTypes.eCOVER_TYPE)
+    if len(cover_types):
+        for ct in cover_types:
+            good, ct_val = get_covertype(ct)
+            if good and ct_val in valid_covertypes:
+                return (True, None)
+    return (False, 'Invalid cover type. This fuelbed = {}, allowed = {}'.format(cover_types, valid_covertypes))

@@ -108,4 +108,3 @@ else:
     if get_fuelbeds():
         invoke_run_disturbance()
         get_and_run_fccs()
-    
