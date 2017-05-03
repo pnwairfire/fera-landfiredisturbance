@@ -115,11 +115,8 @@ FUELBED_PREREQUISITES = {
     #'mechanical_remove': {},
     #'wind': 4,
     'insects': {
+        VALID_VEG_FORMS: ([1,2,4,5,6], fbrw.prereq_vegform_insects),
         MINIMUM_CANOPY_COVER: (30, fbrw.prereq_canopy_cover),
-        VALID_VEG_FORMS: ([1,2,4,5], fbrw.prereq_vegform),
-        VALID_COVER_TYPES:
-            ([7,165,186,187,188,189,190,191,192,193,196,197,198,199,200,201,202,203,204,205],
-            fbrw.prereq_covertype)
     }
 }
 
@@ -173,9 +170,7 @@ def process_dependently(files, outdir):
     for f in files:
         f = os.path.join(invoking_dir, f)
         
-        for d in fbrw.DISTURBANCE:
-            print('Disturbance {} : {}'.format(d, DCM[d]))
-            
+        for d in fbrw.DISTURBANCE:           
             #  The required fb.Read() method will have been called before
             #  the object is returned.
             fb = fbrw.get_reader_writer(f)
@@ -184,7 +179,6 @@ def process_dependently(files, outdir):
             
             if check_prereqs:
                 for s in fbrw.SEVERITY:
-                    print('\tDisturbance {} : {}'.format(d, DCM[d]))
                     # name the output file the basename plus the code for disturbance, severity, and timestep
                     #  For instance, FB_0165_FCCS.xml -> FB_0165_FCCS_511.xml
                     basename = os.path.splitext(os.path.split(f)[1])[0]

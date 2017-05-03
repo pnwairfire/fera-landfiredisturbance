@@ -151,6 +151,7 @@ def prereq_canopy_cover(fb, minimum_value):
         pass    # initial error is the best we can do.
     return retval
     
+# general case - pass in the identifiers that are valid
 def prereq_vegform(fb, valid_vegforms):
     retval = (False, 'Invalid/empty vegetation form.')
     try:
@@ -162,8 +163,9 @@ def prereq_vegform(fb, valid_vegforms):
     except:
         pass    # initial error is the best we can do.
     return retval
-    
-def prereq_covertype(fb, valid_covertypes):
+
+VALID_COVER_TYPES = [7,165,186,187,188,189,190,191,192,193,196,197,198,199,200,201,202,203,204,205]    
+def check_covertype(fb):
     def get_covertype(possible_ct):
         try:
             tmp = int(possible_ct)
@@ -178,13 +180,35 @@ def prereq_covertype(fb, valid_covertypes):
         if len(cover_types):
             for ct in cover_types:
                 good, ct_val = get_covertype(ct)
-                if good and ct_val in valid_covertypes:
+                if good and ct_val in VALID_COVER_TYPES:
                     retval = (True, None)
             if not retval[0]:
-                retval = (False, 'Invalid cover type. This fuelbed = {}\n\tallowed = {}'.format(cover_types, valid_covertypes))
-    except:
+                retval = (False, 'Invalid cover type. This fuelbed = {}\n\tallowed = {}'.format(cover_types, VALID_COVER_TYPES))
+    except Exception as e:
+        print(e)
         retval = (False, 'Invalid cover type. This fuelbed = {}\n\tallowed = {}'.format(cover_types, valid_covertypes))
     return retval
+    
+
+# non-general case, special handling for shrublands
+SHRUBLANDS = 6
+def prereq_vegform_insects(fb, valid_vegforms):
+    retval = (False, 'Invalid/empty vegetation form.')
+    try:
+        vf = fb.GetValue(libfbrw.FBTypes.eVEGETATION_FORM)
+        if len(vf):
+            vf_num = int(vf)
+            if SHRUBLANDS == vf_num:
+                check, reason = check_covertype(fb)
+                retval = (check, reason)
+            else:
+                retval = (vf_num in valid_vegforms, None)
+                if not retval[0]:
+                    retval = (False, 'Invalid vegetation form. Allowed = {}, this fuelbed = {}'.format(valid_vegforms, vf))
+    except Exception as e:
+        print(e)    # initial error is the best we can do.
+    return retval
+    
     
     
     
