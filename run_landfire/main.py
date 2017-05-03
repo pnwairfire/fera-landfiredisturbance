@@ -67,7 +67,6 @@ def get_fuelbeds():
 def invoke_run_disturbance():
     # NOTE: output is suppressed!!!
     cmd = ' python3 ../run_disturbance/scripts/main.py {}/*.xml'.format(FUELBED_DIR)
-    #cmd = ' python3 ../run_disturbance/scripts/main.py {}/*.xml > /dev/null'.format(FUELBED_DIR)
     os.system(cmd)
 
 # ++++++++++++++++++++++++++++++++++++++++++
@@ -108,3 +107,4 @@ else:
     if get_fuelbeds():
         invoke_run_disturbance()
         get_and_run_fccs()
+        os.system('python3 build_fofem_inputs.py')

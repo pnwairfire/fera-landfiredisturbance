@@ -173,16 +173,18 @@ def process_dependently(files, outdir):
     for f in files:
         f = os.path.join(invoking_dir, f)
         
-        # get the reader/writer object, pass in the aggregated code. 
-        #  The required fb.Read() method will have been called before
-        #  the object is returned.
-        fb = fbrw.get_reader_writer(f)
-        original_fb_number = fbrw.get_fb_number(fb)
-        
         for d in fbrw.DISTURBANCE:
+            print('Disturbance {} : {}'.format(d, DCM[d]))
+            
+            #  The required fb.Read() method will have been called before
+            #  the object is returned.
+            fb = fbrw.get_reader_writer(f)
+            original_fb_number = fbrw.get_fb_number(fb).strip()
             check_prereqs, reason = satisfies_prereqs(fb, d)
+            
             if check_prereqs:
                 for s in fbrw.SEVERITY:
+                    print('\tDisturbance {} : {}'.format(d, DCM[d]))
                     # name the output file the basename plus the code for disturbance, severity, and timestep
                     #  For instance, FB_0165_FCCS.xml -> FB_0165_FCCS_511.xml
                     basename = os.path.splitext(os.path.split(f)[1])[0]
@@ -202,6 +204,7 @@ def process_dependently(files, outdir):
 
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #   Start
+#   This script is invoked with a file glob indicating the files to process.
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 if len(sys.argv) > 1:
     files = sys.argv[1:]

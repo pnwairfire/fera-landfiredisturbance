@@ -54,7 +54,7 @@ def is_clean(argv):
     return yes_clean
 
 def calculate_values():
-    cmd = 'python3 ../run_disturbance/scripts/main.py regression_fuelbeds/*.xml > /dev/null'
+    cmd = 'python3 ../run_disturbance/scripts/main.py regression_fuelbeds/*.xml'
     os.system(cmd)
 
 def collect_calculated_values():

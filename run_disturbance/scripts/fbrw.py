@@ -39,8 +39,7 @@ PERCENT_IDS = [
 ]
 
 # Project-wide constants
-#DISTURBANCE = ['fire', 'insects']
-DISTURBANCE = ['insects']
+DISTURBANCE = ['fire', 'insects']
 SEVERITY = [1,2,3]  # low, medium, high
 TIMESTEP = [1,2,3]  # first, second, third
 
