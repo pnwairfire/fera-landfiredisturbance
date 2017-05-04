@@ -130,19 +130,27 @@ def compare_outputs():
     compare_count = 0
     compare_successful = 0
     compare_failed = 0
+    files_skipped = []
     for column in columns:
-        print(column)
-        for i in zip(df_expected.get(column).iteritems(), df_calculated.get(column).iteritems()):
-            if not compare_item(i):
-                compare_failed += 1
-                print('\tFAILURE: {} expected\t: {} calculated ({})'.format(
-                        np.round(float(i[0][1]), 3),
-                        np.round(float(i[1][1]), 3),
-                        df_expected.Variable[i[0][0]]))
-            else:
-                compare_successful += 1
-            compare_count += 1
-            
+        print(' --- ', column)
+        if column in df_calculated.columns:
+            for i in zip(df_expected.get(column).iteritems(), df_calculated.get(column).iteritems()):
+                if not compare_item(i):
+                    compare_failed += 1
+                    print('\tFAILURE: {} expected\t: {} calculated ({})'.format(
+                            np.round(float(i[0][1]), 3),
+                            np.round(float(i[1][1]), 3),
+                            df_expected.Variable[i[0][0]]))
+                else:
+                    compare_successful += 1
+                compare_count += 1
+        else:
+            files_skipped.append(column)
+    
+    if len(files_skipped):
+        print('\nThe following files did not have calculated values. Were they skipped?')
+        for i in files_skipped:
+            print('\t{}'.format(i))
     print('\n{} Comparisons\n\t{} Successful\n\t{} Unsuccessful'.format(compare_count, compare_successful, compare_failed))
     return compare_failed
     
