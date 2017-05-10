@@ -90,7 +90,7 @@ def scale(fb, id, scale_factor, conditional_modifier=''):
     scaled_value = apply_conditional_modifier(scaled_value, conditional_modifier)
     fb.SetValue(id, scaled_value)
 
-def exists(fb, id):
+def exists_value(fb, id):
     check = fb.GetValue(id)
     if len(check):
         try:
@@ -100,9 +100,17 @@ def exists(fb, id):
             pass
     return False
 
+def exists_species(fb, id):
+    check = fb.GetSpeciesValue(id)
+    return True if len(check) else False
+
 def assign_if_not_exist(fb, check, assign_id):
-   if not exists(fb, check):
+   if not exists_value(fb, check):
        fb.SetValue(check, fb.GetValue(assign_id))
+
+def assign_species_if_not_exist(fb, check, assign_id):
+   if not exists_species(fb, check):
+       fb.SetSpeciesValue(check, fb.GetSpeciesValue(assign_id))
 
 # assign_from could be an actual value, or, an FBTypes type
 def assign_and_return_current(fb, assign_to, assign_from):
