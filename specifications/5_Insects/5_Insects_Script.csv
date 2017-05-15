@@ -78,8 +78,8 @@ eLITTER_LITTER_TYPE_PALM_FROND_RELATIVE_COVER,PalmLitter_RelCover,,,,,,,,,
 eLITTER_LITTER_TYPE_SHORT_NEEDLE_PINE_RELATIVE_COVER,ShortNeedleLitter_RelCover,,,,,,,,,
 eMOSS_LICHEN_LITTER_GROUND_LICHEN_DEPTH,Lichen_Depth,,,,,,,,,
 eMOSS_LICHEN_LITTER_GROUND_LICHEN_PERCENT_COVER,Lichen_Cover,,,,,,,,,
-eMOSS_LICHEN_LITTER_LITTER_DEPTH,Litter_Depth,,* = 1.1,* = 1/1.1,,* = 1.5,* = (1/1.5),,* = 2,* = (1/2)
-eMOSS_LICHEN_LITTER_LITTER_PERCENT_COVER,Litter_Cover,,* = 1.1,* = 1/1.1,,* = 1.5,* = (1/1.5),,* = 2,* = (1/2)
+eMOSS_LICHEN_LITTER_LITTER_DEPTH,Litter_Depth,,* = 1.1,* = 1/1.1,,* = 1.5,* = 1/1.5,,* = 2,* = 1/2
+eMOSS_LICHEN_LITTER_LITTER_PERCENT_COVER,Litter_Cover,,* = 1.1,* = 1/1.1,,* = 1.5,* = 1/1.5,,* = 2,* = 1/2
 eMOSS_LICHEN_LITTER_MOSS_DEPTH,Moss_Depth,,,,,,,,,
 eMOSS_LICHEN_LITTER_MOSS_PERCENT_COVER,Moss_Cover,,,,,,,,,
 eGROUND_FUEL_DUFF_LOWER_DEPTH,LowerDuff_Depth,,,,,,,,,
