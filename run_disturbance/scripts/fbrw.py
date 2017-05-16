@@ -114,8 +114,12 @@ def exists_species(fb, id):
     return True if len(check) else False
 
 def assign_if_not_exist(fb, check, assign_id):
-   if not exists_value(fb, check):
-       fb.SetValue(check, fb.GetValue(assign_id))
+    if not exists_value(fb, check) and exists_value(fb, assign_id):
+        fb.SetValue(check, fb.GetValue(assign_id))
+        print('Assigning =\n\t{} : {}\n\t to - {}'.format(assign_id, fb.GetValue(assign_id), check))
+    else:
+        print('Not assigning =\n\t{} : {}\n\t to - {} : {}'.format(
+        assign_id, fb.GetValue(assign_id), check, fb.GetValue(check)))
 
 def assign_species_if_not_exist(fb, check, assign_id):
    if not exists_species(fb, check):

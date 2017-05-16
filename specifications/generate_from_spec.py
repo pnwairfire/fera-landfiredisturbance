@@ -136,6 +136,7 @@ valid = {
 SPACING = '    '    # 4 spaces
 
 def parse_multiplier(in_string):
+    print(in_string)
     mult_string = ''
     conditional_modifier = ''
     if len(in_string) and in_string.startswith('*'):

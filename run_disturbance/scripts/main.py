@@ -169,6 +169,7 @@ def process_independently(files):
 def process_dependently(files, outdir):
     for f in files:
         f = os.path.join(invoking_dir, f)
+        print(f)
         
         for d in fbrw.DISTURBANCE:           
             #  The required fb.Read() method will have been called before
@@ -179,10 +180,12 @@ def process_dependently(files, outdir):
             
             if check_prereqs:
                 for s in fbrw.SEVERITY:
+                    print('   Severity - ', s)
                     # name the output file the basename plus the code for disturbance, severity, and timestep
                     #  For instance, FB_0165_FCCS.xml -> FB_0165_FCCS_511.xml
                     basename = os.path.splitext(os.path.split(f)[1])[0]
                     for t in fbrw.TIMESTEP:
+                        print('      Timestep - ', t)
                         dist_sev_time = '{}{}{}'.format(DCM[d], s, t)
                         outname = '{}/{}_{}.xml'.format(outdir, basename, dist_sev_time)
                         
@@ -192,6 +195,7 @@ def process_dependently(files, outdir):
                         fb_number = '{}_{}'.format(original_fb_number, dist_sev_time)
                         fbrw.set_fb_number(fb, fb_number)
                         fb.Write(outname)
+                        print('Writing {}\n'.format(outname))
             else:
                 print('Skipping "{}" bad prereqs for disturbance {}\n\tReason: {}'.format(f, d, reason))
 

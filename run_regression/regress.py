@@ -110,6 +110,9 @@ def compare_outputs():
     
     # drop columns that expected doesn't have
     df_calculated.drop(skip_these, axis=1, inplace=True)
+    print('\nDropping these columns in the comparison')
+    for i in skip_these:
+        print('\t{}'.format(i))
     
     # remove rows that expected doesn't have
     df_calculated = df_calculated[df_calculated.Variable.isin(df_expected.Variable)]
@@ -136,10 +139,10 @@ def compare_outputs():
             for i in zip(df_expected.get(column).iteritems(), df_calculated.get(column).iteritems()):
                 if not compare_item(i):
                     compare_failed += 1
-                    print('\tFAILURE: {} expected\t: {} calculated ({})'.format(
+                    print('\tFAILURE: {} expected\t: {} calculated ({}_{})'.format(
                             np.round(float(i[0][1]), 3),
                             np.round(float(i[1][1]), 3),
-                            df_expected.Variable[i[0][0]]))
+                            df_expected.Variable[i[0][0]], column.split('_')[-1]))
                 else:
                     compare_successful += 1
                 compare_count += 1
