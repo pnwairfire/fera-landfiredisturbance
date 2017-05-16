@@ -486,6 +486,23 @@ def process_canopy_moderate_two(fb):
     fb.SetValue(libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_3_STEM_DENSITY, two_sd)
     
     process_canopy_one(fb, 0.1, 0.1, 0.1)
+    
+def process_sound_wood(fb, swood_multiplier):
+    fbrw.add_scaled_value_to_specified(
+        fb,
+        libfbrw.FBTypes.eWOODY_FUEL_ROTTEN_WOOD_LOADINGS_GREATER_THAN_THREE_INCHES_THREE_TO_NINE_INCHES,
+        libfbrw.FBTypes.eWOODY_FUEL_SOUND_WOOD_LOADINGS_GREATER_THAN_THREE_INCHES_THREE_TO_NINE_INCHES,
+        swood_multiplier)
+    fbrw.add_scaled_value_to_specified(
+        fb,
+        libfbrw.FBTypes.eWOODY_FUEL_ROTTEN_WOOD_LOADINGS_GREATER_THAN_THREE_INCHES_NINE_TO_TWENTY_INCHES,
+        libfbrw.FBTypes.eWOODY_FUEL_SOUND_WOOD_LOADINGS_GREATER_THAN_THREE_INCHES_NINE_TO_TWENTY_INCHES,
+        swood_multiplier)
+    fbrw.add_scaled_value_to_specified(
+        fb,
+        libfbrw.FBTypes.eWOODY_FUEL_ROTTEN_WOOD_LOADINGS_GREATER_THAN_THREE_INCHES_GREATER_THAN_TWENTY_INCHES,
+        libfbrw.FBTypes.eWOODY_FUEL_SOUND_WOOD_LOADINGS_GREATER_THAN_THREE_INCHES_GREATER_THAN_TWENTY_INCHES,
+        swood_multiplier)
 
             
 def placeholder(fb):
@@ -495,18 +512,18 @@ def placeholder(fb):
 special_funcs = {
     fbrw.SEVERITY[0]: {
         fbrw.TIMESTEP[0]: [ (process_canopy_one, 0.1, 0.1, 0.1) ],
-        fbrw.TIMESTEP[1]: [ (process_canopy_low_two,) ],
-        fbrw.TIMESTEP[2]: [ (process_canopy_low_three,) ],
+        fbrw.TIMESTEP[1]: [ (process_canopy_low_two,), (process_sound_wood, 0.25)],
+        fbrw.TIMESTEP[2]: [ (process_canopy_low_three,), (process_sound_wood, 0.5)],
     },
     fbrw.SEVERITY[1]: {
         fbrw.TIMESTEP[0]: [ (process_canopy_one, 0.4, 0.4, 0.4) ],
-        fbrw.TIMESTEP[1]: [ (process_canopy_moderate_two,) ],
-        fbrw.TIMESTEP[2]: [ (process_canopy_low_two,) ],
+        fbrw.TIMESTEP[1]: [ (process_canopy_moderate_two,), (process_sound_wood, 0.25)],
+        fbrw.TIMESTEP[2]: [ (process_canopy_low_two,), (process_sound_wood, 0.5)],
     },
     fbrw.SEVERITY[2]: {
         fbrw.TIMESTEP[0]: [ (process_canopy_one, 0.375, 0.375, 0.375) ],
-        fbrw.TIMESTEP[1]: [ (process_canopy_moderate_two,) ],
-        fbrw.TIMESTEP[2]: [ (process_canopy_low_two,) ],
+        fbrw.TIMESTEP[1]: [ (process_canopy_moderate_two,), (process_sound_wood, 0.25)],
+        fbrw.TIMESTEP[2]: [ (process_canopy_low_two,), (process_sound_wood, 0.5)],
     }
 }
 

@@ -63,6 +63,15 @@ def mul(s1, s2):
         pass
 
 # ++++++++++++++++++++++++++++++++++++++++++
+#   Take 2 id values. Retrieve and scale the value represented by the
+#   scaled_value_id. Add it to the value at the add_to_id.
+# ++++++++++++++++++++++++++++++++++++++++++
+def add_scaled_value_to_specified(fb, add_to_id, scaled_value_id, scale_factor=1):
+    add_to = fb.GetValue(add_to_id)
+    scaled_addend = mul(fb.GetValue(scaled_value_id), scale_factor)
+    fb.SetValue(add_to_id, add(add_to, scaled_addend))
+
+# ++++++++++++++++++++++++++++++++++++++++++
 #   Take the proposed_value and an expression like "min=3" and
 #   apply the expression if it applies.
 #   Return the modified value if the expression applies or the 

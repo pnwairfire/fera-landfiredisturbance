@@ -166,11 +166,13 @@ def emit_for_step(df, pd_series, severity, timestep, outfile):
                     outfile.write('{}(libfbrw.FBTypes.{},{},{}),\n'.format(3*SPACING, id, multiplier, modifier))
                 else:
                     if 'nan' in str(item[1]): continue
+                    if len(item[1]): print('Failed - {}'.format(item[1]))
                     noteworthy.append('{} : {}'.format(item[1], item[0]))
             else:
                 error_msg.append('Invalid id - {}, line = {}'.format(id, i))
                 break
         except Exception as e:
+            print(e.message)
             break
     if len(error_msg):
         print('\nErrors: exiting')
@@ -240,8 +242,6 @@ for dir in spec_dirs:
     os.chdir(dir)
     process_disturbance_spec(dir)
     os.chdir('..')
-else:
-    print('\nError: .\n')
     
     
     
