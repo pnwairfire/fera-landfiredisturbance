@@ -154,23 +154,21 @@ def emit_for_step(df, pd_series, severity, timestep, outfile):
     # severity and timestep are only for error reporting
     noteworthy = []
     error_msg = []
-    for item in pd_series.iteritems():
+    for i, item in enumerate(pd_series.iteritems()):
         id = df.loc[item[0]][0]
         try:
             if id in valid:
                 parse_successful, multiplier, modifier = parse_multiplier(str(item[1]).strip())
                 if parse_successful:
-                    print('parse parse_successful - {}'.format(item[1]))
                     # use sympy to parse/simplify arithmetic expressions eg. - (1/0.05) * 0.5
                     multiplier = sympy.sympify(multiplier).round(3)
 
                     outfile.write('{}(libfbrw.FBTypes.{},{},{}),\n'.format(3*SPACING, id, multiplier, modifier))
                 else:
-                    print('parse failed - {}'.format(item[1]))
                     if 'nan' in str(item[1]): continue
                     noteworthy.append('{} : {}'.format(item[1], item[0]))
             else:
-                error_msg.append('Invalid id - {}'.format(id))
+                error_msg.append('Invalid id - {}, line = {}'.format(id, i))
                 break
         except Exception as e:
             break
@@ -227,9 +225,10 @@ def process_disturbance_spec(dir):
 #  Start
 # ++++++++++++++++++++++++++++++++++++++++++
 spec_dirs = [
-    '1_Fire',
+    '1_Fire'
 ]
 '''
+'1_Fire',
 '2_MechAdd',
 '3_MechRemove',
 '4_Wind',
@@ -237,6 +236,7 @@ spec_dirs = [
 '''
 
 for dir in spec_dirs:
+    print('Processing {} ...'.format(dir))
     os.chdir(dir)
     process_disturbance_spec(dir)
     os.chdir('..')
