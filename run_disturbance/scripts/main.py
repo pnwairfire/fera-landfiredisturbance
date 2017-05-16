@@ -180,12 +180,10 @@ def process_dependently(files, outdir):
             
             if check_prereqs:
                 for s in fbrw.SEVERITY:
-                    print('   Severity - ', s)
                     # name the output file the basename plus the code for disturbance, severity, and timestep
                     #  For instance, FB_0165_FCCS.xml -> FB_0165_FCCS_511.xml
                     basename = os.path.splitext(os.path.split(f)[1])[0]
                     for t in fbrw.TIMESTEP:
-                        print('      Timestep - ', t)
                         dist_sev_time = '{}{}{}'.format(DCM[d], s, t)
                         outname = '{}/{}_{}.xml'.format(outdir, basename, dist_sev_time)
                         

@@ -375,7 +375,6 @@ scale_these = {
 }
 
 def process_canopy_one(fb, pct_cover_multiplier, ossd_multiplier, mssd_multiplier):
-    print('process_canopy_one')
     substitutions = [
         (libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_1_CONIFERS_WITH_FOLIAGE_HEIGHT_TO_CROWN_BASE,
             libfbrw.FBTypes.eCANOPY_TREES_OVERSTORY_HEIGHT_TO_LIVE_CROWN),

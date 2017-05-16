@@ -113,6 +113,7 @@ def compare_outputs():
     print('\nDropping these columns in the comparison')
     for i in skip_these:
         print('\t{}'.format(i))
+    print()
     
     # remove rows that expected doesn't have
     df_calculated = df_calculated[df_calculated.Variable.isin(df_expected.Variable)]
@@ -127,7 +128,7 @@ def compare_outputs():
     df_expected = df_expected.sort_values('Variable').reset_index(drop=True)
     df_calculated = df_calculated.sort_values('Variable').reset_index(drop=True)
     
-    columns = list(df_expected.columns)
+    columns = sorted(list(df_expected.columns))
     columns.remove('Variable')
     compare_count = 0
     compare_successful = 0
@@ -136,9 +137,11 @@ def compare_outputs():
     for column in columns:
         print(' --- ', column)
         if column in df_calculated.columns:
-            for i in zip(df_expected.get(column).iteritems(), df_calculated.get(column).iteritems()):
+            column_errors = 0
+            for count, i in enumerate(zip(df_expected.get(column).iteritems(), df_calculated.get(column).iteritems())):
                 if not compare_item(i):
                     compare_failed += 1
+                    column_errors += 1
                     print('\tFAILURE: {} expected\t: {} calculated ({}_{})'.format(
                             np.round(float(i[0][1]), 3),
                             np.round(float(i[1][1]), 3),
@@ -146,7 +149,9 @@ def compare_outputs():
                 else:
                     compare_successful += 1
                 compare_count += 1
+            print('\t{} errors in {} comparisons'.format(column_errors, count))
         else:
+            print('\tskipped. Not in calculated columns'.format())
             files_skipped.append(column)
     
     if len(files_skipped):

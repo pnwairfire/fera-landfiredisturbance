@@ -136,7 +136,6 @@ valid = {
 SPACING = '    '    # 4 spaces
 
 def parse_multiplier(in_string):
-    print(in_string)
     mult_string = ''
     conditional_modifier = ''
     if len(in_string) and in_string.startswith('*'):
@@ -165,8 +164,8 @@ def emit_for_step(df, pd_series, severity, timestep, outfile):
                     multiplier = sympy.sympify(multiplier).round(3)
 
                     outfile.write('{}(libfbrw.FBTypes.{},{},{}),\n'.format(3*SPACING, id, multiplier, modifier))
+                    print('\t\t{} - {}'.format(id, multiplier))
                 else:
-                    if 'nan' in str(item[1]): continue
                     if len(item[1]): print('Failed - {}'.format(item[1]))
                     noteworthy.append('{} : {}'.format(item[1], item[0]))
             else:
@@ -215,9 +214,12 @@ def process_disturbance_spec(dir):
         
         for i, s in enumerate(severity_columns):
             outfile.write('{}fbrw.SEVERITY[{}]: {{\n'.format(SPACING, i))
+            print('Severity - {}'.format(s))
             for j, t in enumerate(TIMESTEPS):
+                print('\tTimestep - {}'.format(t))
                 # tuple of the current multiindex (top level heading, second level heading)
                 midx = df.loc[0].index[2+i+j]
+                print(midx)
                 outfile.write('{}fbrw.TIMESTEP[{}]: [\n'.format(2*SPACING, j))
                 emit_for_step(df, df[midx[0]][midx[1]], s, t, outfile)
                 outfile.write('{}],\n'.format(2*SPACING))
