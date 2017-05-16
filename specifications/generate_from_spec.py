@@ -7,7 +7,7 @@
 import sys
 import pandas as pd
 import sympy
-import glob
+import os
 
 valid = {
     'eFUELBED_NUMBER',
@@ -150,28 +150,29 @@ def parse_multiplier(in_string):
     return len(mult_string)>0, mult_string, '"{}"'.format(conditional_modifier)
             
 
-def emit_for_step(pd_series, severity, timestep, outfile):
+def emit_for_step(df, pd_series, severity, timestep, outfile):
     # severity and timestep are only for error reporting
     noteworthy = []
     error_msg = []
     for item in pd_series.iteritems():
-        id = item[0]
+        id = df.loc[item[0]][0]
         try:
             if id in valid:
-                parse_successful, multiplier, modifier = parse_multiplier(str(item[1]))
+                parse_successful, multiplier, modifier = parse_multiplier(str(item[1]).strip())
                 if parse_successful:
+                    print('parse parse_successful - {}'.format(item[1]))
                     # use sympy to parse/simplify arithmetic expressions eg. - (1/0.05) * 0.5
                     multiplier = sympy.sympify(multiplier).round(3)
 
-                    outfile.write('{}(libfbrw.FBTypes.{},{},{}),\n'.format(3*SPACING, item[0], multiplier, modifier))
+                    outfile.write('{}(libfbrw.FBTypes.{},{},{}),\n'.format(3*SPACING, id, multiplier, modifier))
                 else:
+                    print('parse failed - {}'.format(item[1]))
                     if 'nan' in str(item[1]): continue
                     noteworthy.append('{} : {}'.format(item[1], item[0]))
             else:
                 error_msg.append('Invalid id - {}'.format(id))
                 break
         except Exception as e:
-            error_msg.append('Exception {} : {} {}\n\tMessage: {}\n\tOriginal string: {}'.format(id, severity, timestep, e, str(item[1])))
             break
     if len(error_msg):
         print('\nErrors: exiting')
@@ -186,7 +187,7 @@ def emit_for_step(pd_series, severity, timestep, outfile):
     '''
             
 TIMESTEPS = ['Time Step 1', 'Time Step 2', 'Time Step 3']
-def process_disturbance_spec(filename):
+def process_disturbance_spec(dir):
     def make_sorted_severity_list(unsorted_list):
         tmp = {}
         for i in unsorted_list:
@@ -197,15 +198,15 @@ def process_disturbance_spec(filename):
         retval.append(tmp['Hi'])
         return retval
         
-    df = pd.read_excel(filename, sheetname='Specs', header=[0,1])
+    filename = '{}_Script.csv'.format(dir)
+    df = pd.read_csv(filename, header=[0,1])
     df.fillna('', inplace=True)
     
     #  columns will vary by disturbance, but should always have the severity specifier
     severity_columns = make_sorted_severity_list(
         [i for i in df.columns.levels[0] if 'Low' in i or 'Moderate' in i or 'High' in i])
     
-    # start with 'ScriptRules_Fire.xlsx' generate 'fire_spec.txt'
-    outfile_name = '{}_spec.txt'.format(filename.split('.')[0].split('_')[1].lower())
+    outfile_name = '{}_spec.py'.format(filename.split('.')[0].split('_')[1].lower())
     
     # write the output file
     with open(outfile_name, 'w+') as outfile:
@@ -214,8 +215,10 @@ def process_disturbance_spec(filename):
         for i, s in enumerate(severity_columns):
             outfile.write('{}fbrw.SEVERITY[{}]: {{\n'.format(SPACING, i))
             for j, t in enumerate(TIMESTEPS):
+                # tuple of the current multiindex (top level heading, second level heading)
+                midx = df.loc[0].index[2+i+j]
                 outfile.write('{}fbrw.TIMESTEP[{}]: [\n'.format(2*SPACING, j))
-                emit_for_step(df[s][t], s, t, outfile)
+                emit_for_step(df, df[midx[0]][midx[1]], s, t, outfile)
                 outfile.write('{}],\n'.format(2*SPACING))
             outfile.write('{}}},\n'.format(SPACING))
         outfile.write('}\n')
@@ -223,12 +226,22 @@ def process_disturbance_spec(filename):
 # ++++++++++++++++++++++++++++++++++++++++++
 #  Start
 # ++++++++++++++++++++++++++++++++++++++++++
-spec_files = glob.glob('ScriptRules*.xlsx')
-if len(spec_files):
-    for f in spec_files:
-        process_disturbance_spec(f)
+spec_dirs = [
+    '1_Fire',
+]
+'''
+'2_MechAdd',
+'3_MechRemove',
+'4_Wind',
+'5_Insects'
+'''
+
+for dir in spec_dirs:
+    os.chdir(dir)
+    process_disturbance_spec(dir)
+    os.chdir('..')
 else:
-    print('\nError: no spreadsheet file from which to derive the python code.\n')
+    print('\nError: .\n')
     
     
     
