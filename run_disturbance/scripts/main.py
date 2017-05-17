@@ -189,7 +189,10 @@ def process_dependently(files, outdir):
                         
                         # invocation of the disturbance-module-specific code happens via DMM
                         DMM[d].do_special(fb, s, t)
-                        fbrw.do_simple_scaling(fb, DMM[d].get_scaling_params(s, t))
+                        
+                        # scale operations happen second
+                        fbrw.do_simple_scaling(fb, DMM[d].get_scaling_params(s, t))                        
+                        
                         fb_number = '{}_{}'.format(original_fb_number, dist_sev_time)
                         fbrw.set_fb_number(fb, fb_number)
                         fb.Write(outname)
