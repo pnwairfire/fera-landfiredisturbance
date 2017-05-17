@@ -171,15 +171,15 @@ def process_dependently(files, outdir):
         f = os.path.join(invoking_dir, f)
         print(f)
         
-        for d in fbrw.DISTURBANCE:           
-            #  The required fb.Read() method will have been called before
-            #  the object is returned.
-            fb = fbrw.get_reader_writer(f)
-            original_fb_number = fbrw.get_fb_number(fb).strip()
-            check_prereqs, reason = satisfies_prereqs(fb, d)
-            
-            if check_prereqs:
-                for s in fbrw.SEVERITY:
+        for d in fbrw.DISTURBANCE:                       
+            for s in fbrw.SEVERITY:
+                #  The required fb.Read() method will have been called before
+                #  the object is returned.
+                fb = fbrw.get_reader_writer(f)
+                original_fb_number = fbrw.get_fb_number(fb).strip()
+                check_prereqs, reason = satisfies_prereqs(fb, d)
+                
+                if check_prereqs:
                     # name the output file the basename plus the code for disturbance, severity, and timestep
                     #  For instance, FB_0165_FCCS.xml -> FB_0165_FCCS_511.xml
                     basename = os.path.splitext(os.path.split(f)[1])[0]
@@ -194,8 +194,8 @@ def process_dependently(files, outdir):
                         fbrw.set_fb_number(fb, fb_number)
                         fb.Write(outname)
                         print('Writing {}\n'.format(outname))
-            else:
-                print('Skipping "{}" bad prereqs for disturbance {}\n\tReason: {}'.format(f, d, reason))
+                else:
+                    print('Skipping "{}" bad prereqs for disturbance {}\n\tReason: {}'.format(f, d, reason))
 
 
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
