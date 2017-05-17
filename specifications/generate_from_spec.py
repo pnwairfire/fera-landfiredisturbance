@@ -140,6 +140,7 @@ def parse_multiplier(in_string):
     conditional_modifier = ''
     if len(in_string) and in_string.startswith('*'):
         mult_string = in_string
+        print(mult_string)
         if ',' in in_string:
             chunks = in_string.split(',')
             mult_string = chunks[0].strip()
@@ -172,7 +173,7 @@ def emit_for_step(df, pd_series, severity, timestep, outfile):
                 error_msg.append('Invalid id - {}, line = {}'.format(id, i))
                 break
         except Exception as e:
-            print(e.message)
+            print('\nException - ', e)
             break
     if len(error_msg):
         print('\nErrors: exiting')
@@ -188,23 +189,11 @@ def emit_for_step(df, pd_series, severity, timestep, outfile):
             
 TIMESTEPS = ['Time Step 1', 'Time Step 2', 'Time Step 3']
 def process_disturbance_spec(dir):
-    def make_sorted_severity_list(unsorted_list):
-        tmp = {}
-        for i in unsorted_list:
-            tmp[i[:2]] = i
-        retval = []
-        retval.append(tmp['Lo'])
-        retval.append(tmp['Mo'])
-        retval.append(tmp['Hi'])
-        return retval
-        
-    filename = '{}_Script.csv'.format(dir)
-    df = pd.read_csv(filename, header=[0,1])
-    df.fillna('', inplace=True)
+    disturbance = dir.split('_')[0]
     
-    #  columns will vary by disturbance, but should always have the severity specifier
-    severity_columns = make_sorted_severity_list(
-        [i for i in df.columns.levels[0] if 'Low' in i or 'Moderate' in i or 'High' in i])
+    filename = '{}_Script.csv'.format(dir)
+    df = pd.read_csv(filename)
+    df.fillna('', inplace=True)
     
     outfile_name = '{}_spec.py'.format(filename.split('.')[0].split('_')[1].lower())
     
@@ -212,16 +201,16 @@ def process_disturbance_spec(dir):
     with open(outfile_name, 'w+') as outfile:
         outfile.write('scale_these = {\n')
         
-        for i, s in enumerate(severity_columns):
-            outfile.write('{}fbrw.SEVERITY[{}]: {{\n'.format(SPACING, i))
-            print('Severity - {}'.format(s))
+        for severity in range(3):
+            outfile.write('{}fbrw.SEVERITY[{}]: {{\n'.format(SPACING, severity))
+            print('Severity - {}'.format(severity))
             for j, t in enumerate(TIMESTEPS):
                 print('\tTimestep - {}'.format(t))
-                # tuple of the current multiindex (top level heading, second level heading)
-                midx = df.loc[0].index[2+i+j]
-                print(midx)
                 outfile.write('{}fbrw.TIMESTEP[{}]: [\n'.format(2*SPACING, j))
-                emit_for_step(df, df[midx[0]][midx[1]], s, t, outfile)
+                column = '{}{}{}'.format(disturbance, severity+1, j+1)
+                print(column)
+                print(df.get(column))
+                emit_for_step(df, df.get(column), severity, t, outfile)
                 outfile.write('{}],\n'.format(2*SPACING))
             outfile.write('{}}},\n'.format(SPACING))
         outfile.write('}\n')

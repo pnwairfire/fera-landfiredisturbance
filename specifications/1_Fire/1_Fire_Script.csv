@@ -1,5 +1,4 @@
-,,Low Severity Fire (11),,,Moderate Severity Fire (12),,,High Severity Fire (13),,
-,Suggested Short Name,Time Step 1,Time Step 2,Time Step 3,Time Step 1,Time Step 2,Time Step 3,Time Step 1,Time Step 2,Time Step 3
+,Suggested Short Name,111,112,113,121,122,123,131,132,133
 eCANOPY_TREES_TOTAL_PERCENT_COVER,Canopy_TotalCover,* = 0.9,,,* = 0.6,* = 0.9,,* = 0.25,* = 0.9,
 eCANOPY_TREES_OVERSTORY_DIAMETER_AT_BREAST_HEIGHT,OTree_Diameter,,,,,,,,,
 eCANOPY_TREES_OVERSTORY_HEIGHT_TO_LIVE_CROWN,OTree_HeightLiveCrown,* = 1.1,,,* = 1.2,,,* = 1.5,,
@@ -14,8 +13,8 @@ eCANOPY_TREES_MIDSTORY_STEM_DENSITY,MTree_Density,* = 0.9,,,* = 0.6,* = 0.9,,* =
 eCANOPY_TREES_UNDERSTORY_DIAMETER_AT_BREAST_HEIGHT,UTree_Diameter,,,,,,,,,
 eCANOPY_TREES_UNDERSTORY_HEIGHT_TO_LIVE_CROWN,UTree_HeightLiveCrown,,,,* = 1.3,,,* = 1.8,,
 eCANOPY_TREES_UNDERSTORY_HEIGHT,UTree_Height,,,,,,,,,
-eCANOPY_TREES_UNDERSTORY_PERCENT_COVER,UTree_Cover,* = 0.8,,,* = 0.4,* = 0.9,,* 0.05,* = 0.9,
-eCANOPY_TREES_UNDERSTORY_STEM_DENSITY,UTree_Density,* = 0.8,,,* = 0.4,* = 0.9,,* 0.05,* = 0.9,
+eCANOPY_TREES_UNDERSTORY_PERCENT_COVER,UTree_Cover,* = 0.8,,,* = 0.4,* = 0.9,,* = 0.05,* = 0.9,
+eCANOPY_TREES_UNDERSTORY_STEM_DENSITY,UTree_Density,* = 0.8,,,* = 0.4,* = 0.9,,* = 0.05,* = 0.9,
 eCANOPY_SNAGS_CLASS_1_ALL_OTHERS_DIAMETER,C1Snag_Diameter,, = C1FSnag_Diameter,empty,, = C1FSnag_Diameter,empty,, = C1FSnag_Diameter,* = 0
 eCANOPY_SNAGS_CLASS_1_ALL_OTHERS_HEIGHT,C1Snag_Height,, = C1FSnag_Height,empty,, = C1FSnag_Height,empty,, = C1FSnag_Height,* = 0
 eCANOPY_SNAGS_CLASS_1_ALL_OTHERS_STEM_DENSITY,C1Snag_Density,, = C1FSnag_Density,empty,, = C1FSnag_Density,empty,, = C1FSnag_Density,* = 0
