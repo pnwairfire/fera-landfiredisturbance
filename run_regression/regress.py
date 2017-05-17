@@ -9,6 +9,7 @@ import sys
 import pandas as pd
 import glob
 import numpy as np
+import re
 
 CALCULATED_VALUES = 'calculated_values.csv'
 EXPECTED_VALUES = 'expected.csv'
@@ -83,10 +84,49 @@ def collect_calculated_values():
     get_values_from_files()
     
 def build_expected_value_csv():
-    #files = glob.glob('../specifications/*_expected.csv')
-    files = glob.glob('../specifications/fire_expected.csv')
+    dirs = [
+        '1_Fire',
+        '2_MechAdd',
+        '3_MechRemove',
+        '4_Wind',
+        '5_Insects'
+    ]
+
+    def load_dataframe_merge_if_possible(file, df0):
+        df = pd.read_csv(file);
+        cols = [col for col in df.columns if 'Variable' == col or re.match('^FB_.+\d\d\d$', col)]
+        drop_these = set(df.columns).difference(cols)
+        df.drop(drop_these, axis=1, inplace=True)
+        if not df0.empty:
+            df0 = df0.merge(df, on='Variable')
+        else:
+            df0 = df
+        return df0
+        
+    def build_individual_expected_value_files():
+        curr_dir = os.getcwd()
+        os.chdir('../specifications')
+        for dir in dirs:
+            os.chdir(dir)
+            files = glob.glob('*.csv')
+            df = pd.DataFrame()
+            for f in files:
+                if re.match('^\d\d_.+$', f):
+                    df = load_dataframe_merge_if_possible(f, df)
+            outfile = '../{}_expected.csv'.format(dir.split('_')[1].lower())
+            print('Writing {}...'.format(outfile))
+            df.to_csv(outfile , index=False)
+            os.chdir('..')
+        os.chdir(curr_dir)
+
+
+    build_individual_expected_value_files()
+    
+    files = glob.glob('../specifications/*_expected.csv')
+    #files = glob.glob('../specifications/fire_expected.csv')
     df_result = pd.read_csv(files[0])
     for f in files[1:]:
+        print('   Merging {} expected values'.format(f))
         df = pd.read_csv(f)
         df_result = pd.merge(df_result, df, on='Variable')
     df_result.to_csv(EXPECTED_VALUES, index=False)
