@@ -39,7 +39,7 @@ def process_canopy_v1(fb, pct_cover_multiplier, ossd_multiplier, mssd_multiplier
     new_density = fbrw.add(snag_stem_density, tmp)
     fb.SetValue(libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_1_CONIFERS_WITH_FOLIAGE_STEM_DENSITY, new_density)
     
-def process_canopy_v2(fb):
+def process_canopy_v2(fb, zero_snags_with_foliage):
     # assign 'with_foliage' to 'others', save 'others'
     other_diameter = fbrw.assign_and_return_current(fb,
         libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_1_ALL_OTHERS_DIAMETER,
@@ -51,8 +51,8 @@ def process_canopy_v2(fb):
         libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_1_ALL_OTHERS_STEM_DENSITY,
         libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_1_CONIFERS_WITH_FOLIAGE_STEM_DENSITY)
 
-    # zero 'with_foliage'
-    fb.SetNodeEmpty(libfbrw.FBNodeWithSpeciesType.eCANOPY_SNAGS_CLASS_1_CONIFERS_WITH_FOLIAGE)
+    if zero_snags_with_foliage:
+        fb.SetNodeEmpty(libfbrw.FBNodeWithSpeciesType.eCANOPY_SNAGS_CLASS_1_CONIFERS_WITH_FOLIAGE)
     
     # move 'other' values into 'class_2', save class_2
     two_diameter = fbrw.assign_and_return_current(fb, libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_2_DIAMETER, other_diameter)

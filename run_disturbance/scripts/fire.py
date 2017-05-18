@@ -407,18 +407,18 @@ def placeholder(fb):
 special_funcs = {
     fbrw.SEVERITY[0]: {
         fbrw.TIMESTEP[0]: [ (sp.process_canopy_v1, 0.1, 0.1, 0.1) ],
-        fbrw.TIMESTEP[1]: [ (sp.process_canopy_v2,), (sp.process_sound_wood, 0.25)],
+        fbrw.TIMESTEP[1]: [ (sp.process_canopy_v2, True), (sp.process_sound_wood, 0.25)],
         fbrw.TIMESTEP[2]: [ (sp.process_canopy_v3,), (sp.process_sound_wood, 0.5)],
     },
     fbrw.SEVERITY[1]: {
         fbrw.TIMESTEP[0]: [ (sp.process_canopy_v1, 0.4, 0.4, 0.4) ],
         fbrw.TIMESTEP[1]: [ (sp.process_canopy_v4,), (sp.process_sound_wood, 0.25)],
-        fbrw.TIMESTEP[2]: [ (sp.process_canopy_v2,), (sp.process_sound_wood, 0.5)],
+        fbrw.TIMESTEP[2]: [ (sp.process_canopy_v2, True), (sp.process_sound_wood, 0.5)],
     },
     fbrw.SEVERITY[2]: {
         fbrw.TIMESTEP[0]: [ (sp.process_canopy_v1, 0.75, 0.75, 0.75) ],
         fbrw.TIMESTEP[1]: [ (sp.process_canopy_v4,), (sp.process_sound_wood, 0.25)],
-        fbrw.TIMESTEP[2]: [ (sp.process_canopy_v2,), (sp.process_sound_wood, 0.5)],
+        fbrw.TIMESTEP[2]: [ (sp.process_canopy_v2, True), (sp.process_sound_wood, 0.5)],
     }
 }
 
