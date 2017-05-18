@@ -22,7 +22,7 @@ eCANOPY_SNAGS_CLASS_1_CONIFERS_WITH_FOLIAGE_HEIGHT_TO_CROWN_BASE,C1FSnag_HeightC
 eCANOPY_SNAGS_CLASS_1_CONIFERS_WITH_FOLIAGE_DIAMETER,C1FSnag_Diameter,If not present * = OTree_Diameter,If not present * = OTree_Diameter,0,,9.6,9.6,0,,0,0,0,,0,0,0,,2.9,2.9,0,9,9,9,0,,12,12,0
 eCANOPY_SNAGS_CLASS_1_CONIFERS_WITH_FOLIAGE_HEIGHT,C1FSnag_Height,If not present * = OTree_Height,If not present * = OTree_Height,0,,100,100,0,,0,0,0,,0,0,0,,25,25,0,50,50,50,0,,78,78,0
 eCANOPY_SNAGS_CLASS_1_CONIFERS_WITH_FOLIAGE_PERCENT_COVER,C1FSnag_Cover, + = Canopy_TotalCover * 0.75, + = Canopy_TotalCover * 0.1,0,,30,31,0,,0,0,0,,0,0,0,,60,62,0,0.5071,64.2571,66.3821,0,,45,46.5,0
-eCANOPY_SNAGS_CLASS_1_CONIFERS_WITH_FOLIAGE_STEM_DENSITY,C1FSnag_Density, + = OTree_Density * 0.1 + MidTree_Density * 0.1, + = OTree_Density * 0.1 + OTree_Density * 0.1,0,,9,9.3,0,,0,0,0,,0,0,0,,2625,2712.5,0,5,151.25,156.125,0,,75,77.5,0
+eCANOPY_SNAGS_CLASS_1_CONIFERS_WITH_FOLIAGE_STEM_DENSITY,C1FSnag_Density, + = OTree_Density * 0.75 + MidTree_Density * 0.75, + = OTree_Density * 0.1 + OTree_Density * 0.1,0,,9,9.3,0,,0,0,0,,0,0,0,,2625,2712.5,0,5,151.25,156.125,0,,75,77.5,0
 eCANOPY_SNAGS_CLASS_2_DIAMETER,C2Snag_Diameter,, = C1Snag_Diameter, = C1Snag_Diameter,,0,0,9.6,,0,0,0,,0,0,0,3.5,3.5,3.5,2.9,11,11,13,9,12,12,0,12
 eCANOPY_SNAGS_CLASS_2_HEIGHT,C2Snag_Height,, = C1Snag_Height, = C1Snag_Height,,0,0,100,,0,0,0,,0,0,0,20,20,25,25,50,50,55,50,70,70,0,78
 eCANOPY_SNAGS_CLASS_2_STEM_DENSITY,C2Snag_Density,, = C1Snag_Density, = C1Snag_Density,,0,0,9,,0,0,0,,0,0,0,150,150,100,2625,10,10,5,151.25,3,3,0,75
