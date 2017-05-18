@@ -545,7 +545,7 @@ special_funcs = {
         fbrw.TIMESTEP[2]: [ (process_canopy_low_two,), (process_sound_wood, 0.5)],
     },
     fbrw.SEVERITY[2]: {
-        fbrw.TIMESTEP[0]: [ (process_canopy_one, 0.375, 0.375, 0.375) ],
+        fbrw.TIMESTEP[0]: [ (process_canopy_one, 0.75, 0.75, 0.75) ],
         fbrw.TIMESTEP[1]: [ (process_canopy_moderate_two,), (process_sound_wood, 0.25)],
         fbrw.TIMESTEP[2]: [ (process_canopy_low_two,), (process_sound_wood, 0.5)],
     }
