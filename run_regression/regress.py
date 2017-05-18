@@ -84,16 +84,13 @@ def collect_calculated_values():
     get_values_from_files()
     
 def build_expected_value_csv():
-    dirs = ['1_Fire']
-    '''
     dirs = [
         '1_Fire',
-        '2_MechAdd',
-        '3_MechRemove',
-        '4_Wind',
-        '5_Insects'
+        #'2_MechAdd',
+        #'3_MechRemove',
+        #'4_Wind',
+        #'5_Insects'
     ]
-    '''
 
     def load_dataframe_merge_if_possible(file, df0):
         df = pd.read_csv(file);
