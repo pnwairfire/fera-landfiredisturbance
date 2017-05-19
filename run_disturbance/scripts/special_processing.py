@@ -53,6 +53,8 @@ def process_canopy_v2(fb, zero_snags_with_foliage):
 
     if zero_snags_with_foliage:
         fb.SetNodeEmpty(libfbrw.FBNodeWithSpeciesType.eCANOPY_SNAGS_CLASS_1_CONIFERS_WITH_FOLIAGE)
+    else:
+        process_canopy_v1(fb, 0.05, 0.05, 0.05)
     
     # move 'other' values into 'class_2', save class_2
     two_diameter = fbrw.assign_and_return_current(fb, libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_2_DIAMETER, other_diameter)
