@@ -1,5 +1,4 @@
-,,Low Severity I&D,,,Moderate Severity I&D,,,High Severity I&D,,
-,Suggested Short Name,Time Step 1,Time Step 2,Time Step 3,Time Step 1,Time Step 2,Time Step 3,Time Step 1,Time Step 2,Time Step 3
+,Suggested Short Name,511,512,513,521,522,523,531,532,533
 eCANOPY_TREES_TOTAL_PERCENT_COVER,Canopy_TotalCover,* = 0.9,* = 0.95,,* = 0.6,* = 0.9,,* = 0.25,* = 0.9,
 eCANOPY_TREES_OVERSTORY_DIAMETER_AT_BREAST_HEIGHT,OTree_Diameter,,,,,,,,,
 eCANOPY_TREES_OVERSTORY_HEIGHT_TO_LIVE_CROWN,OTree_HeightLiveCrown,* = 1.1, * = 1.05,,* = 1.2,,,* = 1.3,,

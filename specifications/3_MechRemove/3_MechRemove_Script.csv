@@ -1,5 +1,4 @@
-,,Low Severity Mech Remove (31),,,Moderate Severity MechRemove (32),,,High Severity MechRemove (33),,
-,Suggested Short Name,Time Step 1,Time Step 2,Time Step 3,Time Step 1,Time Step 2,Time Step 3,Time Step 1,Time Step 2,Time Step 3
+,Suggested Short Name,311,312,313,321,322,323,331,332,333
 eCANOPY_TREES_TOTAL_PERCENT_COVER,Canopy_TotalCover,* = 0.85,,,* = 0.67,,,* = 0.33,,
 eCANOPY_TREES_OVERSTORY_DIAMETER_AT_BREAST_HEIGHT,OTree_Diameter,* = 1.1,,,* = 1.25,,,* = 1.25,,
 eCANOPY_TREES_OVERSTORY_HEIGHT_TO_LIVE_CROWN,OTree_HeightLiveCrown,* = 1.25,,,* = 1.5,,,* = 1.5,,
