@@ -25,8 +25,10 @@ scale_these = {
         ],
         fbrw.TIMESTEP[1]: [
             (libfbrw.FBTypes.eCANOPY_TREES_TOTAL_PERCENT_COVER,0.950,""),
+            (libfbrw.FBTypes.eCANOPY_TREES_OVERSTORY_HEIGHT_TO_LIVE_CROWN,1.05,""),
             (libfbrw.FBTypes.eCANOPY_TREES_OVERSTORY_PERCENT_COVER,0.950,""),
             (libfbrw.FBTypes.eCANOPY_TREES_OVERSTORY_STEM_DENSITY,0.950,""),
+            (libfbrw.FBTypes.eCANOPY_TREES_MIDSTORY_HEIGHT_TO_LIVE_CROWN,1.05,""),
             (libfbrw.FBTypes.eCANOPY_TREES_MIDSTORY_PERCENT_COVER,0.950,""),
             (libfbrw.FBTypes.eCANOPY_TREES_MIDSTORY_STEM_DENSITY,0.950,""),
             (libfbrw.FBTypes.eWOODY_FUEL_ALL_DOWNED_WOODY_FUEL_DEPTH,1.100,""),
@@ -139,7 +141,7 @@ def placeholder(fb):
 special_funcs = {
     fbrw.SEVERITY[0]: {
         fbrw.TIMESTEP[0]: [ (sp.process_canopy_v1, 0.1, 0.1, 0.1) ],
-        fbrw.TIMESTEP[1]: [ (sp.process_canopy_v2, False), (sp.process_sound_wood, 0.25)],
+        fbrw.TIMESTEP[1]: [ (sp.process_canopy_v2, False), ],
         fbrw.TIMESTEP[2]: [ (sp.process_canopy_v2, True), (sp.process_sound_wood, 0.5)],
     },
     fbrw.SEVERITY[1]: {
