@@ -138,9 +138,8 @@ SPACING = '    '    # 4 spaces
 def parse_multiplier(in_string):
     mult_string = ''
     conditional_modifier = ''
-    if len(in_string) and in_string.startswith('*'):
+    if len(in_string) and in_string.startswith('*') and '* = 0 ' not in in_string:
         mult_string = in_string
-        print(mult_string)
         if ',' in in_string:
             chunks = in_string.split(',')
             mult_string = chunks[0].strip()
@@ -208,8 +207,6 @@ def process_disturbance_spec(dir):
                 print('\tTimestep - {}'.format(t))
                 outfile.write('{}fbrw.TIMESTEP[{}]: [\n'.format(2*SPACING, j))
                 column = '{}{}{}'.format(disturbance, severity+1, j+1)
-                print(column)
-                print(df.get(column))
                 emit_for_step(df, df.get(column), severity, t, outfile)
                 outfile.write('{}],\n'.format(2*SPACING))
             outfile.write('{}}},\n'.format(SPACING))
