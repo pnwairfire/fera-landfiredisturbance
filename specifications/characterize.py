@@ -5,11 +5,11 @@ weird = defaultdict(list)
 with open('spec_all.csv', 'r') as infile:
     for line in infile:
         chunks = line.strip().split(',')
-        for chunk in chunks:
+        for chunk in chunks[2:]:
             chunk = chunk.strip()
             if ' ' in line:
                 key = chunk.split(' ')[0]
-                if not ' ' == key:
+                if not ' ' == key and len(key):
                     cell_dict[key].append(chunk)
             else:
                 if not chunk.startswith('e'):
