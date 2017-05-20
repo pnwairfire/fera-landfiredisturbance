@@ -2,7 +2,10 @@ import os
 
 dirs = [
     '1_Fire',
-    '5_Insects'
+    '2_MechAdd',
+    '3_MechRemove',
+    '4_Wind',
+    '5_Insects',
 ]
 
 for dir in dirs:
@@ -12,7 +15,7 @@ for dir in dirs:
     with open(file, 'r') as infile:
         print('{},,,,,,,,,,'.format(file))
         for line in infile:
-            if 'eCANOPY' in line:
+            if not ',,,,,,,,,' in line:
                 print(line.strip())
         print()
     
