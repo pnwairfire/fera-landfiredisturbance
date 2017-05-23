@@ -364,14 +364,6 @@ scale_these = {
             (libfbrw.FBTypes.eMOSS_LICHEN_LITTER_MOSS_PERCENT_COVER,10.000,""),
         ],
         fbrw.TIMESTEP[2]: [
-            (libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_1_ALL_OTHERS_DIAMETER,0,""),
-            (libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_1_ALL_OTHERS_HEIGHT,0,""),
-            (libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_1_ALL_OTHERS_STEM_DENSITY,0,""),
-            (libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_1_CONIFERS_WITH_FOLIAGE_HEIGHT_TO_CROWN_BASE,0,""),
-            (libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_1_CONIFERS_WITH_FOLIAGE_DIAMETER,0,""),
-            (libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_1_CONIFERS_WITH_FOLIAGE_HEIGHT,0,""),
-            (libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_1_CONIFERS_WITH_FOLIAGE_PERCENT_COVER,0,""),
-            (libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_1_CONIFERS_WITH_FOLIAGE_STEM_DENSITY,0,""),
             (libfbrw.FBTypes.eSHRUBS_PRIMARY_LAYER_PERCENT_COVER,3.000,""),
             (libfbrw.FBTypes.eSHRUBS_PRIMARY_LAYER_PERCENT_LIVE,3.000,""),
             (libfbrw.FBTypes.eSHRUBS_SECONDARY_LAYER_PERCENT_COVER,3.000,""),
@@ -418,7 +410,7 @@ special_funcs = {
     fbrw.SEVERITY[2]: {
         fbrw.TIMESTEP[0]: [ (sp.process_canopy_v1, 0.75, 0.75, 0.75) ],
         fbrw.TIMESTEP[1]: [ (sp.process_canopy_v4,), (sp.process_sound_wood, 0.25)],
-        fbrw.TIMESTEP[2]: [ (sp.process_canopy_v2, True), (sp.process_sound_wood, 0.5)],
+        fbrw.TIMESTEP[2]: [ (sp.process_canopy_v133,), (sp.process_sound_wood, 0.5)],
     }
 }
 

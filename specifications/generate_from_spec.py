@@ -173,7 +173,7 @@ def emit_for_step(df, pd_series, severity, timestep, outfile):
                 break
         except Exception as e:
             print('\nException - ', e)
-            break
+            raise(Exception('\nFatal Error\n'))
     if len(error_msg):
         print('\nErrors: exiting')
         for msg in error_msg:
@@ -217,10 +217,10 @@ def process_disturbance_spec(dir):
 # ++++++++++++++++++++++++++++++++++++++++++
 spec_dirs = [
     '1_Fire',
-    '2_MechAdd',
-    '3_MechRemove',
-    '4_Wind',
-    '5_Insects'
+    #'2_MechAdd',
+    #'3_MechRemove',
+    #'4_Wind',
+    #'5_Insects'
 ]
 '''
 '1_Fire',
