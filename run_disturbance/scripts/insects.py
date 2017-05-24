@@ -151,7 +151,7 @@ special_funcs = {
     },
     fbrw.SEVERITY[1]: {
         fbrw.TIMESTEP[0]: [ (sp.process_canopy_v1, 0.4, 0.4, 0.4) ],
-        fbrw.TIMESTEP[1]: [ (sp.process_canopy_v4,), (sp.process_sound_wood, 0.25)],
+        fbrw.TIMESTEP[1]: [ (sp.process_canopy_v4,)],
         fbrw.TIMESTEP[2]: [ (sp.process_canopy_v2, False), (sp.process_sound_wood, 0.5)],
     },
     fbrw.SEVERITY[2]: {
