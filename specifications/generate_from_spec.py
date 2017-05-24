@@ -217,8 +217,8 @@ def process_disturbance_spec(dir):
 # ++++++++++++++++++++++++++++++++++++++++++
 spec_dirs = [
     '1_Fire',
-    #'2_MechAdd',
-    #'3_MechRemove',
+    '2_MechAdd',
+    '3_MechRemove',
     '4_Wind',
     '5_Insects'
 ]
