@@ -58,11 +58,13 @@ def retrive_fbwrite_library():
 if retrive_fbwrite_library():
     import fbrw
 import fire
+import wind
 import insects
 
 # Maps a string to an imported module. DISTURBANCE_MODULE_MAP = DMM
 DMM = {
     'fire': fire,
+    'wind': wind,
     'insects': insects,
 }
 
@@ -71,7 +73,7 @@ DCM = {
     'fire': 1,
     #'mechanical_add': 2,
     #'mechanical_remove': 3,
-    #'wind': 4,
+    'wind': 4,
     'insects': 5,
 }
 
@@ -113,7 +115,7 @@ FUELBED_PREREQUISITES = {
     'fire': {},
     #'mechanical_add': {},
     #'mechanical_remove': {},
-    #'wind': 4,
+    'wind': {},
     'insects': {
         VALID_VEG_FORMS: ([1,2,4,5,6], fbrw.prereq_vegform_insects),
         MINIMUM_CANOPY_COVER: (30, fbrw.prereq_canopy_cover),

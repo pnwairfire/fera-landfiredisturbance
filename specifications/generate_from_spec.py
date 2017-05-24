@@ -138,13 +138,13 @@ SPACING = '    '    # 4 spaces
 def parse_multiplier(in_string):
     mult_string = ''
     conditional_modifier = ''
-    if len(in_string) and in_string.startswith('*') and '* = 0 ' not in in_string:
+    if len(in_string) and in_string.startswith('*'):
         mult_string = in_string
         if ',' in in_string:
             chunks = in_string.split(',')
             mult_string = chunks[0].strip()
             # remove spaces around and within the string
-            conditional_modifier = chunks[1].strip().replace(' ', '')
+            conditional_modifier = chunks[1].strip().replace(' ', '=')
         mult_string = mult_string.split('=')[1].strip()
     # need to 'stringify' the conditional_modifier
     return len(mult_string)>0, mult_string, '"{}"'.format(conditional_modifier)
@@ -219,8 +219,8 @@ spec_dirs = [
     '1_Fire',
     #'2_MechAdd',
     #'3_MechRemove',
-    #'4_Wind',
-    #'5_Insects'
+    '4_Wind',
+    '5_Insects'
 ]
 '''
 '1_Fire',

@@ -39,7 +39,11 @@ PERCENT_IDS = [
 ]
 
 # Project-wide constants
-DISTURBANCE = ['fire', 'insects']
+DISTURBANCE = [
+    'fire',
+    'wind',
+    'insects'
+]
 SEVERITY = [1,2,3]  # low, medium, high
 TIMESTEP = [1,2,3]  # first, second, third
 
@@ -83,7 +87,7 @@ def apply_conditional_modifier(proposed_value, conditional_modifier):
         cm_lower = conditional_modifier.lower()
         if 'min' in cm_lower:
             chunks = cm_lower.split('=')
-            compare_to = int(chunks[1].strip())
+            compare_to = float(chunks[1].strip())
             if compare_to > float(proposed_value):
                 retval = '{}'.format(compare_to)
         else:

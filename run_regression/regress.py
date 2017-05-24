@@ -88,11 +88,12 @@ def build_expected_value_csv():
         '1_Fire',
         #'2_MechAdd',
         #'3_MechRemove',
-        #'4_Wind',
-        #'5_Insects'
+        '4_Wind',
+        '5_Insects'
     ]
 
     def load_dataframe_merge_if_possible(file, df0):
+        print('Trying to load {}...'.format(file))
         df = pd.read_csv(file);
         cols = [col for col in df.columns if 'Variable' == col or re.match('^FB_.+\d\d\d$', col)]
         drop_these = set(df.columns).difference(cols)
