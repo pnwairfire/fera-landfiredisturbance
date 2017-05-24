@@ -146,12 +146,13 @@ def create_output_dirs(invocation_dir):
     os.mkdir(out)
     return out
                     
-def process_dependently(files, outdir):
+def process_dependently(disturbances, files, outdir):
+    dists_to_run = disturbances if len(disturbances) else fbrw.DISTURBANCE
     for f in files:
         f = os.path.join(invoking_dir, f)
         print(f)
         
-        for d in fbrw.DISTURBANCE:                       
+        for d in dists_to_run:                       
             for s in fbrw.SEVERITY:
                 #  The required fb.Read() method will have been called before
                 #  the object is returned.
@@ -179,16 +180,24 @@ def process_dependently(files, outdir):
                         print('Writing {}\n'.format(outname))
                 else:
                     print('Skipping "{}" bad prereqs for disturbance {}\n\tReason: {}'.format(f, d, reason))
-
+                    
+def get_disturbances_to_run(args):
+    disturbances = []
+    for i, v in enumerate(args):
+        if v in DMM.keys():
+            disturbances.append(v)
+        else:
+            break
+    return (disturbances, args[len(disturbances):])
 
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #   Start
-#   This script is invoked with a file glob indicating the files to process.
+#   This script is invoked with the disturbances to run (fire, insects, etc.) and the files to process
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 if len(sys.argv) > 1:
-    files = sys.argv[1:]
+    disturbances, files = get_disturbances_to_run(sys.argv[1:])
     outdir = create_output_dirs(invoking_dir)
-    process_dependently(files, outdir)
+    process_dependently(disturbances, files, outdir)
     os.chdir(invoking_dir)
     exit(0)
 
