@@ -86,8 +86,8 @@ def collect_calculated_values():
 def build_expected_value_csv():
     dirs = [
         '1_Fire',
-        #'2_MechAdd',
-        #'3_MechRemove',
+        '2_MechAdd',
+        '3_MechRemove',
         '4_Wind',
         '5_Insects'
     ]

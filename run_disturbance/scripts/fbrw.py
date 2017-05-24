@@ -41,6 +41,8 @@ PERCENT_IDS = [
 # Project-wide constants
 DISTURBANCE = [
     'fire',
+    'mechadd',
+    'mechremove',
     'wind',
     'insects'
 ]

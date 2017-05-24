@@ -58,12 +58,16 @@ def retrive_fbwrite_library():
 if retrive_fbwrite_library():
     import fbrw
 import fire
+import mechadd
+import mechremove
 import wind
 import insects
 
 # Maps a string to an imported module. DISTURBANCE_MODULE_MAP = DMM
 DMM = {
     'fire': fire,
+    'mechadd': mechadd,
+    'mechremove': mechremove,
     'wind': wind,
     'insects': insects,
 }
@@ -71,8 +75,8 @@ DMM = {
 # Maps a string to a LANDFIRE disturbance code. DISTURBANCE_CODE_MAP = DCM
 DCM = {
     'fire': 1,
-    #'mechanical_add': 2,
-    #'mechanical_remove': 3,
+    'mechadd': 2,
+    'mechremove': 3,
     'wind': 4,
     'insects': 5,
 }
@@ -113,8 +117,8 @@ VALID_COVER_TYPES = 'valid_cover_types'
 
 FUELBED_PREREQUISITES = {
     'fire': {},
-    #'mechanical_add': {},
-    #'mechanical_remove': {},
+    'mechadd': {},
+    'mechremove': {},
     'wind': {},
     'insects': {
         VALID_VEG_FORMS: ([1,2,4,5,6], fbrw.prereq_vegform_insects),
@@ -141,32 +145,6 @@ def create_output_dirs(invocation_dir):
     if os.path.exists(out): shutil.rmtree(out)
     os.mkdir(out)
     return out
-
-'''    
-def process_independently(files):
-    for f in files:
-        for d in fbrw.DISTURBANCE:
-            for s in fbrw.SEVERITY:
-                for t in fbrw.TIMESTEP:
-                    print('\nProcessing {}...'.format(f))
-                    
-                    # name the output file the basename plus the code for disturbance, severity, and timestep
-                    #  For instance, FB_0165_FCCS.xml -> FB_0165_FCCS_511.xml
-                    basename = os.path.splitext(os.path.split(f)[1])[0]
-                    dist_sev_time = '{}{}{}'.format(DCM[d], s, t)
-                    outname = './out/{}_{}.xml'.format(basename, dist_sev_time)
-                    
-                    # get the reader/writer object, pass in the aggregated code. The code will be appended
-                    #  to the fuelbed_number. The required fb.Read() method will have been called before
-                    #  the object is returned.
-                    fb = fbrw.get_reader_writer_set_fbnum(f, dist_sev_time)
-                    
-                    # invocation of the disturbance-module-specific code happens via DMM
-                    DMM[d].do_special(fb, s, t)
-                    fbrw.do_simple_scaling(fb, DMM[d].get_scaling_params(s, t))
-                    
-                    fb.Write(outname)
-'''
                     
 def process_dependently(files, outdir):
     for f in files:
