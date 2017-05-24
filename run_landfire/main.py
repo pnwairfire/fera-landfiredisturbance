@@ -15,7 +15,7 @@ import zipfile
 import shutil
 import requests
 
-FUELBED_ZIP = 'fuelbeds.zip'
+FUELBED_ZIP = 'FFT_FUELBEDS.zip'
 FUELBED_DIR = 'fuelbeds'
 OUTPUT_DIR = 'out'
 FCCS = 'fuelbed.jar'
