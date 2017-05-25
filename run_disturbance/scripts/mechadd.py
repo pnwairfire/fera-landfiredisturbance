@@ -243,7 +243,7 @@ special_funcs = {
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 def do_special(fb, severity, timestep):
     for item in special_funcs[severity][timestep]:
-        print(item)
+        func = item[0]
         if len(item) > 1:
             args = item[1:]
             func(fb, *args)
