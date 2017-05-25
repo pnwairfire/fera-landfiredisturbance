@@ -180,6 +180,28 @@ def add_stumps(fb, ossd_multiplier, mssd_multiplier):
     new_density = fbrw.add(stump_stem_density, tmp)
     
     fb.SetValue(libfbrw.FBTypes.eWOODY_FUEL_STUMPS_SOUND_STEM_DENSITY, new_density)
+    
+def sound_to_rotten_stumps(fb):
+    substitutions = [
+        (libfbrw.FBTypes.eWOODY_FUEL_STUMPS_ROTTEN_DIAMETER,
+            libfbrw.FBTypes.eWOODY_FUEL_STUMPS_SOUND_DIAMETER),
+        (libfbrw.FBTypes.eWOODY_FUEL_STUMPS_ROTTEN_HEIGHT,
+            libfbrw.FBTypes.eWOODY_FUEL_STUMPS_SOUND_HEIGHT),
+    ]
+    for s in substitutions:
+        fbrw.assign_if_not_exist(fb, s[0], s[1])
+        
+    fbrw.assign_species_if_not_exist(fb,
+        libfbrw.FBSpeciesTypes.eWOODY_FUEL_STUMPS_ROTTEN_SPECIES_SPECIES_DESCRIPTION,
+        libfbrw.FBSpeciesTypes.eWOODY_FUEL_STUMPS_SOUND_SPECIES_SPECIES_DESCRIPTION)
+        
+    fbrw.add_scaled_value_to_specified(
+        fb,
+        libfbrw.FBTypes.eWOODY_FUEL_STUMPS_ROTTEN_STEM_DENSITY,
+        libfbrw.FBTypes.eWOODY_FUEL_STUMPS_SOUND_STEM_DENSITY,
+        1)
+        
+    fb.SetNodeEmpty(libfbrw.FBNodeWithSpeciesType.eWOODY_FUEL_STUMPS_SOUND)
 
 
 

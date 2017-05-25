@@ -223,18 +223,18 @@ def placeholder(fb):
 special_funcs = {
     fbrw.SEVERITY[0]: {
         fbrw.TIMESTEP[0]: [ (sp.add_stumps, 0.25, 0.25) ],
-        fbrw.TIMESTEP[1]: [ (placeholder,), (sp.process_sound_wood, 0.25)],
-        fbrw.TIMESTEP[2]: [ (placeholder,), (sp.process_sound_wood, 0.5)],
+        fbrw.TIMESTEP[1]: [ (sp.process_sound_wood, 0.25)],
+        fbrw.TIMESTEP[2]: [ (sp.sound_to_rotten_stumps,), (sp.process_sound_wood, 0.5)],
     },
     fbrw.SEVERITY[1]: {
         fbrw.TIMESTEP[0]: [ (sp.add_stumps, 0.5, 0.5) ],
-        fbrw.TIMESTEP[1]: [ (placeholder,), (sp.process_sound_wood, 0.25)],
-        fbrw.TIMESTEP[2]: [ (placeholder,), (sp.process_sound_wood, 0.5)],
+        fbrw.TIMESTEP[1]: [ (sp.process_sound_wood, 0.25)],
+        fbrw.TIMESTEP[2]: [ (sp.sound_to_rotten_stumps,), (sp.process_sound_wood, 0.5)],
     },
     fbrw.SEVERITY[2]: {
         fbrw.TIMESTEP[0]: [ (sp.add_stumps, 0.75, 0.75) ],
-        fbrw.TIMESTEP[1]: [ (placeholder,), (sp.process_sound_wood, 0.25)],
-        fbrw.TIMESTEP[2]: [ (placeholder,), (sp.process_sound_wood, 0.5)],
+        fbrw.TIMESTEP[1]: [ (sp.process_sound_wood, 0.25)],
+        fbrw.TIMESTEP[2]: [ (sp.sound_to_rotten_stumps,), (sp.process_sound_wood, 0.5)],
     }
 }
   
