@@ -202,6 +202,22 @@ def sound_to_rotten_stumps(fb):
         1)
         
     fb.SetNodeEmpty(libfbrw.FBNodeWithSpeciesType.eWOODY_FUEL_STUMPS_SOUND)
+    
+def sound_to_lightered_pitchy_stumps(fb):
+    substitutions = [
+        (libfbrw.FBTypes.eWOODY_FUEL_STUMPS_LIGHTERED_PITCHY_DIAMETER,
+            libfbrw.FBTypes.eWOODY_FUEL_STUMPS_SOUND_DIAMETER),
+        (libfbrw.FBTypes.eWOODY_FUEL_STUMPS_LIGHTERED_PITCHY_HEIGHT,
+            libfbrw.FBTypes.eWOODY_FUEL_STUMPS_SOUND_HEIGHT),
+        (libfbrw.FBTypes.eWOODY_FUEL_STUMPS_LIGHTERED_PITCHY_STEM_DENSITY,
+            libfbrw.FBTypes.eWOODY_FUEL_STUMPS_SOUND_STEM_DENSITY),
+    ]
+    for s in substitutions:
+        fbrw.assign_if_not_exist(fb, s[0], s[1])
+        
+    fbrw.assign_species_if_not_exist(fb,
+        libfbrw.FBSpeciesTypes.eWOODY_FUEL_STUMPS_LIGHTERED_PITCHY_SPECIES_SPECIES_DESCRIPTION,
+        libfbrw.FBSpeciesTypes.eWOODY_FUEL_STUMPS_SOUND_SPECIES_SPECIES_DESCRIPTION)
 
 
 
