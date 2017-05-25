@@ -289,7 +289,7 @@ special_funcs = {
     },
     fbrw.SEVERITY[1]: {
         fbrw.TIMESTEP[0]: [ (sp.add_stumps, 0.5, 0.5) ],
-        fbrw.TIMESTEP[1]: [ (sp.process_sound_wood, 0.25)],
+        fbrw.TIMESTEP[1]: [ (sp.process_sound_wood, 0.25) ],
         fbrw.TIMESTEP[2]: [ (sp.sound_to_rotten_stumps,), (sp.process_sound_wood, 0.5)],
     },
     fbrw.SEVERITY[2]: {
