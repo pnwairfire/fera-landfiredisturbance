@@ -248,25 +248,6 @@ special_funcs = {
     }
 }
   
-'''  
-special_funcs = {
-    fbrw.SEVERITY[0]: {
-        fbrw.TIMESTEP[0]: [ (placeholder), ],
-        fbrw.TIMESTEP[1]: [ (placeholder), (sp.process_sound_wood, 0.25)],
-        fbrw.TIMESTEP[2]: [ (placeholder), (sp.process_sound_wood, 0.5)],
-    },
-    fbrw.SEVERITY[1]: {
-        fbrw.TIMESTEP[0]: [ (placeholder), ],
-        fbrw.TIMESTEP[1]: [ (placeholder), (sp.process_sound_wood, 0.25)],
-        fbrw.TIMESTEP[2]: [ (placeholder), (sp.process_sound_wood, 0.5)],
-    },
-    fbrw.SEVERITY[2]: {
-        fbrw.TIMESTEP[0]: [ (placeholder), ],
-        fbrw.TIMESTEP[1]: [ (placeholder), (sp.process_sound_wood, 0.25)],
-        fbrw.TIMESTEP[2]: [ (placeholder), (sp.process_sound_wood, 0.5)],
-    }
-}
-'''
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #   Required functions for a disturbance module
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
