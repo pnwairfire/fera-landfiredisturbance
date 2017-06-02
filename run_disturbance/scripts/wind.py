@@ -207,7 +207,8 @@ def sound_wood_loadings(fb, multiplier, min1, min2, min3):
         if os > check_value or ms > check_value:
             fbrw.scale(fb, id, multiplier, min)
         else:
-            fb.SetValue(id, "")
+            pass
+            #fb.SetValue(id, "")
         
     os_diameter = fb.GetValue(libfbrw.FBTypes.eCANOPY_TREES_OVERSTORY_DIAMETER_AT_BREAST_HEIGHT)
     os_diameter = float(os_diameter) if len(os_diameter) else 0.0
