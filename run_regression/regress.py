@@ -72,7 +72,7 @@ def is_clean(argv):
     return yes_clean
 
 def calculate_values(disturbances):
-    cmd = 'python3 ../run_disturbance/scripts/main.py {} regression_fuelbeds/*.xml'.format(' '.join(disturbances))
+    cmd = 'python3 ../run_disturbance/scripts/main.py {} regression_fuelbeds/*.xml > /dev/null'.format(' '.join(disturbances))
     print(cmd)
     os.system(cmd)
 
@@ -108,6 +108,9 @@ def build_expected_value_csv(disturbances):
         cols = [col for col in df.columns if 'Variable' == col or re.match('^FB_.+\d\d\d$', col)]
         drop_these = set(df.columns).difference(cols)
         df.drop(drop_these, axis=1, inplace=True)
+        
+        # start with an empty dataframe, in which case no merge happens. Subsequent invocations
+        #  should merge and it should succeed
         if not df0.empty:
             df0 = df0.merge(df, on='Variable')
         else:
@@ -126,7 +129,6 @@ def build_expected_value_csv(disturbances):
                 if re.match('^\d\d_.+$', f):
                     df = load_dataframe_merge_if_possible(f, df)
             outfile = '../{}_expected.csv'.format(dir.split('_')[1].lower())
-            print('Writing {}...'.format(outfile))
             df.to_csv(outfile , index=False)
             os.chdir('..')
         os.chdir(curr_dir)
@@ -164,10 +166,11 @@ def compare_outputs():
     
     # drop columns that expected doesn't have
     df_calculated.drop(skip_these, axis=1, inplace=True)
-    print('\nDropping these columns in the comparison')
-    for i in skip_these:
-        print('\t{}'.format(i))
-    print()
+    if len(skip_these):
+        print('\nDropping these columns in the comparison... this is a bad sign...')
+        for i in skip_these:
+            print('\t{}'.format(i))
+        print()
     
     # remove rows that expected doesn't have
     df_calculated = df_calculated[df_calculated.Variable.isin(df_expected.Variable)]
