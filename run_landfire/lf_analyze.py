@@ -1,3 +1,10 @@
+# =============================================================================
+#
+# Author:	Kjell Swedin
+# Purpose:	Examine Landfire disturbance outputs
+#
+# =============================================================================
+
 import pandas as pd
 import numpy as np
 import re
