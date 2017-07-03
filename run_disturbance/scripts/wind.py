@@ -55,6 +55,8 @@ scale_these = {
             (libfbrw.FBTypes.eGROUND_FUEL_DUFF_UPPER_PERCENT_COVER,1.250,""),
         ],
         fbrw.TIMESTEP[2]: [
+            (libfbrw.FBTypes.eSHRUBS_PRIMARY_LAYER_PERCENT_COVER,1.010,""),
+            (libfbrw.FBTypes.eSHRUBS_PRIMARY_LAYER_PERCENT_LIVE,1.010,""),
             (libfbrw.FBTypes.eSHRUBS_SECONDARY_LAYER_PERCENT_COVER,1.010,""),
             (libfbrw.FBTypes.eSHRUBS_SECONDARY_LAYER_PERCENT_LIVE,1.010,""),
             (libfbrw.FBTypes.eWOODY_FUEL_ALL_DOWNED_WOODY_FUEL_DEPTH,0.250,""),
@@ -169,6 +171,7 @@ scale_these = {
         ],
         fbrw.TIMESTEP[2]: [
             (libfbrw.FBTypes.eSHRUBS_PRIMARY_LAYER_PERCENT_COVER,1.500,""),
+            (libfbrw.FBTypes.eSHRUBS_SECONDARY_LAYER_PERCENT_COVER,1.500,""),
             (libfbrw.FBTypes.eWOODY_FUEL_SOUND_WOOD_LOADINGS_ZERO_TO_THREE_INCHES_ONE_TO_THREE_INCHES,0.250,""),
             (libfbrw.FBTypes.eWOODY_FUEL_SOUND_WOOD_LOADINGS_ZERO_TO_THREE_INCHES_QUARTER_INCH_TO_ONE_INCH,0.250,""),
             (libfbrw.FBTypes.eWOODY_FUEL_SOUND_WOOD_LOADINGS_ZERO_TO_THREE_INCHES_ZERO_TO_QUARTER_INCH,0.250,""),
