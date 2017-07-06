@@ -28,6 +28,8 @@ Landfire-specific description:
 
     * insects
 
+3. The run_landfire directory contains scripts to wrap the disturbance scripts and produce the "disturbed" fuelbeds
+
 
 ### Top level Landfire directory structure and components
 ```
