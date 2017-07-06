@@ -6,7 +6,7 @@ High level description:
 
 1. Start with a set of fuelbeds
 
-2. Create a set of disturbance rules (csv file)
+2. Create a set of disturbance rules (csv files)
 
 3. Encode the disturbance rules into python scripts using a combination of manual and scripted steps
 
@@ -28,7 +28,13 @@ Landfire-specific description:
 
     * insects
 
-3. The run_landfire directory contains scripts to wrap the disturbance scripts and produce the "disturbed" fuelbeds
+3. The run_landfire directory contains scripts to wrap the disturbance scripts and
+
+    * produce the "disturbed" fuelbeds
+    
+    * run FCCS on the generated fuelbeds
+
+    * create the 3 deliverable files (consume_loadings.csv, fofem-like input file, subset of FCCS summary file)
 
 
 ### Top level Landfire directory structure and components
@@ -88,9 +94,35 @@ landfire/
 ```
 
 
-
-
 ### Tests
+
+The run_regression directory contains a small set of fuelbeds in the regression_fuelbeds directory. The regress.py script runs the disturbance scripts on these fuelbeds. It gathers values from the generated fuelbeds and compares them to the independently calculated values from the 3 ../specifications/<disturance>.csv files.
+
+Running the reg.sh script gives summary output. It looks like this:
+
+```
+fire
+4968 Comparisons
+	4968 Successful
+	0 Unsuccessful
+mechadd
+4968 Comparisons
+	4968 Successful
+	0 Unsuccessful
+mechremove
+4968 Comparisons
+	4968 Successful
+	0 Unsuccessful
+wind
+4968 Comparisons
+	4968 Successful
+	0 Unsuccessful
+insects
+3312 Comparisons
+	3312 Successful
+	0 Unsuccessful
+
+```
 
 ### Problems/Quirks
 
