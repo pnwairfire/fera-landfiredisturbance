@@ -116,10 +116,18 @@ VALID_VEG_FORMS = 'valid_vegetation_forms'
 VALID_COVER_TYPES = 'valid_cover_types'
 
 FUELBED_PREREQUISITES = {
-    'fire': {},
-    'mechadd': {},
-    'mechremove': {},
-    'wind': {},
+    'fire': {
+        # fire applies to all fuelbeds
+    },
+    'mechadd': {
+        VALID_VEG_FORMS: ([1,2,4], fbrw.prereq_vegform_insects)
+    },
+    'mechremove': {
+        VALID_VEG_FORMS: ([1,2,4], fbrw.prereq_vegform_insects)
+    },
+    'wind': {
+        VALID_VEG_FORMS: ([1,2,4], fbrw.prereq_vegform_insects)
+    },
     'insects': {
         VALID_VEG_FORMS: ([1,2,4,5,6], fbrw.prereq_vegform_insects),
         MINIMUM_CANOPY_COVER: (30, fbrw.prereq_canopy_cover),
