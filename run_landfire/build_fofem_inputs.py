@@ -9,8 +9,8 @@ import os
 import numpy as np
 
 FCCS_SUMMARY = 'fccs_summary.csv'
-CONSUME_LOADINGS = 'consume_loadings.csv'
-FOFEM_INPUT_CSV = 'fofem_input.csv'
+CONSUME_LOADINGS = 'deliverables/consume_loadings.csv'
+FOFEM_INPUT_CSV = 'deliverables/fofem_input.csv'
 RND = 4
 
 # FOFEM col names
@@ -85,6 +85,7 @@ def process():
 #   Start ...
 # ++++++++++++++++++++++++++++++++++++++++++
 exit_val = 1
+print(os.getcwd())
 if os.path.exists(FCCS_SUMMARY) and os.path.exists(CONSUME_LOADINGS):
     exit_val = 0 if process() else 1
 else:

@@ -10,8 +10,8 @@ import os
 import numpy as np
 
 FCCS_SUMMARY = 'fccs_summary.csv'
-CONSUME_LOADINGS = 'consume_loadings.csv'
-LANDFIRE_GRID_CSV = 'landfire_grid.csv'
+CONSUME_LOADINGS = './deliverables/consume_loadings.csv'
+LANDFIRE_GRID_CSV = './deliverables/landfire_grid.csv'
 RND = 4
 
 def process():

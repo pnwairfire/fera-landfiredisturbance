@@ -2,11 +2,12 @@
 #
 # Author:	Kjell Swedin
 # Purpose:	Drive the calculations of the entire suite of disturbances against the fuelbeds that ship with FFT
-#                   Run all disturbances. Produces output in "out"
+#                   Run all disturbances. Generated fuelbeds go to GENERATED_FUELBED_DIR
 #                   Run FCCS on the generated fuelbeds
 #                    - produces FCCS results .csv file
 #                    - produces a Consume loadings file
-#                    - third file that Susan needs to specify
+#                    - build landfire gridfile (.csv) from the FCCS and Consume results
+#                    - build fofem input file (.csv) from the FCCS and Consume results
 #
 # =============================================================================
 import os
@@ -17,7 +18,8 @@ import requests
 
 FUELBED_ZIP = 'FFT_FUELBEDS.zip'
 FUELBED_DIR = 'fuelbeds'
-OUTPUT_DIR = 'out'
+GENERATED_FUELBED_DIR = 'out'
+DELIVERABLE_DIR = 'deliverables'
 FCCS = 'fuelbed.jar'
 ARTIFACTORY = 'http://172.16.0.120:8081/artifactory/generic-local'
 
@@ -26,11 +28,7 @@ ARTIFACTORY = 'http://172.16.0.120:8081/artifactory/generic-local'
 # =============================================================================
 CLEAN = 'clean'
 def clean():
-    for i in ['fccs_summary.csv', 'consume_loadings.csv', FCCS, FUELBED_ZIP]:
-        try:
-            os.remove(i)
-        except: pass
-    for i in [FUELBED_DIR, OUTPUT_DIR]:
+    for i in [FUELBED_DIR, GENERATED_FUELBED_DIR, DELIVERABLE_DIR]:
         try:
             shutil.rmtree(i)
         except: pass
@@ -91,7 +89,9 @@ def get_and_run_fccs():
     os.system(cmd)
     
     if os.path.exists(FCCS):
-        cmd = 'java -jar {} {}/*.xml 2> /dev/null'.format(FCCS, OUTPUT_DIR)
+        cmd = 'java -jar {} {}/*.xml 2> /dev/null'.format(FCCS, GENERATED_FUELBED_DIR)
+        os.system(cmd)
+        cmd = 'mv consume_loadings.csv {}'.format(DELIVERABLE_DIR)
         os.system(cmd)
     else:
         print('\nError: could not retrieve FCCS jar file\n')
@@ -106,6 +106,7 @@ if len(sys.argv) > 1 and is_clean(sys.argv):
 else:
     if get_fuelbeds():
         invoke_run_disturbance()
+        os.makedirs(DELIVERABLE_DIR)
         get_and_run_fccs()
         os.system('python3 build_fofem_inputs.py')
         os.system('python3 build_landfire_gridfile.py')
