@@ -108,3 +108,4 @@ else:
         invoke_run_disturbance()
         get_and_run_fccs()
         os.system('python3 build_fofem_inputs.py')
+        os.system('python3 build_landfire_gridfile.py')
