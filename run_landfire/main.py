@@ -28,6 +28,10 @@ ARTIFACTORY = 'http://172.16.0.120:8081/artifactory/generic-local'
 # =============================================================================
 CLEAN = 'clean'
 def clean():
+    for i in [FCCS, FUELBED_ZIP]:
+        try:
+            os.remove(i)
+        except: pass    
     for i in [FUELBED_DIR, GENERATED_FUELBED_DIR, DELIVERABLE_DIR]:
         try:
             shutil.rmtree(i)
@@ -91,7 +95,7 @@ def get_and_run_fccs():
     if os.path.exists(FCCS):
         cmd = 'java -jar {} {}/*.xml 2> /dev/null'.format(FCCS, GENERATED_FUELBED_DIR)
         os.system(cmd)
-        cmd = 'mv consume_loadings.csv {}'.format(DELIVERABLE_DIR)
+        cmd = 'mv consume_loadings.csv fccs_summary.csv {}'.format(DELIVERABLE_DIR)
         os.system(cmd)
     else:
         print('\nError: could not retrieve FCCS jar file\n')

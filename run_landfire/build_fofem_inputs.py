@@ -8,7 +8,7 @@ import pandas as pd
 import os
 import numpy as np
 
-FCCS_SUMMARY = 'fccs_summary.csv'
+FCCS_SUMMARY = 'deliverables/fccs_summary.csv'
 CONSUME_LOADINGS = 'deliverables/consume_loadings.csv'
 FOFEM_INPUT_CSV = 'deliverables/fofem_input.csv'
 RND = 4

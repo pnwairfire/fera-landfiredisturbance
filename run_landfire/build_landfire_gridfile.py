@@ -9,9 +9,9 @@ import pandas as pd
 import os
 import numpy as np
 
-FCCS_SUMMARY = 'fccs_summary.csv'
-CONSUME_LOADINGS = './deliverables/consume_loadings.csv'
-LANDFIRE_GRID_CSV = './deliverables/landfire_grid.csv'
+FCCS_SUMMARY = 'deliverables/fccs_summary.csv'
+CONSUME_LOADINGS = 'deliverables/consume_loadings.csv'
+LANDFIRE_GRID_CSV = 'deliverables/landfire_grid.csv'
 RND = 4
 
 def process():
