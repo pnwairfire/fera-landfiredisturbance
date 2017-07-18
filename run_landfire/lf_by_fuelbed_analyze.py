@@ -4,7 +4,7 @@
 # Purpose:	Examine Landfire disturbance outputs
 #
 # =============================================================================
-
+import os
 import pandas as pd
 
 def duplicate_base_for_grouping():
@@ -26,6 +26,7 @@ def concat_and_group():
     df_concat = pd.concat([df_lf, df_orig], ignore_index=True)
     df_concat.fillna(0, inplace=True)
     df_concat.drop([i for i in df_concat.columns if i.startswith('Custom_')], axis=1, inplace=True)
+    df_concat.to_csv('test.csv', index=False)
     gb = df_concat.groupby(lambda x: '{:0>4}_{}'.format(df_concat.iloc[x].Fuelbed_number.split('_')[0], \
                                       df_concat.iloc[x].Fuelbed_number.split('_')[1][0]))
     return gb
@@ -50,6 +51,7 @@ def compare_000(gb):
 # ++++++++++++++++++++++++++++++++++++++++++
 #  Start...
 # ++++++++++++++++++++++++++++++++++++++++++
+#os.system('java -jar fuelbed.jar fuelbeds/*.xml -o summary_base.csv')
 duplicate_base_for_grouping()
 gb = concat_and_group()
 print(gb.get_group('0004_1').iloc[-1])
