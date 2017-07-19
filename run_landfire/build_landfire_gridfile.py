@@ -33,7 +33,7 @@ def process():
                 + df_fccs.Snag_class2_load \
                 + df_fccs.Snag_class3_load \
                 + df_fccs.Ladderfuels_load).round(RND)
-        df_result['Canopy_total_biomass_tpa'] = ( \
+        df_result['Canopy_available_fuel_tpa'] = ( \
                 df_fccs.Tree_over_crown_load \
                 + df_fccs.Tree_mid_crown_load \
                 + df_fccs.Tree_under_crown_load \
