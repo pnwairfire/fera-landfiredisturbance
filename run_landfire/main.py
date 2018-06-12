@@ -20,6 +20,7 @@ FUELBED_ZIP = 'FFT_FUELBEDS.zip'
 FUELBED_DIR = 'fuelbeds'
 GENERATED_FUELBED_DIR = 'out'
 DELIVERABLE_DIR = 'deliverables'
+BASELINE_DIR = 'baseline'
 FCCS = 'fuelbed.jar'
 ARTIFACTORY = 'http://172.16.0.120:8081/artifactory/generic-local'
 
@@ -32,7 +33,7 @@ def clean():
         try:
             os.remove(i)
         except: pass    
-    for i in [FUELBED_DIR, GENERATED_FUELBED_DIR, DELIVERABLE_DIR]:
+    for i in [FUELBED_DIR, GENERATED_FUELBED_DIR, DELIVERABLE_DIR, BASELINE_DIR]:
         try:
             shutil.rmtree(i)
         except: pass
@@ -90,12 +91,19 @@ def get_and_run_fccs():
     r = requests.get(query)
     latest_build = latest(r)
     cmd = 'wget {}/fccs/{}/fuelbed.jar'.format(ARTIFACTORY ,latest_build)
+#    cmd = 'wget {}/fccs/284/fuelbed.jar'.format(ARTIFACTORY)
     os.system(cmd)
     
     if os.path.exists(FCCS):
         cmd = 'java -jar {} {}/*.xml 2> /dev/null'.format(FCCS, GENERATED_FUELBED_DIR)
         os.system(cmd)
         cmd = 'mv consume_loadings.csv fccs_summary.csv {}'.format(DELIVERABLE_DIR)
+        os.system(cmd)
+
+        # run against original fuelbeds to get baseline numbers
+        cmd = 'java -jar fuelbed.jar {}/*.xml 2> /dev/null'.format(FUELBED_DIR)
+        os.system(cmd)
+        cmd = 'mv consume_loadings.csv fccs_summary.csv {}'.format(BASELINE_DIR)
         os.system(cmd)
     else:
         print('\nError: could not retrieve FCCS jar file\n')
@@ -111,6 +119,7 @@ else:
     if get_fuelbeds():
         invoke_run_disturbance()
         os.makedirs(DELIVERABLE_DIR)
+        os.makedirs(BASELINE_DIR)
         get_and_run_fccs()
         os.system('python3 build_fofem_inputs.py')
         os.system('python3 build_landfire_gridfile.py')
