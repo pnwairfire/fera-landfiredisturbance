@@ -34,6 +34,7 @@ myPlot <- function(fb_number, disturbance, columnName){
   combinedData <- rbind(fb_data, baselineDataExpanded)
 
   mygraph <- ggplot(data = combinedData, aes_string(x="TimeStep", y=columnName)) + geom_line(aes(colour=Prefix))
+  mygraph <- mygraph + guides(colour=guide_legend(title="Disturbance"))
   mygraph + ggtitle(combinedData$Fuelbed_name[1]) + xlim(0,3)
   
 }
