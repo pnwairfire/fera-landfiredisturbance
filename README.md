@@ -128,7 +128,21 @@ insects
 
 1. connect to VPN (home.airfire.org) via Cisco AnyConnect
 2. clone repository to local machine (landfiredisturbance/*)
-3. create Dockerfile in landfiredisturbance directory.
+3. create Dockerfile in landfiredisturbance directory. (see below)
+4. from landfiredisturbance directory on local machine:  
+docker build -t landfireImage .  
+(creates the Docker image called landfireImage)  
+docker run -it landfireImage  
+(creates a Docker container based on the landfireImage)
+
+5. at ubuntu prompt:  
+cd run_regression  
+./reg.sh  
+(runs regression tests)  
+or  
+cd run_landfire  
+python3 main.py  
+(runs landfire)  
 
 ```
 Dockerfile content:
@@ -151,21 +165,6 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 ```
-
-4. from landfiredisturbance directory on local machine:
-docker build -t landfireImage .
-(creates the Docker image called landfireImage)
-docker run -it landfireImage
-(creates a Docker container based on the landfireImage)
-
-5. at ubuntu prompt:
-cd run_regression
-./reg.sh
-(runs regression tests)
-or
-cd run_landfire 
-python3 main.py
-(runs landfire)
 
 
 ### Problems/Quirks
