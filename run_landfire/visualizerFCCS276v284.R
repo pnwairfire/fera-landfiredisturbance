@@ -70,10 +70,12 @@ myPlot <- function(fb_number, disturbance, columnName){
   mygraph276 <- ggplot(data = combinedData276, aes_string(x="TimeStep", y=columnName)) + geom_line(aes(colour=Prefix))
   mygraph276 <- mygraph276 + guides(colour=guide_legend(title="Disturbance"))
   mygraph276 <- mygraph276 + ggtitle(paste(combinedData276$Fuelbed_name[1], "Original Calculations (FCCS build 276)", sep=" ")) + xlim(0,3)
+  mygraph276 <- mygraph276 + scale_color_manual(values = c("green4", "orange", "red"))
 
   mygraph284 <- ggplot(data = combinedData284, aes_string(x="TimeStep", y=columnName)) + geom_line(aes(colour=Prefix))
   mygraph284 <- mygraph284 + guides(colour=guide_legend(title="Disturbance"))
   mygraph284 <- mygraph284 + ggtitle(paste(combinedData284$Fuelbed_name[1], "New Calculations (FCCS build 284)", sep=" ")) + xlim(0,3)
+  mygraph284 <- mygraph284 + scale_color_manual(values = c("green4", "orange", "red"))
   
   grid.arrange(mygraph276, mygraph284, nrow=2)
   
