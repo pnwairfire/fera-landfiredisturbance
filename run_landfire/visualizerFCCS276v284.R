@@ -80,7 +80,7 @@ myPlot <- function(fb_number, disturbance, columnName){
   grid.arrange(mygraph276, mygraph284, nrow=2)
   
 }
-manipulate(myPlot(fb_number, disturbance, columnName), fb_number = picker(lapply(fccsBaselineData$Fuelbed_number, as.character)), 
+manipulate(myPlot(fb_number, disturbance, columnName), fb_number = picker(lapply(fccsBaselineData284$Fuelbed_number, as.character)), 
            disturbance = picker("1 Fire", "2 Mechanical Add", "3 Mechanical Remove", "4 Wind", "5 Insect & Disease"), 
-           columnName = picker(lapply(colnames(fccsBaselineData), as.character)))
+           columnName = picker(lapply(colnames(fccsBaselineData284), as.character)))
 
