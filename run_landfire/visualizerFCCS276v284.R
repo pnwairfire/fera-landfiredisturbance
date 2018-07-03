@@ -43,28 +43,28 @@ fccsBaselineData284$TotalHerbLoading <- fccsBaselineData284$Herb_primary_load + 
 fccsBaselineData284$TotalCWD <- fccsBaselineData284$Woody_sound_1000hr_load + fccsBaselineData284$Woody_sound_10khr_load + fccsBaselineData284$Woody_sound_GT10k_load
 fccsBaselineData284$TotalFWD <- fccsBaselineData284$Woody_sound_1hr_load + fccsBaselineData284$Woody_sound_10hr_load + fccsBaselineData284$Woody_sound_100hr_load
 fccsBaselineData284$TotalSoundWoodLoading <- fccsBaselineData284$TotalCWD + fccsBaselineData284$TotalFWD
-fccsBaselineData284$TotalRottonWoodLoading <- fccsBaselineData284$Woody_rotten_1000hr_load + fccsBaselineData284$Woody_rotten_10Khr_load + fccsBaselineData284$Woody_rotten_GT10Khr_load
+fccsBaselineData284$TotalRottenWoodLoading <- fccsBaselineData284$Woody_rotten_1000hr_load + fccsBaselineData284$Woody_rotten_10k_load + fccsBaselineData284$Woody_rotten_GT10k_load
 
 fccsData284$TotalShrubLoading <- fccsData284$Shrub_primary_load + fccsData284$Shrub_secondary_load
 fccsData284$TotalHerbLoading <- fccsData284$Herb_primary_load + fccsData284$Herb_secondary_load
 fccsData284$TotalCWD <- fccsData284$Woody_sound_1000hr_load + fccsData284$Woody_sound_10khr_load + fccsData284$Woody_sound_GT10k_load
 fccsData284$TotalFWD <- fccsData284$Woody_sound_1hr_load + fccsData284$Woody_sound_10hr_load + fccsData284$Woody_sound_100hr_load
 fccsData284$TotalSoundWoodLoading <- fccsData284$TotalCWD + fccsData284$TotalFWD
-fccsData284$TotalRottonWoodLoading <- fccsData284$Woody_rotten_1000hr_load + fccsData284$Woody_rotten_10Khr_load + fccsData284$Woody_rotten_GT10Khr_load
+fccsData284$TotalRottenWoodLoading <- fccsData284$Woody_rotten_1000hr_load + fccsData284$Woody_rotten_10k_load + fccsData284$Woody_rotten_GT10k_load
 
 fccsBaselineData276$TotalShrubLoading <- fccsBaselineData276$Shrub_primary_load + fccsBaselineData276$Shrub_secondary_load
 fccsBaselineData276$TotalHerbLoading <- fccsBaselineData276$Herb_primary_load + fccsBaselineData276$Herb_secondary_load
 fccsBaselineData276$TotalCWD <- fccsBaselineData276$Woody_sound_1000hr_load + fccsBaselineData276$Woody_sound_10khr_load + fccsBaselineData276$Woody_sound_GT10k_load
 fccsBaselineData276$TotalFWD <- fccsBaselineData276$Woody_sound_1hr_load + fccsBaselineData276$Woody_sound_10hr_load + fccsBaselineData276$Woody_sound_100hr_load
 fccsBaselineData276$TotalSoundWoodLoading <- fccsBaselineData276$TotalCWD + fccsBaselineData276$TotalFWD
-fccsBaselineData276$TotalRottonWoodLoading <- fccsBaselineData276$Woody_rotten_1000hr_load + fccsBaselineData276$Woody_rotten_10Khr_load + fccsBaselineData276$Woody_rotten_GT10Khr_load
+fccsBaselineData276$TotalRottenWoodLoading <- fccsBaselineData276$Woody_rotten_1000hr_load + fccsBaselineData276$Woody_rotten_10k_load + fccsBaselineData276$Woody_rotten_GT10k_load
 
 fccsData276$TotalShrubLoading <- fccsData276$Shrub_primary_load + fccsData276$Shrub_secondary_load
 fccsData276$TotalHerbLoading <- fccsData276$Herb_primary_load + fccsData276$Herb_secondary_load
 fccsData276$TotalCWD <- fccsData276$Woody_sound_1000hr_load + fccsData276$Woody_sound_10khr_load + fccsData276$Woody_sound_GT10k_load
 fccsData276$TotalFWD <- fccsData276$Woody_sound_1hr_load + fccsData276$Woody_sound_10hr_load + fccsData276$Woody_sound_100hr_load
 fccsData276$TotalSoundWoodLoading <- fccsData276$TotalCWD + fccsData276$TotalFWD
-fccsData276$TotalRottonWoodLoading <- fccsData276$Woody_rotten_1000hr_load + fccsData276$Woody_rotten_10Khr_load + fccsData276$Woody_rotten_GT10Khr_load
+fccsData276$TotalRottenWoodLoading <- fccsData276$Woody_rotten_1000hr_load + fccsData276$Woody_rotten_10k_load + fccsData276$Woody_rotten_GT10k_load
 
 
 
