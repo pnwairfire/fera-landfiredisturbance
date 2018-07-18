@@ -39,6 +39,28 @@ def process_canopy_v1(fb, pct_cover_multiplier, ossd_multiplier, mssd_multiplier
     new_density = fbrw.add(snag_stem_density, tmp)
     fb.SetValue(libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_1_CONIFERS_WITH_FOLIAGE_STEM_DENSITY, new_density)
     
+    # set dbh for snags w/ foliage 
+    os_dbh = fb.GetValue(libfbrw.FBTypes.eCANOPY_TREES_OVERSTORY_DIAMETER_AT_BREAST_HEIGHT)
+    ms_dbh = fb.GetValue(libfbrw.FBTypes.eCANOPY_TREES_MIDSTORY_DIAMETER_AT_BREAST_HEIGHT)
+    
+    if not len(os_stem_density): os_stem_density = "0"
+    if not len(os_dbh): os_dbh = "0"
+    snag_dbh_overstory_numerator = fbrw.mul(os_stem_density, os_dbh)
+    if not len(ms_stem_density): ms_stem_density = "0"
+    if not len(ms_dbh): ms_dbh = "0"
+    snag_dbh_midstory_numerator = fbrw.mul(ms_stem_density, ms_dbh)
+    snag_dbh_numerator = fbrw.add(snag_dbh_overstory_numerator, snag_dbh_midstory_numerator)
+    
+    snag_dbh_denominator = fbrw.add(os_stem_density, ms_stem_density)
+    if float(snag_dbh_denominator) > 0: 
+        snag_dbh = str(float(snag_dbh_numerator) / float(snag_dbh_denominator))
+    else:
+        snag_dbh = "0"
+    fb.SetValue(libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_1_CONIFERS_WITH_FOLIAGE_DIAMETER, snag_dbh)
+    
+      
+    
+    
 def process_canopy_v2(fb, zero_snags_with_foliage):
     # assign 'with_foliage' to 'others', save 'others'
     other_diameter = fbrw.assign_and_return_current(fb,
