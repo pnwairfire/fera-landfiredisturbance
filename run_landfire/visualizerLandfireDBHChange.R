@@ -40,7 +40,7 @@ fccsBaselineData284$TotalFWD <- fccsBaselineData284$Woody_sound_1hr_load + fccsB
 fccsBaselineData284$TotalSoundWoodLoading <- fccsBaselineData284$TotalCWD + fccsBaselineData284$TotalFWD
 fccsBaselineData284$TotalRottenWoodLoading <- fccsBaselineData284$Woody_rotten_1000hr_load + fccsBaselineData284$Woody_rotten_10k_load + fccsBaselineData284$Woody_rotten_GT10k_load
 
-
+fccsData284[is.na(fccsData284)] <- 0
 fccsData284$TotalShrubLoading <- fccsData284$Shrub_primary_load + fccsData284$Shrub_secondary_load
 fccsData284$TotalHerbLoading <- fccsData284$Herb_primary_load + fccsData284$Herb_secondary_load
 fccsData284$TotalCWD <- fccsData284$Woody_sound_1000hr_load + fccsData284$Woody_sound_10khr_load + fccsData284$Woody_sound_GT10k_load
