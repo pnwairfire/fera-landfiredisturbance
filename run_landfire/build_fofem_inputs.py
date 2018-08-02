@@ -90,4 +90,16 @@ if os.path.exists(FCCS_SUMMARY) and os.path.exists(CONSUME_LOADINGS):
     exit_val = 0 if process() else 1
 else:
     print('\nError: Required input files (fccs_summary, consume_loadings) are missing.\n')
+
+# repeat for baseline files
+FCCS_SUMMARY = 'baseline/fccs_summary.csv'
+CONSUME_LOADINGS = 'baseline/consume_loadings.csv'
+FOFEM_INPUT_CSV = 'baseline/fofem_input.csv'
+
+if os.path.exists(FCCS_SUMMARY) and os.path.exists(CONSUME_LOADINGS):
+    exit_val = 0 if process() else 1
+else:
+    print('\nError: Required input files (fccs_summary, consume_loadings) are missing.\n')
+    
+    
 exit(exit_val)
