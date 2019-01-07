@@ -200,12 +200,12 @@ scale_these = {
             (libfbrw.FBTypes.eSHRUBS_SECONDARY_LAYER_PERCENT_COVER,2.000,""),
             (libfbrw.FBTypes.eSHRUBS_SECONDARY_LAYER_PERCENT_LIVE,4.000,""),
             (libfbrw.FBTypes.eHERBACEOUS_PRIMARY_LAYER_HEIGHT,4.000,""),
-            (libfbrw.FBTypes.eHERBACEOUS_PRIMARY_LAYER_LOADING,6.000,""),
-            (libfbrw.FBTypes.eHERBACEOUS_PRIMARY_LAYER_PERCENT_COVER,6.000,""),
+            (libfbrw.FBTypes.eHERBACEOUS_PRIMARY_LAYER_LOADING,4.000,""),
+            (libfbrw.FBTypes.eHERBACEOUS_PRIMARY_LAYER_PERCENT_COVER,4.000,""),
             (libfbrw.FBTypes.eHERBACEOUS_PRIMARY_LAYER_PERCENT_LIVE,4.000,""),
             (libfbrw.FBTypes.eHERBACEOUS_SECONDARY_LAYER_HEIGHT,4.000,""),
-            (libfbrw.FBTypes.eHERBACEOUS_SECONDARY_LAYER_LOADING,6.000,""),
-            (libfbrw.FBTypes.eHERBACEOUS_SECONDARY_LAYER_PERCENT_COVER,6.000,""),
+            (libfbrw.FBTypes.eHERBACEOUS_SECONDARY_LAYER_LOADING,4.000,""),
+            (libfbrw.FBTypes.eHERBACEOUS_SECONDARY_LAYER_PERCENT_COVER,4.000,""),
             (libfbrw.FBTypes.eHERBACEOUS_SECONDARY_LAYER_PERCENT_LIVE,4.000,""),
             (libfbrw.FBTypes.eWOODY_FUEL_ALL_DOWNED_WOODY_FUEL_DEPTH,1.250,""),
             (libfbrw.FBTypes.eWOODY_FUEL_ALL_DOWNED_WOODY_FUEL_TOTAL_PERCENT_COVER,1.250,""),
@@ -224,11 +224,11 @@ scale_these = {
         ],
         fbrw.TIMESTEP[2]: [
             (libfbrw.FBTypes.eSHRUBS_PRIMARY_LAYER_HEIGHT,2.000,""),
-            (libfbrw.FBTypes.eSHRUBS_PRIMARY_LAYER_PERCENT_COVER,2.500,""),
+            (libfbrw.FBTypes.eSHRUBS_PRIMARY_LAYER_PERCENT_COVER,2.000,""),
             (libfbrw.FBTypes.eSHRUBS_SECONDARY_LAYER_HEIGHT,2.000,""),
-            (libfbrw.FBTypes.eSHRUBS_SECONDARY_LAYER_PERCENT_COVER,2.500,""),
-            (libfbrw.FBTypes.eWOODY_FUEL_ALL_DOWNED_WOODY_FUEL_DEPTH,1.056,""),            
-            (libfbrw.FBTypes.eWOODY_FUEL_ALL_DOWNED_WOODY_FUEL_TOTAL_PERCENT_COVER,1.056,""),            
+            (libfbrw.FBTypes.eSHRUBS_SECONDARY_LAYER_PERCENT_COVER,2.000,""),
+            (libfbrw.FBTypes.eWOODY_FUEL_ALL_DOWNED_WOODY_FUEL_DEPTH,1.056,""),
+            (libfbrw.FBTypes.eWOODY_FUEL_ALL_DOWNED_WOODY_FUEL_TOTAL_PERCENT_COVER,1.056,""),
             (libfbrw.FBTypes.eWOODY_FUEL_SOUND_WOOD_LOADINGS_ZERO_TO_THREE_INCHES_ZERO_TO_QUARTER_INCH,1.056,""),
             (libfbrw.FBTypes.eWOODY_FUEL_SOUND_WOOD_LOADINGS_ZERO_TO_THREE_INCHES_QUARTER_INCH_TO_ONE_INCH,1.056,""),
             (libfbrw.FBTypes.eWOODY_FUEL_SOUND_WOOD_LOADINGS_ZERO_TO_THREE_INCHES_ONE_TO_THREE_INCHES,1.056,""),
@@ -321,12 +321,12 @@ scale_these = {
             (libfbrw.FBTypes.eSHRUBS_SECONDARY_LAYER_PERCENT_COVER,10.000,""),
             (libfbrw.FBTypes.eSHRUBS_SECONDARY_LAYER_PERCENT_LIVE,20.000,""),
             (libfbrw.FBTypes.eHERBACEOUS_PRIMARY_LAYER_HEIGHT,20.000,""),
-            (libfbrw.FBTypes.eHERBACEOUS_PRIMARY_LAYER_LOADING,40.000,""),
-            (libfbrw.FBTypes.eHERBACEOUS_PRIMARY_LAYER_PERCENT_COVER,40.000,""),
+            (libfbrw.FBTypes.eHERBACEOUS_PRIMARY_LAYER_LOADING,20.000,""),
+            (libfbrw.FBTypes.eHERBACEOUS_PRIMARY_LAYER_PERCENT_COVER,20.000,""),
             (libfbrw.FBTypes.eHERBACEOUS_PRIMARY_LAYER_PERCENT_LIVE,20.000,""),
             (libfbrw.FBTypes.eHERBACEOUS_SECONDARY_LAYER_HEIGHT,20.000,""),
-            (libfbrw.FBTypes.eHERBACEOUS_SECONDARY_LAYER_LOADING,40.000,""),
-            (libfbrw.FBTypes.eHERBACEOUS_SECONDARY_LAYER_PERCENT_COVER,40.000,""),
+            (libfbrw.FBTypes.eHERBACEOUS_SECONDARY_LAYER_LOADING,20.000,""),
+            (libfbrw.FBTypes.eHERBACEOUS_SECONDARY_LAYER_PERCENT_COVER,20.000,""),
             (libfbrw.FBTypes.eHERBACEOUS_SECONDARY_LAYER_PERCENT_LIVE,20.000,""),
             (libfbrw.FBTypes.eWOODY_FUEL_ALL_DOWNED_WOODY_FUEL_DEPTH,1.500,""),
             (libfbrw.FBTypes.eWOODY_FUEL_ALL_DOWNED_WOODY_FUEL_TOTAL_PERCENT_COVER,1.500,""),
@@ -345,9 +345,9 @@ scale_these = {
         ],
         fbrw.TIMESTEP[2]: [
             (libfbrw.FBTypes.eSHRUBS_PRIMARY_LAYER_HEIGHT,2.000,""),
-            (libfbrw.FBTypes.eSHRUBS_PRIMARY_LAYER_PERCENT_COVER,3.000,""),
+            (libfbrw.FBTypes.eSHRUBS_PRIMARY_LAYER_PERCENT_COVER,2.000,""),
             (libfbrw.FBTypes.eSHRUBS_SECONDARY_LAYER_HEIGHT,2.000,""),
-            (libfbrw.FBTypes.eSHRUBS_SECONDARY_LAYER_PERCENT_COVER,3.000,""),
+            (libfbrw.FBTypes.eSHRUBS_SECONDARY_LAYER_PERCENT_COVER,2.000,""),
             (libfbrw.FBTypes.eWOODY_FUEL_ALL_DOWNED_WOODY_FUEL_DEPTH,4.4,""),
             (libfbrw.FBTypes.eWOODY_FUEL_ALL_DOWNED_WOODY_FUEL_TOTAL_PERCENT_COVER,4.4,""),
             (libfbrw.FBTypes.eWOODY_FUEL_SOUND_WOOD_LOADINGS_ZERO_TO_THREE_INCHES_ZERO_TO_QUARTER_INCH,4.4,""),
@@ -369,22 +369,24 @@ scale_these = {
 def placeholder(fb):
     pass
   
+# call this at step 2 and 3 (before c1_snags_without_foliage)
+# def c2_snags(fb)
   
 special_funcs = {
     fbrw.SEVERITY[0]: {
         fbrw.TIMESTEP[0]: [ (sp.process_canopy_v1, 0.1, 0.1, 0.1) ],
-        fbrw.TIMESTEP[1]: [ (sp.process_canopy_v2, True), (sp.process_sound_wood, 0.25)],
-        fbrw.TIMESTEP[2]: [ (sp.process_canopy_v3,), (sp.process_sound_wood, 0.5)],
+        fbrw.TIMESTEP[1]: [ (sp.process_canopy_v2, True), (sp.process_sound_wood, 0.25), (sp.c2_snags,), (sp.c1_snags_without_foliage,)],
+        fbrw.TIMESTEP[2]: [ (sp.process_canopy_v3,), (sp.process_sound_wood, 0.5), (sp.c2_snags,)],
     },
     fbrw.SEVERITY[1]: {
         fbrw.TIMESTEP[0]: [ (sp.process_canopy_v1, 0.4, 0.4, 0.4) ],
-        fbrw.TIMESTEP[1]: [ (sp.process_canopy_v4,), (sp.process_sound_wood, 0.25)],
-        fbrw.TIMESTEP[2]: [ (sp.process_canopy_v2, True), (sp.process_sound_wood, 0.5)],
+        fbrw.TIMESTEP[1]: [ (sp.process_canopy_v4,), (sp.process_sound_wood, 0.25), (sp.c2_snags,), (sp.c1_snags_without_foliage,)],
+        fbrw.TIMESTEP[2]: [ (sp.process_canopy_v133,), (sp.process_sound_wood, 0.5), (sp.c2_snags, )],
     },
     fbrw.SEVERITY[2]: {
         fbrw.TIMESTEP[0]: [ (sp.process_canopy_v1, 0.75, 0.75, 0.75) ],
-        fbrw.TIMESTEP[1]: [ (sp.process_canopy_v4,), (sp.process_sound_wood, 0.25)],
-        fbrw.TIMESTEP[2]: [ (sp.process_canopy_v133,), (sp.process_sound_wood, 0.5)],
+        fbrw.TIMESTEP[1]: [ (sp.process_canopy_v4,), (sp.process_sound_wood, 0.25), (sp.c2_snags,), (sp.c1_snags_without_foliage,)],
+        fbrw.TIMESTEP[2]: [ (sp.process_canopy_v133,), (sp.process_sound_wood, 0.5), (sp.c2_snags,)],
     }
 }
 

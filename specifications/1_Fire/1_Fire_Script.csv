@@ -32,18 +32,18 @@ eCANOPY_SNAGS_CLASS_3_STEM_DENSITY,C3Snag_Density,,| = C2Snag_Density,| = C2Snag
 eCANOPY_LADDER_FUELS_MAXIMUM_HEIGHT,Ladder_MaxHeight,,,,,,,,,
 eCANOPY_LADDER_FUELS_MINIMUM_HEIGHT,Ladder_MinHeight,,,,,,,,,
 eSHRUBS_PRIMARY_LAYER_HEIGHT,1Shrub_Height,* = 0.5,* = 1.25,* = 1 /(0.5*1.25),* = 0.25,* = (1/0.25)*0.5,* = 1/0.5,* = 0.05,* = (1/0.05) * 0.5,* = 1/0.5
-eSHRUBS_PRIMARY_LAYER_PERCENT_COVER,1Shrub_Cover,* = 0.5,* = 1.25,* = 1 /(0.5*1.25),* = 0.25,* = (1/0.25)*0.5,* = (1/0.5)*1.25,* = 0.05,* = (1/0.05) * 0.5,*= (1/0.5) * 1.5
+eSHRUBS_PRIMARY_LAYER_PERCENT_COVER,1Shrub_Cover,* = 0.5,* = 1.25,* = 1 /(0.5*1.25),* = 0.25,* = (1/0.25)*0.5,* = (1/0.5),* = 0.05,* = (1/0.05) * 0.5,*= (1/0.5)
 eSHRUBS_PRIMARY_LAYER_PERCENT_LIVE,1Shrub_Live,* = 0.5,* = 1.25,* = 1 /(0.5*1.25),* = 0.25,* = 1/0.25,,* = 0.05,* = (1/0.05),
 eSHRUBS_SECONDARY_LAYER_HEIGHT,2Shrub_Height,* = 0.5,* = 1.25,* = 1 /(0.5*1.25),* = 0.25,* = (1/0.25)*0.5,* = 1/0.5,* = 0.05,* = (1/0.05) * 0.5,* = 1/0.5
-eSHRUBS_SECONDARY_LAYER_PERCENT_COVER,2Shrub_Cover,* = 0.5,* = 1.25,* = 1 /(0.5*1.25),* = 0.25,* = (1/0.25)*0.5,* = (1/0.5)*1.25,* = 0.05,* = (1/0.05) * 0.5,*=1/(0.5) * 1.5
+eSHRUBS_SECONDARY_LAYER_PERCENT_COVER,2Shrub_Cover,* = 0.5,* = 1.25,* = 1 /(0.5*1.25),* = 0.25,* = (1/0.25)*0.5,* = (1/0.5),* = 0.05,* = (1/0.05) * 0.5,*=1/(0.5) 
 eSHRUBS_SECONDARY_LAYER_PERCENT_LIVE,2Shrub_Live,* = 0.5,* = 1.25,* = 1 /(0.5*1.25),* = 0.25,* = 1/0.25,,* = 0.05,* = (1/0.05),
 eHERBACEOUS_PRIMARY_LAYER_HEIGHT,1Herb_Height,* = 0.5,* = 1/0.5,,* = 0.25,* = 1/0.25,,* = 0.05,* = 1/0.05,
-eHERBACEOUS_PRIMARY_LAYER_LOADING,1Herb_Load,* = 0.5,* = 1/0.5,,* = 0.25,* = (1/0.25) * 1.5,,* = 0.05,* = (1/0.05) * 2,
-eHERBACEOUS_PRIMARY_LAYER_PERCENT_COVER,1Herb_Cover,* = 0.5,* = 1/0.5,,* = 0.25,* = (1/0.25) * 1.5,,* = 0.05,* = (1/0.05) * 2,
+eHERBACEOUS_PRIMARY_LAYER_LOADING,1Herb_Load,* = 0.5,* = 1/0.5,,* = 0.25,* = (1/0.25) ,,* = 0.05,* = (1/0.05) ,
+eHERBACEOUS_PRIMARY_LAYER_PERCENT_COVER,1Herb_Cover,* = 0.5,* = 1/0.5,,* = 0.25,* = (1/0.25),,* = 0.05,* = (1/0.05) ,
 eHERBACEOUS_PRIMARY_LAYER_PERCENT_LIVE,1Herb_Live,* = 0.5,* = 1/0.5,,* = 0.25,* = 1/0.25,,* = 0.05,* = 1/0.05,
 eHERBACEOUS_SECONDARY_LAYER_HEIGHT,2Herb_Height,* = 0.5,* = 1/0.5,,* = 0.25,* = 1/0.25,,* = 0.05,* = 1/0.05,
-eHERBACEOUS_SECONDARY_LAYER_LOADING,2Herb_Load,* = 0.5,* = 1/0.5,,* = 0.25,* = (1/0.25) * 1.5,,* = 0.05,* = (1/0.05) * 2,
-eHERBACEOUS_SECONDARY_LAYER_PERCENT_COVER,2Herb_Cover,* = 0.5,* = 1/0.5,,* = 0.25,* = (1/0.25) * 1.5,,* = 0.05,* = (1/0.05) * 2,
+eHERBACEOUS_SECONDARY_LAYER_LOADING,2Herb_Load,* = 0.5,* = 1/0.5,,* = 0.25,* = (1/0.25) ,,* = 0.05,* = (1/0.05),
+eHERBACEOUS_SECONDARY_LAYER_PERCENT_COVER,2Herb_Cover,* = 0.5,* = 1/0.5,,* = 0.25,* = (1/0.25) ,,* = 0.05,* = (1/0.05) ,
 eHERBACEOUS_SECONDARY_LAYER_PERCENT_LIVE,2Herb_Live,* = 0.5,* = 1/0.5,,* = 0.25,* = 1/0.25,,* = 0.05,* = 1/0.05,
 eWOODY_FUEL_ALL_DOWNED_WOODY_FUEL_DEPTH,FineWood_Depth,* = 0.5,* = 1.25,* = 1 /(0.5*1.25),* = 0.25,* = 1.25,* = (1/(0.25*1.25))*0.33,* = 0.05,* = 1.5,* = (1/(0.05*1.5))*0.33
 eWOODY_FUEL_ALL_DOWNED_WOODY_FUEL_TOTAL_PERCENT_COVER,FineWood_Cover,* = 0.5,* = 1.25,* = 1 /(0.5*1.25),* = 0.25,* = 1.25,* = (1/(0.25*1.25))*0.33,* = 0.05,* = 1.5,* = (1/(0.05*1.5))*0.33

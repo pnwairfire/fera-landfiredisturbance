@@ -57,8 +57,36 @@ def process_canopy_v1(fb, pct_cover_multiplier, ossd_multiplier, mssd_multiplier
     else:
         snag_dbh = "0"
     fb.SetValue(libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_1_CONIFERS_WITH_FOLIAGE_DIAMETER, snag_dbh)
+
+
+# call this at step 2 and 3 (before c1_snags_without_foliage)
+def c2_snags(fb):
+    snag_other_diameter = fb.GetValue(libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_1_ALL_OTHERS_DIAMETER)
+    snag_other_height = fb.GetValue(libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_1_ALL_OTHERS_HEIGHT)
+    snag_other_stem_density = fb.GetValue(libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_1_ALL_OTHERS_STEM_DENSITY)
     
-      
+    fbrw.assign_species_if_not_exist(fb,
+        libfbrw.FBSpeciesTypes.eCANOPY_SNAGS_CLASS_2_SPECIES_SPECIES_DESCRIPTION,
+        libfbrw.FBSpeciesTypes.eCANOPY_SNAGS_CLASS_1_ALL_OTHERS_SPECIES_SPECIES_DESCRIPTION)
+    
+    fb.SetValue(libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_2_DIAMETER, snag_other_diameter)
+    fb.SetValue(libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_2_HEIGHT, snag_other_height)
+    fb.SetValue(libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_2_STEM_DENSITY, snag_other_stem_density)
+    
+
+# call this at step 2 (after c2_snags)
+def c1_snags_without_foliage(fb):
+    snag_with_foliage_diameter = fb.GetValue(libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_1_CONIFERS_WITH_FOLIAGE_DIAMETER)
+    snag_with_foliage_height = fb.GetValue(libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_1_CONIFERS_WITH_FOLIAGE_HEIGHT)
+    snag_with_foliage_stem_density = fb.GetValue(libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_1_CONIFERS_WITH_FOLIAGE_STEM_DENSITY)
+
+    fbrw.assign_species_if_not_exist(fb,
+        libfbrw.FBSpeciesTypes.eCANOPY_SNAGS_CLASS_1_ALL_OTHERS_SPECIES_SPECIES_DESCRIPTION,
+        libfbrw.FBSpeciesTypes.eCANOPY_SNAGS_CLASS_1_CONIFERS_WITH_FOLIAGE_SPECIES_SPECIES_DESCRIPTION)
+    
+    fb.SetValue(libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_1_ALL_OTHERS_DIAMETER, snag_with_foliage_diameter)
+    fb.SetValue(libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_1_ALL_OTHERS_HEIGHT, snag_with_foliage_height)
+    fb.SetValue(libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_1_ALL_OTHERS_STEM_DENSITY, snag_with_foliage_stem_density)
     
     
 def process_canopy_v2(fb, zero_snags_with_foliage):
