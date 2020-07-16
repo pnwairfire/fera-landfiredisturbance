@@ -130,10 +130,10 @@ insects
 2. clone repository to local machine (landfiredisturbance/*)
 3. create Dockerfile in landfiredisturbance directory. (see below)
 4. from landfiredisturbance directory on local machine:  
-docker build -t landfireImage .  
-(creates the Docker image called landfireImage)  
-docker run -it landfireImage  
-(creates a Docker container based on the landfireImage)
+docker build -t landfireimage .  
+(creates the Docker image called landfireimage with all the landfire files)  
+docker run -it landfireimage  
+(creates a Docker container based on the landfireimage)
 
 5. at ubuntu prompt:  
 cd run_regression  
