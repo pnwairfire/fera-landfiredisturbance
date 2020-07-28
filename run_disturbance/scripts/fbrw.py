@@ -192,7 +192,7 @@ def prereq_vegform(fb, valid_vegforms):
         pass    # initial error is the best we can do.
     return retval
 
-VALID_COVER_TYPES = [7,165,186,187,188,189,190,191,192,193,196,197,198,199,200,201,202,203,204,205]    
+VALID_COVER_TYPES = [7,63,159,160,161,162,164,165,166,186,187,188,189,190,191,192,193,196,197,198,199,200,201,202,203,204,205,209,210,219,221,224,225,293,403]
 def check_covertype(fb):
     def get_covertype(possible_ct):
         try:
@@ -205,6 +205,7 @@ def check_covertype(fb):
     retval = (False, 'Invalid/empty cover type.')
     try:
         cover_types = fb.GetValue(libfbrw.FBTypes.eCOVER_TYPE)
+        cover_types = cover_types.split(',')
         if len(cover_types):
             for ct in cover_types:
                 good, ct_val = get_covertype(ct)
