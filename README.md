@@ -167,7 +167,9 @@ RUN apt-get update && \
 ```
 
 
-### Problems/Quirks
+### Notes
+
+generate_from_spec.py will create fire_spec.py, mech_add_spec.py, mech_remove_spec.py, wind_spec.py, insects.py. 
 
 ### Links
 name (link)
