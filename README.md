@@ -171,24 +171,24 @@ RUN apt-get update && \
 
 generate_from_spec.py will create fire_spec.py, mech_add_spec.py, mech_remove_spec.py, wind_spec.py, insects.py. 
 
-### List of Steps (Brian's notes)
-cd repos/uw/landfiredisturbanceGIT
-(main.py on UW laptop is already modified to not pull fuelbeds)
-make sure artifactory is running (http://172.28.203.195:8081/)
-download fuelbeds from artifactory
-copy fuelbeds to run_landfire/fuelbedsBDTEST
-look at "docker images"
-create a new image: docker build -t landfireimage2021_1 .  (note: this may not be necessary)
-docker run -it landfireimage2021_1
-cd run_landfire
-python3 main.py > skipInfo2021_07_06.txt
-(in separate command window)
-create folder (example: out2021_07_06)
-docker ps (to get container name)
-docker cp inspiring_knuth:/run_landfire/baseline out2021_07_06
-docker cp inspiring_knuth:/run_landfire/deliverables out2021_07_06
-docker cp inspiring_knuth:/run_landfire/out out2021_07_06
-docker cp inspiring_knuth:/run_landfire/skipInfo2021_07_06.txt out2021_07_06
-grep -e "Skip" -e "Reason" skipInfo2021_07_06.txt > skip.txt (to condense)
-compress baseline and deliverables
-attach zip and skip.txt
+### List of Steps (Brian's notes)  
+cd repos/uw/landfiredisturbanceGIT  
+(main.py on UW laptop is already modified to not pull fuelbeds)  
+make sure artifactory is running (http://http://10.158.116.102:8081/)  
+download fuelbeds from artifactory  
+copy fuelbeds to run_landfire/fuelbedsBDTEST  
+look at "docker images"  
+create a new image: docker build -t landfireimage2021_1 .  (note: this may not be necessary)  
+docker run -it landfireimage2021_1  
+cd run_landfire  
+python3 main.py > skipInfo2021_07_06.txt  
+(in separate command window)  
+create folder (example: out2021_07_06)  
+docker ps (to get container name)  
+docker cp inspiring_knuth:/run_landfire/baseline out2021_07_06  
+docker cp inspiring_knuth:/run_landfire/deliverables out2021_07_06  
+docker cp inspiring_knuth:/run_landfire/out out2021_07_06  
+docker cp inspiring_knuth:/run_landfire/skipInfo2021_07_06.txt out2021_07_06  
+grep -e "Skip" -e "Reason" skipInfo2021_07_06.txt > skip.txt (to condense)  
+compress baseline and deliverables  
+attach zip and skip.txt  

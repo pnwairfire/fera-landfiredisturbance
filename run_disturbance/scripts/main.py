@@ -45,11 +45,11 @@ def retrive_fbwrite_library():
     
     os.chdir(thisfile_dir)
     remove_lib()
-    query = 'http://172.28.203.195:8081/artifactory/simple/generic-local/fbwriter_lib'
+    query = 'http://10.158.116.102:8081/artifactory/simple/generic-local/fbwriter_lib'
     r = requests.get(query)
     latest_build = latest(r)
     
-    cmd = 'wget http://172.28.203.195:8081/artifactory/generic-local/fbwriter_lib/{}/libfbrw.so '.format(latest_build)
+    cmd = 'wget http://10.158.116.102:8081/artifactory/generic-local/fbwriter_lib/{}/libfbrw.so '.format(latest_build)
     os.system(cmd)
   
     retval = True if os.path.exists(FBWRITER_LIB) else False
