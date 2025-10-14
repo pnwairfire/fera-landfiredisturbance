@@ -45,11 +45,17 @@ def retrive_fbwrite_library():
     
     os.chdir(thisfile_dir)
     remove_lib()
-    query = 'http://10.158.116.102:8081/artifactory/simple/generic-local/fbwriter_lib'
-    r = requests.get(query)
-    latest_build = latest(r)
-    
-    cmd = 'wget http://10.158.116.102:8081/artifactory/generic-local/fbwriter_lib/{}/libfbrw.so '.format(latest_build)
+
+#    x86-64 processor (pre 2020 Macbook), use these lines:
+#    query = 'http://10.158.116.102:8081/artifactory/simple/generic-local/fbwriter_lib'
+#    query = 'http://10.158.116.102:8081/artifactory/simple/generic-local/fbwriter_arm_lib'
+#    r = requests.get(query)
+#    latest_build = latest(r)
+#    cmd = 'wget http://10.158.116.102:8081/artifactory/generic-local/fbwriter_lib/{}/libfbrw.so '.format(latest_build)
+#    os.system(cmd)
+
+#   ARM-64 processor (Macbook with Silicon M1-M3 architecture), use these lines: 
+    cmd = 'wget http://10.158.116.102:8081/artifactory/generic-local/fbwriter_arm_lib/libfbrw.so '
     os.system(cmd)
   
     retval = True if os.path.exists(FBWRITER_LIB) else False
