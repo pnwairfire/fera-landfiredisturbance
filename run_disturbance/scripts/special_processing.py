@@ -29,7 +29,7 @@ def process_canopy_v1(fb, pct_cover_multiplier, ossd_multiplier, mssd_multiplier
         
     os_cover = fb.GetValue(libfbrw.FBTypes.eCANOPY_TREES_TOTAL_PERCENT_COVER)
     snag_cover = fb.GetValue(libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_1_CONIFERS_WITH_FOLIAGE_PERCENT_COVER)
-    fb.SetValue(libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_1_CONIFERS_WITH_FOLIAGE_PERCENT_COVER,
+    fbrw.set_value(fb, libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_1_CONIFERS_WITH_FOLIAGE_PERCENT_COVER,
             fbrw.add(snag_cover, fbrw.mul(os_cover, pct_cover_multiplier)))
     
     os_stem_density = fb.GetValue(libfbrw.FBTypes.eCANOPY_TREES_OVERSTORY_STEM_DENSITY)
@@ -37,7 +37,7 @@ def process_canopy_v1(fb, pct_cover_multiplier, ossd_multiplier, mssd_multiplier
     snag_stem_density = fb.GetValue(libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_1_CONIFERS_WITH_FOLIAGE_STEM_DENSITY)
     tmp = fbrw.add(fbrw.mul(os_stem_density, ossd_multiplier), fbrw.mul(ms_stem_density, mssd_multiplier))
     new_density = fbrw.add(snag_stem_density, tmp)
-    fb.SetValue(libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_1_CONIFERS_WITH_FOLIAGE_STEM_DENSITY, new_density)
+    fbrw.set_value(fb, libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_1_CONIFERS_WITH_FOLIAGE_STEM_DENSITY, new_density)
     
     # set dbh for snags w/ foliage 
     os_dbh = fb.GetValue(libfbrw.FBTypes.eCANOPY_TREES_OVERSTORY_DIAMETER_AT_BREAST_HEIGHT)
@@ -56,7 +56,7 @@ def process_canopy_v1(fb, pct_cover_multiplier, ossd_multiplier, mssd_multiplier
         snag_dbh = str(float(snag_dbh_numerator) / float(snag_dbh_denominator))
     else:
         snag_dbh = "0"
-    fb.SetValue(libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_1_CONIFERS_WITH_FOLIAGE_DIAMETER, snag_dbh)
+    fbrw.set_value(fb, libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_1_CONIFERS_WITH_FOLIAGE_DIAMETER, snag_dbh)
 
 
 # call this at step 2 and 3 (before c1_snags_without_foliage)
@@ -69,9 +69,9 @@ def c2_snags(fb):
         libfbrw.FBSpeciesTypes.eCANOPY_SNAGS_CLASS_2_SPECIES_SPECIES_DESCRIPTION,
         libfbrw.FBSpeciesTypes.eCANOPY_SNAGS_CLASS_1_ALL_OTHERS_SPECIES_SPECIES_DESCRIPTION)
     
-    fb.SetValue(libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_2_DIAMETER, snag_other_diameter)
-    fb.SetValue(libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_2_HEIGHT, snag_other_height)
-    fb.SetValue(libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_2_STEM_DENSITY, snag_other_stem_density)
+    fbrw.set_value(fb, libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_2_DIAMETER, snag_other_diameter)
+    fbrw.set_value(fb, libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_2_HEIGHT, snag_other_height)
+    fbrw.set_value(fb, libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_2_STEM_DENSITY, snag_other_stem_density)
     
 
 # call this at step 2 (after c2_snags)
@@ -84,9 +84,9 @@ def c1_snags_without_foliage(fb):
         libfbrw.FBSpeciesTypes.eCANOPY_SNAGS_CLASS_1_ALL_OTHERS_SPECIES_SPECIES_DESCRIPTION,
         libfbrw.FBSpeciesTypes.eCANOPY_SNAGS_CLASS_1_CONIFERS_WITH_FOLIAGE_SPECIES_SPECIES_DESCRIPTION)
     
-    fb.SetValue(libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_1_ALL_OTHERS_DIAMETER, snag_with_foliage_diameter)
-    fb.SetValue(libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_1_ALL_OTHERS_HEIGHT, snag_with_foliage_height)
-    fb.SetValue(libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_1_ALL_OTHERS_STEM_DENSITY, snag_with_foliage_stem_density)
+    fbrw.set_value(fb, libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_1_ALL_OTHERS_DIAMETER, snag_with_foliage_diameter)
+    fbrw.set_value(fb, libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_1_ALL_OTHERS_HEIGHT, snag_with_foliage_height)
+    fbrw.set_value(fb, libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_1_ALL_OTHERS_STEM_DENSITY, snag_with_foliage_stem_density)
     
     
 def process_canopy_v2(fb, zero_snags_with_foliage):
@@ -115,9 +115,9 @@ def process_canopy_v2(fb, zero_snags_with_foliage):
         libfbrw.FBSpeciesTypes.eCANOPY_SNAGS_CLASS_1_ALL_OTHERS_SPECIES_SPECIES_DESCRIPTION)
     
     # move 'class_2' to 'class_3'
-    fb.SetValue(libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_3_DIAMETER, two_diameter)
-    fb.SetValue(libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_3_HEIGHT, two_height)
-    fb.SetValue(libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_3_STEM_DENSITY, two_sd)
+    fbrw.set_value(fb, libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_3_DIAMETER, two_diameter)
+    fbrw.set_value(fb, libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_3_HEIGHT, two_height)
+    fbrw.set_value(fb, libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_3_STEM_DENSITY, two_sd)
     fbrw.assign_species_if_not_exist(fb,
         libfbrw.FBSpeciesTypes.eCANOPY_SNAGS_CLASS_3_SPECIES_SPECIES_DESCRIPTION,
         libfbrw.FBSpeciesTypes.eCANOPY_SNAGS_CLASS_2_SPECIES_SPECIES_DESCRIPTION)
@@ -138,9 +138,9 @@ def process_canopy_v3(fb):
         libfbrw.FBSpeciesTypes.eCANOPY_SNAGS_CLASS_1_ALL_OTHERS_SPECIES_SPECIES_DESCRIPTION)
     
     # move 'class_2' to 'class_3'
-    fb.SetValue(libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_3_DIAMETER, two_diameter)
-    fb.SetValue(libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_3_HEIGHT, two_height)
-    fb.SetValue(libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_3_STEM_DENSITY, two_sd)
+    fbrw.set_value(fb, libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_3_DIAMETER, two_diameter)
+    fbrw.set_value(fb, libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_3_HEIGHT, two_height)
+    fbrw.set_value(fb, libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_3_STEM_DENSITY, two_sd)
     fbrw.assign_species_if_not_exist(fb,
         libfbrw.FBSpeciesTypes.eCANOPY_SNAGS_CLASS_3_SPECIES_SPECIES_DESCRIPTION,
         libfbrw.FBSpeciesTypes.eCANOPY_SNAGS_CLASS_2_SPECIES_SPECIES_DESCRIPTION)
@@ -167,9 +167,9 @@ def process_canopy_v4(fb):
         libfbrw.FBSpeciesTypes.eCANOPY_SNAGS_CLASS_1_ALL_OTHERS_SPECIES_SPECIES_DESCRIPTION)
     
     # move 'class_2' to 'class_3'
-    fb.SetValue(libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_3_DIAMETER, two_diameter)
-    fb.SetValue(libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_3_HEIGHT, two_height)
-    fb.SetValue(libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_3_STEM_DENSITY, two_sd)
+    fbrw.set_value(fb, libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_3_DIAMETER, two_diameter)
+    fbrw.set_value(fb, libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_3_HEIGHT, two_height)
+    fbrw.set_value(fb, libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_3_STEM_DENSITY, two_sd)
     fbrw.assign_species_if_not_exist(fb,
         libfbrw.FBSpeciesTypes.eCANOPY_SNAGS_CLASS_3_SPECIES_SPECIES_DESCRIPTION,
         libfbrw.FBSpeciesTypes.eCANOPY_SNAGS_CLASS_2_SPECIES_SPECIES_DESCRIPTION)
@@ -196,9 +196,9 @@ def process_canopy_v133(fb):
         libfbrw.FBSpeciesTypes.eCANOPY_SNAGS_CLASS_1_ALL_OTHERS_SPECIES_SPECIES_DESCRIPTION)
     
     # move 'class_2' to 'class_3'
-    fb.SetValue(libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_3_DIAMETER, two_diameter)
-    fb.SetValue(libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_3_HEIGHT, two_height)
-    fb.SetValue(libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_3_STEM_DENSITY, two_sd)
+    fbrw.set_value(fb, libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_3_DIAMETER, two_diameter)
+    fbrw.set_value(fb, libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_3_HEIGHT, two_height)
+    fbrw.set_value(fb, libfbrw.FBTypes.eCANOPY_SNAGS_CLASS_3_STEM_DENSITY, two_sd)
     fbrw.assign_species_if_not_exist(fb,
         libfbrw.FBSpeciesTypes.eCANOPY_SNAGS_CLASS_3_SPECIES_SPECIES_DESCRIPTION,
         libfbrw.FBSpeciesTypes.eCANOPY_SNAGS_CLASS_2_SPECIES_SPECIES_DESCRIPTION)
@@ -229,7 +229,7 @@ def add_stumps(fb, ossd_multiplier, mssd_multiplier):
     stump_stem_density = fb.GetValue(libfbrw.FBTypes.eWOODY_FUEL_STUMPS_SOUND_STEM_DENSITY)
     new_density = fbrw.add(stump_stem_density, tmp)
     
-    fb.SetValue(libfbrw.FBTypes.eWOODY_FUEL_STUMPS_SOUND_STEM_DENSITY, new_density)
+    fbrw.set_value(fb, libfbrw.FBTypes.eWOODY_FUEL_STUMPS_SOUND_STEM_DENSITY, new_density)
     
 def sound_to_rotten_stumps(fb):
     substitutions = [

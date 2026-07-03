@@ -7,6 +7,7 @@
 
 # Shared library (C++ implementation exposed via pybind)
 import libfbrw
+import re
 
 # Use to cap percentage values at 100
 PERCENT_IDS = [
@@ -37,6 +38,28 @@ PERCENT_IDS = [
     libfbrw.FBTypes.eLITTER_LITTER_TYPE_PALM_FROND_RELATIVE_COVER,
     libfbrw.FBTypes.eLITTER_LITTER_TYPE_GRASS_RELATIVE_COVER
 ]
+
+# Precision applied to numeric values when they're written to the fuelbed XML.
+# Loadings get 3 decimal places, everything else gets 1.
+LOADING_DECIMAL_PLACES = 3
+DEFAULT_DECIMAL_PLACES = 1
+
+def is_loading_id(id):
+    return 'LOADING' in str(id).upper()
+
+# Plain decimal numbers only - deliberately stricter than float(), which (since
+# Python 3.6) accepts underscore-grouped digits like "165_511" and would
+# otherwise mangle non-numeric ids such as the fuelbed number ("0165_511").
+_NUMERIC_RE = re.compile(r'^-?\d+(\.\d+)?$')
+
+def apply_precision(id, value):
+    if not isinstance(value, str) or not _NUMERIC_RE.match(value):
+        return value
+    places = LOADING_DECIMAL_PLACES if is_loading_id(id) else DEFAULT_DECIMAL_PLACES
+    return '{:.{}f}'.format(float(value), places)
+
+def set_value(fb, id, value):
+    fb.SetValue(id, apply_precision(id, value))
 
 # Project-wide constants
 DISTURBANCE = [
@@ -75,7 +98,7 @@ def mul(s1, s2):
 def add_scaled_value_to_specified(fb, add_to_id, scaled_value_id, scale_factor=1):
     add_to = fb.GetValue(add_to_id)
     scaled_addend = mul(fb.GetValue(scaled_value_id), scale_factor)
-    fb.SetValue(add_to_id, add(add_to, scaled_addend))
+    set_value(fb, add_to_id, add(add_to, scaled_addend))
 
 # ++++++++++++++++++++++++++++++++++++++++++
 #   Take the proposed_value and an expression like "min=3" and
@@ -103,7 +126,7 @@ def scale(fb, id, scale_factor, conditional_modifier=''):
     if id in PERCENT_IDS and float(scaled_value) > 100:
         scaled_value = '100'
     scaled_value = apply_conditional_modifier(scaled_value, conditional_modifier)
-    fb.SetValue(id, scaled_value)
+    set_value(fb, id, scaled_value)
 
 def exists_value(fb, id):
     check = fb.GetValue(id)
@@ -121,7 +144,7 @@ def exists_species(fb, id):
 
 def assign_if_not_exist(fb, check, assign_id):
     if not exists_value(fb, check) and exists_value(fb, assign_id):
-        fb.SetValue(check, fb.GetValue(assign_id))
+        set_value(fb, check, fb.GetValue(assign_id))
         #print('Assigning =\n\t{} : {}\n\t to - {}'.format(assign_id, fb.GetValue(assign_id), check))
     else:
         pass
@@ -147,9 +170,9 @@ def assign_and_return_current(fb, assign_to, assign_from):
         val = fb.GetValue(assign_from)
         
     if val:
-        fb.SetValue(assign_to, val)
+        set_value(fb, assign_to, val)
     else:
-        fb.SetValue(assign_to, '')
+        set_value(fb, assign_to, '')
     return current
     
 def do_simple_scaling(fb, scale_these):
@@ -158,7 +181,7 @@ def do_simple_scaling(fb, scale_these):
         scale(fb, xpath_variable, scaling_factor, conditional_modifier)
         
 def set_fb_number(fb, set_number_to):
-    fb_num = fb.SetValue(libfbrw.FBTypes.eFUELBED_NUMBER, set_number_to)
+    set_value(fb, libfbrw.FBTypes.eFUELBED_NUMBER, set_number_to)
         
 def get_fb_number(fb):
     return fb.GetValue(libfbrw.FBTypes.eFUELBED_NUMBER)
