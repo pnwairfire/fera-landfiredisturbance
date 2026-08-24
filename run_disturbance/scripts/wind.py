@@ -188,7 +188,7 @@ def placeholder(fb):
     pass
     
 def sound_wood_loadings(fb, multiplier, min1, min2, min3):
-    def is_empty():
+    def is_truly_empty():
         total = 0.0
         ids = [
             libfbrw.FBTypes.eWOODY_FUEL_SOUND_WOOD_LOADINGS_ZERO_TO_THREE_INCHES_ONE_TO_THREE_INCHES,
@@ -204,7 +204,7 @@ def sound_wood_loadings(fb, multiplier, min1, min2, min3):
                 total += float(value)
             except:
                 pass
-        return total > 0
+        return total <= 0
 
     def check_and_set(fb, os, ms, check_value, id, multiplier, min):
         if os > check_value or ms > check_value:
@@ -228,7 +228,7 @@ def sound_wood_loadings(fb, multiplier, min1, min2, min3):
         libfbrw.FBTypes.eWOODY_FUEL_SOUND_WOOD_LOADINGS_GREATER_THAN_THREE_INCHES_GREATER_THAN_TWENTY_INCHES,
         multiplier, 'min={}'.format(min3))
     
-    if is_empty():
+    if is_truly_empty():
         fb.SetNodeEmpty(libfbrw.FBNodeWithSpeciesType.eWOODY_FUEL_SOUND_WOOD_ALL_SOUND_WOOD)
         
         
