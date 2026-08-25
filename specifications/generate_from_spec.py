@@ -148,22 +148,25 @@ def parse_multiplier(in_string):
         mult_string = mult_string.split('=')[1].strip()
     # need to 'stringify' the conditional_modifier
     return len(mult_string)>0, mult_string, '"{}"'.format(conditional_modifier)
-            
+
 
 def emit_for_step(df, pd_series, severity, timestep, outfile):
     # severity and timestep are only for error reporting
     noteworthy = []
     error_msg = []
-    for i, item in enumerate(pd_series.iteritems()):
-        id = df.loc[item[0]][0]
+    for i, item in enumerate(pd_series.items()):
+        id = df.loc[item[0]].iloc[0]
         try:
             if id in valid:
                 parse_successful, multiplier, modifier = parse_multiplier(str(item[1]).strip())
                 if parse_successful:
                     # use sympy to parse/simplify arithmetic expressions eg. - (1/0.05) * 0.5
-                    multiplier = sympy.sympify(multiplier).round(3)
+                    # cast to a plain float and format explicitly - sympy's Float repr
+                    # prints at its own internal precision (not the rounded precision),
+                    # which varies across sympy versions.
+                    multiplier = float(sympy.sympify(multiplier).round(3))
 
-                    outfile.write('{}(libfbrw.FBTypes.{},{},{}),\n'.format(3*SPACING, id, multiplier, modifier))
+                    outfile.write('{}(libfbrw.FBTypes.{},{:.3f},{}),\n'.format(3*SPACING, id, multiplier, modifier))
                     print('\t\t{} - {}'.format(id, multiplier))
                 else:
                     if len(item[1]): print('Failed - {}'.format(item[1]))
@@ -179,27 +182,27 @@ def emit_for_step(df, pd_series, severity, timestep, outfile):
         for msg in error_msg:
             print('\t{}'.format(msg))
         exit(1)
-    '''        
+    '''
     if len(noteworthy):
         print('\n --------  Check these ----------')
         for i in noteworthy:
             print('\t{}'.format(i))
     '''
-            
+
 TIMESTEPS = ['Time Step 1', 'Time Step 2', 'Time Step 3']
 def process_disturbance_spec(dir):
     disturbance = dir.split('_')[0]
-    
+
     filename = '{}_Script.csv'.format(dir)
     df = pd.read_csv(filename)
     df.fillna('', inplace=True)
-    
+
     outfile_name = '{}_spec.py'.format(filename.split('.')[0].split('_')[1].lower())
-    
+
     # write the output file
     with open(outfile_name, 'w+') as outfile:
         outfile.write('scale_these = {\n')
-        
+
         for severity in range(3):
             outfile.write('{}fbrw.SEVERITY[{}]: {{\n'.format(SPACING, severity))
             print('Severity - {}'.format(severity))
@@ -211,7 +214,7 @@ def process_disturbance_spec(dir):
                 outfile.write('{}],\n'.format(2*SPACING))
             outfile.write('{}}},\n'.format(SPACING))
         outfile.write('}\n')
-                
+
 # ++++++++++++++++++++++++++++++++++++++++++
 #  Start
 # ++++++++++++++++++++++++++++++++++++++++++
@@ -235,8 +238,8 @@ for dir in spec_dirs:
     os.chdir(dir)
     process_disturbance_spec(dir)
     os.chdir('..')
-    
-    
-    
-    
-    
+
+
+
+
+

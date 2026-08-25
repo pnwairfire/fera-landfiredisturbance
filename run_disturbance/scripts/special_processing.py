@@ -221,16 +221,84 @@ def process_sound_wood(fb, swood_multiplier):
         libfbrw.FBTypes.eWOODY_FUEL_SOUND_WOOD_LOADINGS_GREATER_THAN_THREE_INCHES_GREATER_THAN_TWENTY_INCHES,
         swood_multiplier)
         
+# Sound stumps get a fixed height of 0.5 meters (1.64 feet) regardless of severity/timestep.
+STUMP_SOUND_HEIGHT_FEET = '1.64'
+
 def add_stumps(fb, ossd_multiplier, mssd_multiplier):
     os_stem_density = fb.GetValue(libfbrw.FBTypes.eCANOPY_TREES_OVERSTORY_STEM_DENSITY)
     ms_stem_density = fb.GetValue(libfbrw.FBTypes.eCANOPY_TREES_MIDSTORY_STEM_DENSITY)
     tmp = fbrw.add(fbrw.mul(os_stem_density, ossd_multiplier), fbrw.mul(ms_stem_density, mssd_multiplier))
-    
+
     stump_stem_density = fb.GetValue(libfbrw.FBTypes.eWOODY_FUEL_STUMPS_SOUND_STEM_DENSITY)
     new_density = fbrw.add(stump_stem_density, tmp)
-    
+
     fbrw.set_value(fb, libfbrw.FBTypes.eWOODY_FUEL_STUMPS_SOUND_STEM_DENSITY, new_density)
-    
+
+    add_stump_diameter(fb, os_stem_density, ms_stem_density)
+    add_stump_height(fb)
+    add_stump_species(fb)
+
+# Diameter = stem-density-weighted average of overstory and midstory DBH (same
+# pattern as the snag_dbh calculation in process_canopy_v1). Falls back to '0'
+# when neither layer has any stems.
+def add_stump_diameter(fb, os_stem_density, ms_stem_density):
+    os_dbh = fb.GetValue(libfbrw.FBTypes.eCANOPY_TREES_OVERSTORY_DIAMETER_AT_BREAST_HEIGHT)
+    ms_dbh = fb.GetValue(libfbrw.FBTypes.eCANOPY_TREES_MIDSTORY_DIAMETER_AT_BREAST_HEIGHT)
+
+    # fbrw.mul() only guards its first argument against an empty string, so the
+    # diameter operands (2nd arg) need to be blanked to '0' explicitly here -
+    # same reasoning as the equivalent guards in process_canopy_v1's snag_dbh calc.
+    if not len(os_dbh): os_dbh = '0'
+    if not len(ms_dbh): ms_dbh = '0'
+
+    numerator = fbrw.add(fbrw.mul(os_stem_density, os_dbh), fbrw.mul(ms_stem_density, ms_dbh))
+    denominator = fbrw.add(os_stem_density, ms_stem_density)
+    stump_dbh = str(float(numerator) / float(denominator)) if float(denominator) > 0 else '0'
+
+    fbrw.set_value(fb, libfbrw.FBTypes.eWOODY_FUEL_STUMPS_SOUND_DIAMETER, stump_dbh)
+
+def add_stump_height(fb):
+    fbrw.set_value(fb, libfbrw.FBTypes.eWOODY_FUEL_STUMPS_SOUND_HEIGHT, STUMP_SOUND_HEIGHT_FEET)
+
+# Species = overstory + midstory species combined. When both layers have
+# species, each layer's relative covers (100% each = 200% combined) are merged
+# by TSN and scaled back to 100%. When only one layer has species, use it as-is.
+def add_stump_species(fb):
+    os_species = fb.GetSpeciesValue(libfbrw.FBSpeciesTypes.eCANOPY_TREES_OVERSTORY_SPECIES_SPECIES_DESCRIPTION)
+    ms_species = fb.GetSpeciesValue(libfbrw.FBSpeciesTypes.eCANOPY_TREES_MIDSTORY_SPECIES_SPECIES_DESCRIPTION)
+
+    if os_species and ms_species:
+        combined = combine_and_scale_species([os_species, ms_species])
+    elif os_species:
+        combined = os_species
+    elif ms_species:
+        combined = ms_species
+    else:
+        combined = []
+
+    if combined:
+        fb.SetSpeciesValue(libfbrw.FBSpeciesTypes.eWOODY_FUEL_STUMPS_SOUND_SPECIES_SPECIES_DESCRIPTION, combined)
+
+# Merge same-TSN entries across the given species lists (each assumed to sum to
+# 100%), then scale down so the combined total is 100%. SetSpeciesValue silently
+# drops the assignment unless the sum is *exactly* 100.0, so any floating-point
+# rounding from the merge is nudged into the largest entry before returning.
+def combine_and_scale_species(species_lists):
+    totals = {}
+    for species_list in species_lists:
+        for s in species_list:
+            totals[s.tsn] = totals.get(s.tsn, 0.0) + float(s.relativeCover)
+
+    scale_factor = 1.0 / len(species_lists)
+    scaled = {tsn: cover * scale_factor for tsn, cover in totals.items()}
+
+    residual = 100.0 - sum(scaled.values())
+    if residual:
+        biggest_tsn = max(scaled, key=scaled.get)
+        scaled[biggest_tsn] += residual
+
+    return [libfbrw.Species(tsn, str(cover)) for tsn, cover in scaled.items()]
+
 def sound_to_rotten_stumps(fb):
     substitutions = [
         (libfbrw.FBTypes.eWOODY_FUEL_STUMPS_ROTTEN_DIAMETER,

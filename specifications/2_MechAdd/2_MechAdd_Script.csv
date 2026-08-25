@@ -56,8 +56,8 @@ eWOODY_FUEL_SOUND_WOOD_LOADINGS_GREATER_THAN_THREE_INCHES_GREATER_THAN_TWENTY_IN
 eWOODY_FUEL_ROTTEN_WOOD_LOADINGS_GREATER_THAN_THREE_INCHES_THREE_TO_NINE_INCHES,RWood_1000hr,,| + = SWood_1000hr * 0.25,| + = SWood_1000hr * 0.5,,| + = SWood_1000hr * 0.25,| + = SWood_1000hr * 0.5,,| + = SWood_1000hr * 0.25,| + = SWood_1000hr * 0.5
 eWOODY_FUEL_ROTTEN_WOOD_LOADINGS_GREATER_THAN_THREE_INCHES_NINE_TO_TWENTY_INCHES,RWood_10_000hr,,| + = SWood_10_000hr * 0.25,| + = SWood_10_000hr * 0.5,,| + = SWood_10_000hr * 0.25,| + = SWood_10_000hr * 0.5,,| + = SWood_10_000hr * 0.25,| + = SWood_10_000hr * 0.5
 eWOODY_FUEL_ROTTEN_WOOD_LOADINGS_GREATER_THAN_THREE_INCHES_GREATER_THAN_TWENTY_INCHES,RWood_GT10_000hr,,| + = SWood_GT10_000hr * 0.25,| + = SWood_GT10_000hr * 0.5,,| + = SWood_GT10_000hr * 0.25,| + = SWood_GT10_000hr * 0.5,,| + = SWood_GT10_000hr * 0.25,| + = SWood_GT10_000hr * 0.5
-eWOODY_FUEL_STUMPS_SOUND_DIAMETER,SStump_Diameter,,,,,,,,,
-eWOODY_FUEL_STUMPS_SOUND_HEIGHT,SStump_Height,,,,,,,,,
+eWOODY_FUEL_STUMPS_SOUND_DIAMETER,SStump_Diameter,| = (OTree_Diameter*OTree_Density + MTree_Diameter*MTree_Density) / (OTree_Density + MTree_Density),,| = 0,| = (OTree_Diameter*OTree_Density + MTree_Diameter*MTree_Density) / (OTree_Density + MTree_Density),,| = 0,| = (OTree_Diameter*OTree_Density + MTree_Diameter*MTree_Density) / (OTree_Density + MTree_Density),,| = 0
+eWOODY_FUEL_STUMPS_SOUND_HEIGHT,SStump_Height,| = 1.64 (0.5m constant),,| = 0,| = 1.64 (0.5m constant),,| = 0,| = 1.64 (0.5m constant),,| = 0
 eWOODY_FUEL_STUMPS_SOUND_STEM_DENSITY,SStump_Density,| + = 0.25*OTree_Density + 0.25*MTree_Density,,| = 0,| + = 0.5*OTree_Density + 0.5*MTree_Density,,| = 0,| + = 0.75*OTree_Density + 0.75*MTree_Density,,| = 0
 eWOODY_FUEL_STUMPS_ROTTEN_DIAMETER,RStump_Diameter,,,"| If not present, Sstump_Diameter",,,"| If not present, Sstump_Diameter",,,"| If not present, Sstump_Diameter"
 eWOODY_FUEL_STUMPS_ROTTEN_HEIGHT,RStump_Height,,,"| If not present, Sstump_Height",,,"| If not present, Sstump_Height",,,"| If not present, Sstump_Height"
